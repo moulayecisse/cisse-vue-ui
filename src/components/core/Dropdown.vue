@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onUnmounted, nextTick, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 
 export interface DropdownItem {
@@ -11,7 +11,7 @@ export interface DropdownItem {
   divider?: boolean
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     /** Dropdown items */
     items: DropdownItem[]
@@ -19,10 +19,13 @@ withDefaults(
     align?: 'left' | 'right'
     /** Dropdown width */
     width?: 'auto' | 'full' | 'sm' | 'md' | 'lg'
+    /** Use teleport to body to avoid overflow clipping */
+    teleport?: boolean
   }>(),
   {
     align: 'left',
     width: 'auto',
+    teleport: true,
   },
 )
 
@@ -32,9 +35,25 @@ const emit = defineEmits<{
 
 const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement>()
+const triggerRef = ref<HTMLElement>()
+const menuRef = ref<HTMLElement>()
+const dropdownPosition = ref({ top: 0, left: 0, width: 0 })
+
+const updatePosition = () => {
+  if (!triggerRef.value || !props.teleport) return
+  const rect = triggerRef.value.getBoundingClientRect()
+  dropdownPosition.value = {
+    top: rect.bottom + window.scrollY + 8,
+    left: props.align === 'right' ? rect.right + window.scrollX : rect.left + window.scrollX,
+    width: rect.width,
+  }
+}
 
 const toggle = () => {
   isOpen.value = !isOpen.value
+  if (isOpen.value) {
+    nextTick(updatePosition)
+  }
 }
 
 const close = () => {
@@ -48,17 +67,30 @@ const selectItem = (item: DropdownItem) => {
 }
 
 const handleClickOutside = (event: MouseEvent) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+  const target = event.target as Node
+  const isInsideTrigger = triggerRef.value?.contains(target)
+  const isInsideMenu = menuRef.value?.contains(target)
+  if (!isInsideTrigger && !isInsideMenu) {
     close()
   }
 }
 
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
+watch(isOpen, (newValue) => {
+  if (newValue) {
+    document.addEventListener('click', handleClickOutside)
+    window.addEventListener('scroll', updatePosition, true)
+    window.addEventListener('resize', updatePosition)
+  } else {
+    document.removeEventListener('click', handleClickOutside)
+    window.removeEventListener('scroll', updatePosition, true)
+    window.removeEventListener('resize', updatePosition)
+  }
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
+  window.removeEventListener('scroll', updatePosition, true)
+  window.removeEventListener('resize', updatePosition)
 })
 
 const widthClasses = {
@@ -68,11 +100,21 @@ const widthClasses = {
   md: 'w-48',
   lg: 'w-64',
 }
+
+const dropdownStyle = computed(() => {
+  if (!props.teleport) return {}
+  return {
+    position: 'absolute' as const,
+    top: `${dropdownPosition.value.top}px`,
+    left: props.align === 'right' ? 'auto' : `${dropdownPosition.value.left}px`,
+    right: props.align === 'right' ? `${window.innerWidth - dropdownPosition.value.left - dropdownPosition.value.width}px` : 'auto',
+  }
+})
 </script>
 
 <template>
   <div ref="dropdownRef" class="relative inline-block">
-    <div @click="toggle">
+    <div ref="triggerRef" @click="toggle">
       <slot name="trigger">
         <button
           type="button"
@@ -87,46 +129,50 @@ const widthClasses = {
       </slot>
     </div>
 
-    <Transition
-      enter-active-class="transition ease-out duration-100"
-      enter-from-class="transform opacity-0 scale-95"
-      enter-to-class="transform opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75"
-      leave-from-class="transform opacity-100 scale-100"
-      leave-to-class="transform opacity-0 scale-95"
-    >
-      <div
-        v-if="isOpen"
-        :class="[
-          'absolute z-50 mt-2 rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800',
-          widthClasses[width],
-          align === 'right' ? 'right-0' : 'left-0',
-        ]"
+    <Teleport to="body" :disabled="!teleport">
+      <Transition
+        enter-active-class="transition ease-out duration-100"
+        enter-from-class="transform opacity-0 scale-95"
+        enter-to-class="transform opacity-100 scale-100"
+        leave-active-class="transition ease-in duration-75"
+        leave-from-class="transform opacity-100 scale-100"
+        leave-to-class="transform opacity-0 scale-95"
       >
-        <template v-for="item in items" :key="item.key">
-          <div
-            v-if="item.divider"
-            class="my-1 border-t border-gray-200 dark:border-gray-700"
-          />
-          <button
-            v-else
-            type="button"
-            :disabled="item.disabled"
-            :class="[
-              'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
-              item.disabled
-                ? 'cursor-not-allowed opacity-50'
-                : item.danger
-                  ? 'text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20'
-                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700',
-            ]"
-            @click="selectItem(item)"
-          >
-            <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
-            {{ item.label }}
-          </button>
-        </template>
-      </div>
-    </Transition>
+        <div
+          v-if="isOpen"
+          ref="menuRef"
+          :style="dropdownStyle"
+          :class="[
+            'z-[9999] rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800',
+            widthClasses[width],
+            !teleport && (align === 'right' ? 'absolute mt-2 right-0' : 'absolute mt-2 left-0'),
+          ]"
+        >
+          <template v-for="item in items" :key="item.key">
+            <div
+              v-if="item.divider"
+              class="my-1 border-t border-gray-200 dark:border-gray-700"
+            />
+            <button
+              v-else
+              type="button"
+              :disabled="item.disabled"
+              :class="[
+                'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
+                item.disabled
+                  ? 'cursor-not-allowed opacity-50'
+                  : item.danger
+                    ? 'text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20'
+                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700',
+              ]"
+              @click="selectItem(item)"
+            >
+              <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
+              {{ item.label }}
+            </button>
+          </template>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>

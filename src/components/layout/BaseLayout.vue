@@ -105,7 +105,8 @@ const routerViewComponent = computed(() => {
               <Icon class="size-5 text-white" :icon="appIcon" />
             </div>
             <span
-              class="font-outfit hidden flex-1 text-lg font-semibold text-white @min-[7rem]:block"
+              :class="sidebarOpenModel ? 'block' : 'hidden'"
+              class="font-outfit flex-1 text-lg font-semibold text-white"
             >
               {{ appName }}
             </span>
@@ -121,12 +122,16 @@ const routerViewComponent = computed(() => {
       </div>
 
       <!-- Menu Items -->
-      <div class="flex flex-1 flex-col gap-8 px-2 lg:justify-center @min-[7rem]:items-start">
+      <div
+        :class="sidebarOpenModel ? 'items-start' : 'items-center'"
+        class="flex flex-1 flex-col gap-8 px-2 lg:justify-center"
+      >
         <slot name="menu">
           <MenuItem
             v-for="(item, index) in menuItems"
             :key="index"
             :menu-item="item"
+            :expanded="sidebarOpenModel"
           />
         </slot>
       </div>

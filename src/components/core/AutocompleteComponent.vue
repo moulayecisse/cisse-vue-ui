@@ -1,17 +1,24 @@
 <script lang="ts" setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { AutocompleteOption } from '@/types'
 
-const props = defineProps<{
-  modelValue: string | null
-  options: AutocompleteOption[]
-  placeholder?: string
-  disabled?: boolean
-  label?: string
-  error?: string
-  noResultsText?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    modelValue: string | null
+    options: AutocompleteOption[]
+    placeholder?: string
+    disabled?: boolean
+    label?: string
+    error?: string
+    noResultsText?: string
+    /** Use teleport to body to avoid overflow clipping */
+    teleport?: boolean
+  }>(),
+  {
+    teleport: true,
+  },
+)
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | null]
@@ -22,6 +29,9 @@ const isOpen = ref(false)
 const highlightedIndex = ref(-1)
 const inputRef = ref<HTMLInputElement | null>(null)
 const dropdownRef = ref<HTMLDivElement | null>(null)
+const containerRef = ref<HTMLDivElement | null>(null)
+const inputWrapperRef = ref<HTMLDivElement | null>(null)
+const dropdownPosition = ref({ top: 0, left: 0, width: 0 })
 
 const filteredOptions = computed(() => {
   if (!searchQuery.value) {
@@ -50,6 +60,16 @@ watch(
   { immediate: true },
 )
 
+const updatePosition = () => {
+  if (!inputWrapperRef.value || !props.teleport) return
+  const rect = inputWrapperRef.value.getBoundingClientRect()
+  dropdownPosition.value = {
+    top: rect.bottom + window.scrollY + 8,
+    left: rect.left + window.scrollX,
+    width: rect.width,
+  }
+}
+
 const openDropdown = () => {
   if (props.disabled) return
   isOpen.value = true
@@ -57,6 +77,7 @@ const openDropdown = () => {
   highlightedIndex.value = -1
   nextTick(() => {
     inputRef.value?.focus()
+    updatePosition()
   })
 }
 
@@ -125,8 +146,10 @@ const scrollToHighlighted = () => {
 }
 
 const handleClickOutside = (event: MouseEvent) => {
-  const target = event.target as HTMLElement
-  if (!target.closest('.autocomplete-container') && !target.closest('.autocomplete-dropdown')) {
+  const target = event.target as Node
+  const isInsideContainer = containerRef.value?.contains(target)
+  const isInsideDropdown = dropdownRef.value?.contains(target)
+  if (!isInsideContainer && !isInsideDropdown) {
     closeDropdown()
   }
 }
@@ -134,20 +157,41 @@ const handleClickOutside = (event: MouseEvent) => {
 watch(isOpen, (newValue) => {
   if (newValue) {
     document.addEventListener('click', handleClickOutside)
+    window.addEventListener('scroll', updatePosition, true)
+    window.addEventListener('resize', updatePosition)
   } else {
     document.removeEventListener('click', handleClickOutside)
+    window.removeEventListener('scroll', updatePosition, true)
+    window.removeEventListener('resize', updatePosition)
+  }
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+  window.removeEventListener('scroll', updatePosition, true)
+  window.removeEventListener('resize', updatePosition)
+})
+
+const dropdownStyle = computed(() => {
+  if (!props.teleport) return {}
+  return {
+    position: 'absolute' as const,
+    top: `${dropdownPosition.value.top}px`,
+    left: `${dropdownPosition.value.left}px`,
+    width: `${dropdownPosition.value.width}px`,
   }
 })
 </script>
 
 <template>
-  <div class="autocomplete-container">
+  <div ref="containerRef" class="autocomplete-container">
     <label v-if="label" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
       {{ label }}
     </label>
 
     <div class="relative">
       <div
+        ref="inputWrapperRef"
         :class="{
           'border-red-500': error,
           'border-gray-300 dark:border-gray-600': !error && !isOpen,
@@ -193,45 +237,51 @@ watch(isOpen, (newValue) => {
       </div>
 
       <!-- Dropdown -->
-      <Transition
-        enter-active-class="transition duration-100 ease-out"
-        enter-from-class="opacity-0 scale-95"
-        enter-to-class="opacity-100 scale-100"
-        leave-active-class="transition duration-75 ease-in"
-        leave-from-class="opacity-100 scale-100"
-        leave-to-class="opacity-0 scale-95"
-      >
-        <div
-          v-if="isOpen"
-          ref="dropdownRef"
-          class="autocomplete-dropdown absolute z-50 mt-2 max-h-60 w-full overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800"
+      <Teleport to="body" :disabled="!teleport">
+        <Transition
+          enter-active-class="transition duration-100 ease-out"
+          enter-from-class="opacity-0 scale-95"
+          enter-to-class="opacity-100 scale-100"
+          leave-active-class="transition duration-75 ease-in"
+          leave-from-class="opacity-100 scale-100"
+          leave-to-class="opacity-0 scale-95"
         >
-          <div v-if="filteredOptions.length === 0" class="px-4 py-3 text-sm text-gray-500">
-            {{ noResultsText || 'No results found' }}
-          </div>
-
-          <button
-            v-for="(option, index) in filteredOptions"
-            :key="option.value"
-            :class="{
-              'bg-gray-100 dark:bg-gray-700': highlightedIndex === index,
-              'bg-primary/10': modelValue === option.value,
-            }"
-            :data-index="index"
-            class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition hover:bg-gray-100 dark:hover:bg-gray-700"
-            type="button"
-            @click="selectOption(option)"
+          <div
+            v-if="isOpen"
+            ref="dropdownRef"
+            :style="dropdownStyle"
+            :class="[
+              'autocomplete-dropdown z-[9999] max-h-60 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800',
+              !teleport && 'absolute mt-2 w-full',
+            ]"
           >
-            <Icon
-              v-if="modelValue === option.value"
-              class="size-4 text-primary"
-              icon="lucide:check"
-            />
-            <span class="flex-1 dark:text-white">{{ option.label }}</span>
-            <span class="text-xs text-gray-400">({{ option.value }})</span>
-          </button>
-        </div>
-      </Transition>
+            <div v-if="filteredOptions.length === 0" class="px-4 py-3 text-sm text-gray-500">
+              {{ noResultsText || 'No results found' }}
+            </div>
+
+            <button
+              v-for="(option, index) in filteredOptions"
+              :key="option.value"
+              :class="{
+                'bg-gray-100 dark:bg-gray-700': highlightedIndex === index,
+                'bg-primary/10': modelValue === option.value,
+              }"
+              :data-index="index"
+              class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition hover:bg-gray-100 dark:hover:bg-gray-700"
+              type="button"
+              @click="selectOption(option)"
+            >
+              <Icon
+                v-if="modelValue === option.value"
+                class="size-4 text-primary"
+                icon="lucide:check"
+              />
+              <span class="flex-1 dark:text-white">{{ option.label }}</span>
+              <span class="text-xs text-gray-400">({{ option.value }})</span>
+            </button>
+          </div>
+        </Transition>
+      </Teleport>
     </div>
 
     <p v-if="error" class="mt-1 text-sm text-red-600">{{ error }}</p>

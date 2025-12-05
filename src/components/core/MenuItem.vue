@@ -3,16 +3,25 @@ import { computed, resolveComponent } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { MenuItemProps } from '@/types'
 
-const { menuItem } = defineProps<{ menuItem: MenuItemProps }>()
+const props = withDefaults(
+  defineProps<{
+    menuItem: MenuItemProps
+    /** Whether sidebar is expanded (shows labels) */
+    expanded?: boolean
+  }>(),
+  {
+    expanded: true,
+  },
+)
 
 // Try to use useRoute if available
 const isRouteActive = computed(() => {
   if (typeof window === 'undefined') return false
   const currentPath = window.location.pathname
-  if (menuItem.link === '/') {
+  if (props.menuItem.link === '/') {
     return currentPath === '/'
   }
-  return currentPath === menuItem.link || currentPath.startsWith(menuItem.link + '/')
+  return currentPath === props.menuItem.link || currentPath.startsWith(props.menuItem.link + '/')
 })
 
 // Try to resolve RouterLink, fallback to 'a' tag
@@ -30,9 +39,9 @@ const linkComponent = computed(() => {
 
 const linkProps = computed(() => {
   if (linkComponent.value === 'a') {
-    return { href: menuItem.link }
+    return { href: props.menuItem.link }
   }
-  return { to: menuItem.link }
+  return { to: props.menuItem.link }
 })
 </script>
 
@@ -40,17 +49,19 @@ const linkProps = computed(() => {
   <component
     :is="linkComponent"
     v-bind="linkProps"
-    class="group relative flex flex-col items-center justify-center gap-2 px-5 @min-[7rem]:flex-row"
+    :class="expanded ? 'flex-row' : 'flex-col'"
+    class="group relative flex items-center justify-center gap-2 px-5"
   >
     <div class="relative">
       <Icon
-        :class="
+        :class="[
           isRouteActive
             ? 'text-white'
-            : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500'
-        "
+            : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500',
+          expanded ? 'size-6' : 'size-8',
+        ]"
+        class="transition-all duration-300"
         :icon="menuItem.icon"
-        class="size-8 @min-[7rem]:size-6"
       />
 
       <span
@@ -59,14 +70,24 @@ const linkProps = computed(() => {
       ></span>
     </div>
 
-    <span
-      :class="
-        isRouteActive
-          ? 'text-white'
-          : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500'
-      "
-      class="hidden text-[10px] font-semibold @min-[7rem]:block @min-[7rem]:text-sm"
-      >{{ menuItem.label }}</span
+    <Transition
+      enter-active-class="transition-all duration-300 ease-out"
+      enter-from-class="opacity-0 -translate-x-2"
+      enter-to-class="opacity-100 translate-x-0"
+      leave-active-class="transition-all duration-200 ease-in"
+      leave-from-class="opacity-100 translate-x-0"
+      leave-to-class="opacity-0 -translate-x-2"
     >
+      <span
+        v-if="expanded"
+        :class="
+          isRouteActive
+            ? 'text-white'
+            : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500'
+        "
+        class="text-sm font-semibold whitespace-nowrap"
+        >{{ menuItem.label }}</span
+      >
+    </Transition>
   </component>
 </template>
