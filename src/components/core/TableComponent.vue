@@ -83,7 +83,7 @@ const getMainClass = (main?: boolean) => {
       </tr>
     </thead>
 
-    <tbody class="divide-y divide-gray-200 font-medium dark:divide-gray-800">
+    <tbody class="divide-y divide-gray-300 font-medium dark:divide-gray-700">
       <tr v-for="item in items" :key="item.id" class="hover:bg-gray-50 dark:hover:bg-gray-800">
         <td
           v-for="property in visibleProperties"

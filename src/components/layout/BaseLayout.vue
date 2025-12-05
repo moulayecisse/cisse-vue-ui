@@ -20,6 +20,8 @@ const props = withDefaults(
     showDarkToggle?: boolean
     /** Primary color class for sidebar background */
     sidebarClass?: string
+    /** Current route path for menu active state (pass useRoute().path) */
+    currentPath?: string
   }>(),
   {
     menuItems: () => [],
@@ -29,6 +31,7 @@ const props = withDefaults(
     dark: false,
     showDarkToggle: true,
     sidebarClass: 'bg-[#172b4c] dark:bg-slate-950',
+    currentPath: undefined,
   },
 )
 
@@ -126,12 +129,13 @@ const routerViewComponent = computed(() => {
         :class="sidebarOpenModel ? 'items-start' : 'items-center'"
         class="flex flex-1 flex-col gap-8 px-2 lg:justify-center"
       >
-        <slot name="menu">
+        <slot name="menu" :current-path="currentPath">
           <MenuItem
             v-for="(item, index) in menuItems"
             :key="index"
             :menu-item="item"
             :expanded="sidebarOpenModel"
+            :current-path="currentPath"
           />
         </slot>
       </div>

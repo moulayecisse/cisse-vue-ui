@@ -8,20 +8,31 @@ const props = withDefaults(
     menuItem: MenuItemProps
     /** Whether sidebar is expanded (shows labels) */
     expanded?: boolean
+    /** Override active state directly */
+    active?: boolean
+    /** Current route path (pass from parent using useRoute().path) */
+    currentPath?: string
   }>(),
   {
     expanded: true,
+    active: undefined,
+    currentPath: undefined,
   },
 )
 
-// Try to use useRoute if available
 const isRouteActive = computed(() => {
-  if (typeof window === 'undefined') return false
-  const currentPath = window.location.pathname
-  if (props.menuItem.link === '/') {
-    return currentPath === '/'
+  // If active prop is explicitly set, use it
+  if (props.active !== undefined) {
+    return props.active
   }
-  return currentPath === props.menuItem.link || currentPath.startsWith(props.menuItem.link + '/')
+
+  // Use currentPath prop if provided, otherwise fall back to window.location
+  const path = props.currentPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/')
+
+  if (props.menuItem.link === '/') {
+    return path === '/'
+  }
+  return path === props.menuItem.link || path.startsWith(props.menuItem.link + '/')
 })
 
 // Try to resolve RouterLink, fallback to 'a' tag

@@ -98,7 +98,7 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 | `Dropdown` | Dropdown menu with items, icons, and dividers |
 | `Avatar` | User avatar with image, initials, or icon fallback |
 | `AutocompleteComponent` | Searchable select with keyboard navigation |
-| `MenuItem` | Navigation menu item with icon and active state |
+| `MenuItem` | Navigation menu item with icon, active state detection, and route support |
 | `StatusBadge` | Colored status indicator badge |
 | `TableAction` | Icon button for table row actions |
 | `Stepper` | Multi-step progress indicator with horizontal/vertical orientation |
@@ -133,7 +133,7 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 
 | Component | Description |
 |-----------|-------------|
-| `BaseLayout` | App shell with sidebar, header, and main content area |
+| `BaseLayout` | App shell with sidebar, header, main content area, and route-aware menu |
 | `PageLayout` | Page wrapper with breadcrumbs |
 
 ### Type Display
@@ -364,6 +364,62 @@ const data = [
       <TableAction icon="lucide:trash" variant="danger" @click="delete(item)" />
     </template>
   </TableComponent>
+</template>
+```
+
+### MenuItem
+
+```vue
+<script setup>
+import { useRoute } from 'vue-router'
+import { MenuItem } from 'cisse-vue-ui'
+
+const route = useRoute()
+
+const menuItem = {
+  label: 'Dashboard',
+  link: '/dashboard',
+  icon: 'lucide:layout-dashboard'
+}
+</script>
+
+<template>
+  <!-- Auto-detect active state from current route -->
+  <MenuItem :menu-item="menuItem" :current-path="route.path" />
+
+  <!-- Or manually control active state -->
+  <MenuItem :menu-item="menuItem" :active="true" />
+</template>
+```
+
+### BaseLayout
+
+```vue
+<script setup>
+import { useRoute } from 'vue-router'
+import { BaseLayout } from 'cisse-vue-ui'
+
+const route = useRoute()
+
+const menuItems = [
+  { label: 'Dashboard', link: '/', icon: 'lucide:home' },
+  { label: 'Users', link: '/users', icon: 'lucide:users' },
+  { label: 'Settings', link: '/settings', icon: 'lucide:settings' }
+]
+</script>
+
+<template>
+  <BaseLayout
+    :menu-items="menuItems"
+    :current-path="route.path"
+    :show-dark-toggle="true"
+  >
+    <template #logo>
+      <img src="/logo.svg" alt="Logo" class="h-8" />
+    </template>
+
+    <RouterView />
+  </BaseLayout>
 </template>
 ```
 
