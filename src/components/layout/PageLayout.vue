@@ -73,7 +73,7 @@ const getLinkProps = (link: string) => {
 
     <!-- Page Header -->
     <div class="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-      <div>
+      <div class="flex flex-col gap-1">
         <h1
           v-if="title"
           class="text-2xl font-bold text-gray-900 dark:text-gray-100"
@@ -83,7 +83,7 @@ const getLinkProps = (link: string) => {
 
         <p
           v-if="description"
-          class="mt-1 text-sm text-gray-600 dark:text-gray-400"
+          class="text-sm text-gray-600 dark:text-gray-400"
         >
           <slot name="description">{{ description }}</slot>
         </p>
