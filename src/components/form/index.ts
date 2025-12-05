@@ -1,0 +1,8 @@
+export { default as FormLabel } from './FormLabel.vue'
+export { default as FormHelp } from './FormHelp.vue'
+export { default as FormInput } from './FormInput.vue'
+export { default as FormSelect } from './FormSelect.vue'
+export { default as FormGroup } from './FormGroup.vue'
+export { default as SearchInput } from './SearchInput.vue'
+export { default as Switch } from './Switch.vue'
+export { default as Checkbox } from './Checkbox.vue'

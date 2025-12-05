@@ -1,0 +1,132 @@
+<script lang="ts" setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { Icon } from '@iconify/vue'
+
+export interface DropdownItem {
+  key: string
+  label: string
+  icon?: string
+  disabled?: boolean
+  danger?: boolean
+  divider?: boolean
+}
+
+withDefaults(
+  defineProps<{
+    /** Dropdown items */
+    items: DropdownItem[]
+    /** Align dropdown */
+    align?: 'left' | 'right'
+    /** Dropdown width */
+    width?: 'auto' | 'full' | 'sm' | 'md' | 'lg'
+  }>(),
+  {
+    align: 'left',
+    width: 'auto',
+  },
+)
+
+const emit = defineEmits<{
+  select: [item: DropdownItem]
+}>()
+
+const isOpen = ref(false)
+const dropdownRef = ref<HTMLElement>()
+
+const toggle = () => {
+  isOpen.value = !isOpen.value
+}
+
+const close = () => {
+  isOpen.value = false
+}
+
+const selectItem = (item: DropdownItem) => {
+  if (item.disabled || item.divider) return
+  emit('select', item)
+  close()
+}
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+    close()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
+
+const widthClasses = {
+  auto: 'w-auto min-w-[10rem]',
+  full: 'w-full',
+  sm: 'w-32',
+  md: 'w-48',
+  lg: 'w-64',
+}
+</script>
+
+<template>
+  <div ref="dropdownRef" class="relative inline-block">
+    <div @click="toggle">
+      <slot name="trigger">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+        >
+          <slot name="trigger-label">Options</slot>
+          <Icon
+            icon="lucide:chevron-down"
+            :class="['size-4 transition-transform', isOpen && 'rotate-180']"
+          />
+        </button>
+      </slot>
+    </div>
+
+    <Transition
+      enter-active-class="transition ease-out duration-100"
+      enter-from-class="transform opacity-0 scale-95"
+      enter-to-class="transform opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75"
+      leave-from-class="transform opacity-100 scale-100"
+      leave-to-class="transform opacity-0 scale-95"
+    >
+      <div
+        v-if="isOpen"
+        :class="[
+          'absolute z-50 mt-2 rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800',
+          widthClasses[width],
+          align === 'right' ? 'right-0' : 'left-0',
+        ]"
+      >
+        <template v-for="item in items" :key="item.key">
+          <div
+            v-if="item.divider"
+            class="my-1 border-t border-gray-200 dark:border-gray-700"
+          />
+          <button
+            v-else
+            type="button"
+            :disabled="item.disabled"
+            :class="[
+              'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
+              item.disabled
+                ? 'cursor-not-allowed opacity-50'
+                : item.danger
+                  ? 'text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20'
+                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700',
+            ]"
+            @click="selectItem(item)"
+          >
+            <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
+            {{ item.label }}
+          </button>
+        </template>
+      </div>
+    </Transition>
+  </div>
+</template>

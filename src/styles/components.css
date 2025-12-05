@@ -1,0 +1,42 @@
+@import 'tailwindcss';
+
+/* Scan all library components */
+@source "../components/**/*.vue";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-*: initial;
+  --font-inter: "Inter", "sans-serif";
+  --font-outfit: Outfit, sans-serif;
+
+  /* Primary color - consumers can override */
+  --color-primary: oklch(55.892% 0.22344 260);
+  --color-primary-50: oklch(97% 0.02 260);
+  --color-primary-100: oklch(94% 0.04 260);
+  --color-primary-200: oklch(88% 0.08 260);
+  --color-primary-300: oklch(78% 0.14 260);
+  --color-primary-400: oklch(68% 0.18 260);
+  --color-primary-500: oklch(55.892% 0.22344 260);
+  --color-primary-600: oklch(48% 0.20 260);
+  --color-primary-700: oklch(40% 0.17 260);
+  --color-primary-800: oklch(32% 0.14 260);
+  --color-primary-900: oklch(25% 0.10 260);
+  --color-primary-950: oklch(18% 0.08 260);
+  --color-primary-foreground: oklch(100% 0 none);
+
+  /* Secondary color - consumers can override */
+  --color-secondary: oklch(55% 0.20 10);
+  --color-secondary-50: oklch(97% 0.02 10);
+  --color-secondary-100: oklch(94% 0.04 10);
+  --color-secondary-200: oklch(88% 0.08 10);
+  --color-secondary-300: oklch(78% 0.14 10);
+  --color-secondary-400: oklch(68% 0.18 10);
+  --color-secondary-500: oklch(55% 0.20 10);
+  --color-secondary-600: oklch(48% 0.18 10);
+  --color-secondary-700: oklch(40% 0.15 10);
+  --color-secondary-800: oklch(32% 0.12 10);
+  --color-secondary-900: oklch(25% 0.09 10);
+  --color-secondary-950: oklch(18% 0.07 10);
+  --color-secondary-foreground: oklch(100% 0 none);
+}

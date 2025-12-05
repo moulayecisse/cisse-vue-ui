@@ -1,0 +1,31 @@
+/**
+ * cisse-vue-ui Theme Preset
+ *
+ * Import this file in your main CSS to get default theme variables.
+ * You can override these by defining your own @theme block after importing.
+ *
+ * Usage:
+ * @import 'cisse-vue-ui/styles/theme.css';
+ */
+
+@theme {
+  /* Primary color scale */
+  --color-primary: oklch(55.892% 0.22344 14.891);
+  --color-primary-50: oklch(97.1% 0.016 14.891);
+  --color-primary-100: oklch(93.5% 0.038 14.891);
+  --color-primary-200: oklch(87.5% 0.075 14.891);
+  --color-primary-300: oklch(78.5% 0.122 14.891);
+  --color-primary-400: oklch(68.5% 0.165 14.891);
+  --color-primary-500: oklch(55.892% 0.22344 14.891);
+  --color-primary-600: oklch(48.5% 0.198 14.891);
+  --color-primary-700: oklch(42.5% 0.172 14.891);
+  --color-primary-800: oklch(36.5% 0.145 14.891);
+  --color-primary-900: oklch(31.5% 0.118 14.891);
+  --color-primary-950: oklch(22.5% 0.085 14.891);
+
+  /* Animation */
+  --animate-spin: spin 1s linear infinite;
+}
+
+/* Custom dark mode variant for Tailwind CSS v4 */
+@custom-variant dark (&:is(.dark *));

@@ -1,0 +1,5 @@
+export { default as TextType } from './TextType.vue'
+export { default as NumberType } from './NumberType.vue'
+export { default as DateType } from './DateType.vue'
+export { default as BooleanType } from './BooleanType.vue'
+export { default as BadgeType } from './BadgeType.vue'
