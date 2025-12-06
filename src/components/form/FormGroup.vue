@@ -14,7 +14,7 @@ const modelValue = defineModel()
 
 const computedCols = computed(() => `span ${props.cols} / span ${props.cols}`)
 
-const isSelect = computed(() => props.type === 'select')
+const isSelect = computed(() => props.select === true)
 </script>
 
 <template>

@@ -23,6 +23,8 @@ export interface FormGroupProps extends InputProps, SelectProps {
   cols?: number
   hidden?: boolean
   error?: string | boolean
+  /** Set to true to render a select instead of input */
+  select?: boolean
 }
 
 export interface AutocompleteOption {
