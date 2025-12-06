@@ -64,7 +64,7 @@ const getMainClass = (main?: boolean) => {
 </script>
 
 <template>
-  <table class="w-full divide-y divide-gray-300 text-left dark:divide-gray-700">
+  <table class="w-full divide-y divide-black/10 text-left dark:divide-white/10">
     <thead
       class="bg-black/5 text-sm font-semibold text-gray-600 uppercase dark:bg-white/5 dark:text-gray-400"
     >
@@ -83,7 +83,7 @@ const getMainClass = (main?: boolean) => {
       </tr>
     </thead>
 
-    <tbody class="divide-y divide-gray-300 font-medium dark:divide-gray-700">
+    <tbody class="divide-y divide-black/10 font-medium dark:divide-white/10">
       <tr v-for="item in items" :key="item.id" class="hover:bg-black/5 dark:hover:bg-white/5">
         <td
           v-for="property in visibleProperties"
