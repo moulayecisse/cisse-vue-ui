@@ -38,14 +38,15 @@ const isOpen = ref(false)
 const dropdownRef = ref<HTMLElement>()
 const triggerRef = ref<HTMLElement>()
 const menuRef = ref<HTMLElement>()
-const dropdownPosition = ref({ top: 0, left: 0, width: 0 })
+const dropdownPosition = ref({ top: 0, left: 0, right: 0, width: 0 })
 
 const updatePosition = () => {
   if (!triggerRef.value || !props.teleport) return
   const rect = triggerRef.value.getBoundingClientRect()
   dropdownPosition.value = {
     top: rect.bottom + window.scrollY + 8,
-    left: props.align === 'right' ? rect.right + window.scrollX : rect.left + window.scrollX,
+    left: rect.left + window.scrollX,
+    right: window.innerWidth - rect.right - window.scrollX,
     width: rect.width,
   }
 }
@@ -108,7 +109,7 @@ const dropdownStyle = computed(() => {
     position: 'absolute' as const,
     top: `${dropdownPosition.value.top}px`,
     left: props.align === 'right' ? 'auto' : `${dropdownPosition.value.left}px`,
-    right: props.align === 'right' ? `${window.innerWidth - dropdownPosition.value.left - dropdownPosition.value.width}px` : 'auto',
+    right: props.align === 'right' ? `${dropdownPosition.value.right}px` : 'auto',
   }
 })
 </script>
