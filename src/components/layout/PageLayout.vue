@@ -72,7 +72,7 @@ const getLinkProps = (link: string) => {
     </nav>
 
     <!-- Page Header -->
-    <div class="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
+    <div class="flex flex-row items-center gap-4 lg:flex-col lg:justify-between">
       <div class="flex flex-col gap-1">
         <h1
           v-if="title"
