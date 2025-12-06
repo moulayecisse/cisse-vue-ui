@@ -13,8 +13,8 @@ export interface DropdownItem {
 
 const props = withDefaults(
   defineProps<{
-    /** Dropdown items */
-    items: DropdownItem[]
+    /** Dropdown items (optional if using default slot) */
+    items?: DropdownItem[]
     /** Align dropdown */
     align?: 'left' | 'right'
     /** Dropdown width */
@@ -23,6 +23,7 @@ const props = withDefaults(
     teleport?: boolean
   }>(),
   {
+    items: () => [],
     align: 'left',
     width: 'auto',
     teleport: true,
@@ -148,29 +149,33 @@ const dropdownStyle = computed(() => {
             !teleport && (align === 'right' ? 'absolute mt-2 right-0' : 'absolute mt-2 left-0'),
           ]"
         >
-          <template v-for="item in items" :key="item.key">
-            <div
-              v-if="item.divider"
-              class="my-1 border-t border-gray-200 dark:border-gray-700"
-            />
-            <button
-              v-else
-              type="button"
-              :disabled="item.disabled"
-              :class="[
-                'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
-                item.disabled
-                  ? 'cursor-not-allowed opacity-50'
-                  : item.danger
-                    ? 'text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20'
-                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700',
-              ]"
-              @click="selectItem(item)"
-            >
-              <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
-              {{ item.label }}
-            </button>
-          </template>
+          <!-- Custom content via default slot -->
+          <slot :close="close">
+            <!-- Default items rendering -->
+            <template v-for="item in items" :key="item.key">
+              <div
+                v-if="item.divider"
+                class="my-1 border-t border-gray-200 dark:border-gray-700"
+              />
+              <button
+                v-else
+                type="button"
+                :disabled="item.disabled"
+                :class="[
+                  'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
+                  item.disabled
+                    ? 'cursor-not-allowed opacity-50'
+                    : item.danger
+                      ? 'text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20'
+                      : 'text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700',
+                ]"
+                @click="selectItem(item)"
+              >
+                <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
+                {{ item.label }}
+              </button>
+            </template>
+          </slot>
         </div>
       </Transition>
     </Teleport>

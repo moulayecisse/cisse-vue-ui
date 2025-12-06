@@ -2,7 +2,15 @@
 import { ref, computed, resolveComponent } from 'vue'
 import { Icon } from '@iconify/vue'
 import MenuItem from '@/components/core/MenuItem.vue'
+import Dropdown from '@/components/core/Dropdown.vue'
 import type { MenuItemProps } from '@/types'
+
+export interface UserMenuItem {
+  label: string
+  icon?: string
+  link?: string
+  action?: () => void
+}
 
 const props = withDefaults(
   defineProps<{
@@ -22,6 +30,12 @@ const props = withDefaults(
     sidebarClass?: string
     /** Current route path for menu active state (pass useRoute().path) */
     currentPath?: string
+    /** User display name */
+    userName?: string
+    /** User avatar (initials or image URL) */
+    userAvatar?: string
+    /** User menu items (dropdown) */
+    userMenuItems?: UserMenuItem[]
   }>(),
   {
     menuItems: () => [],
@@ -32,6 +46,9 @@ const props = withDefaults(
     showDarkToggle: true,
     sidebarClass: 'bg-[#172b4c] dark:bg-slate-950',
     currentPath: undefined,
+    userName: undefined,
+    userAvatar: undefined,
+    userMenuItems: () => [],
   },
 )
 
@@ -79,6 +96,32 @@ const routerViewComponent = computed(() => {
   }
   return null
 })
+
+// Try to resolve RouterLink
+const routerLinkComponent = computed(() => {
+  try {
+    const RouterLink = resolveComponent('RouterLink')
+    if (typeof RouterLink !== 'string') {
+      return RouterLink
+    }
+  } catch {
+    // RouterLink not available
+  }
+  return 'a'
+})
+
+const getLinkProps = (link: string) => {
+  if (routerLinkComponent.value === 'a') {
+    return { href: link }
+  }
+  return { to: link }
+}
+
+const handleUserMenuClick = (item: UserMenuItem) => {
+  if (item.action) {
+    item.action()
+  }
+}
 </script>
 
 <template>
@@ -181,6 +224,41 @@ const routerViewComponent = computed(() => {
               class="size-5 text-gray-900 dark:text-gray-100"
             />
           </button>
+
+          <!-- User Menu -->
+          <Dropdown v-if="userName || userAvatar" align="right">
+            <template #trigger>
+              <button
+                class="flex items-center gap-2 rounded-lg p-1.5 transition hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
+                <div
+                  class="flex size-8 items-center justify-center rounded-full bg-primary text-sm font-medium text-white"
+                >
+                  {{ userAvatar || '?' }}
+                </div>
+                <span class="hidden text-sm font-medium text-gray-700 dark:text-gray-300 md:block">
+                  {{ userName }}
+                </span>
+                <Icon icon="lucide:chevron-down" class="size-4 text-gray-500" />
+              </button>
+            </template>
+
+            <template #default="{ close }">
+              <div class="min-w-48 py-1">
+                <component
+                  :is="item.link ? routerLinkComponent : 'button'"
+                  v-for="item in userMenuItems"
+                  :key="item.label"
+                  v-bind="item.link ? getLinkProps(item.link) : {}"
+                  class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                  @click="handleUserMenuClick(item); close()"
+                >
+                  <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
+                  {{ item.label }}
+                </component>
+              </div>
+            </template>
+          </Dropdown>
         </div>
       </header>
 
