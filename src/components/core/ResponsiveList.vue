@@ -101,14 +101,14 @@ const tableProperties = computed<Property[]>(() =>
   })),
 )
 
-// Get breakpoint class
-const breakpointClass = computed(() => {
-  const breakpoints: Record<string, { mobile: string; desktop: string }> = {
-    sm: { mobile: 'sm:hidden', desktop: 'hidden sm:block' },
-    md: { mobile: 'md:hidden', desktop: 'hidden md:block' },
-    lg: { mobile: 'lg:hidden', desktop: 'hidden lg:block' },
-    xl: { mobile: 'xl:hidden', desktop: 'hidden xl:block' },
-    '2xl': { mobile: '2xl:hidden', desktop: 'hidden 2xl:block' },
+// Get breakpoint value in pixels
+const breakpointPx = computed(() => {
+  const breakpoints: Record<string, number> = {
+    sm: 640,
+    md: 768,
+    lg: 1024,
+    xl: 1280,
+    '2xl': 1536,
   }
   return breakpoints[props.breakpoint]
 })
@@ -136,9 +136,9 @@ const hasActionsSlot = computed(() => !!slots.actions)
 </script>
 
 <template>
-  <div>
+  <div class="responsive-list" :style="{ '--breakpoint': breakpointPx + 'px' }">
     <!-- Mobile View -->
-    <div :class="breakpointClass.mobile">
+    <div class="responsive-list__mobile">
       <MobileList
         :items="items"
         :key-field="keyField"
@@ -169,7 +169,7 @@ const hasActionsSlot = computed(() => !!slots.actions)
     </div>
 
     <!-- Desktop View -->
-    <div :class="breakpointClass.desktop">
+    <div class="responsive-list__desktop">
       <TableComponent
         :items="items"
         :properties="tableProperties"
@@ -203,3 +203,58 @@ const hasActionsSlot = computed(() => !!slots.actions)
     </div>
   </div>
 </template>
+
+<style scoped>
+.responsive-list__mobile {
+  display: block;
+}
+
+.responsive-list__desktop {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .responsive-list[style*="--breakpoint: 640px"] .responsive-list__mobile {
+    display: none;
+  }
+  .responsive-list[style*="--breakpoint: 640px"] .responsive-list__desktop {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-list[style*="--breakpoint: 768px"] .responsive-list__mobile {
+    display: none;
+  }
+  .responsive-list[style*="--breakpoint: 768px"] .responsive-list__desktop {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-list[style*="--breakpoint: 1024px"] .responsive-list__mobile {
+    display: none;
+  }
+  .responsive-list[style*="--breakpoint: 1024px"] .responsive-list__desktop {
+    display: block;
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-list[style*="--breakpoint: 1280px"] .responsive-list__mobile {
+    display: none;
+  }
+  .responsive-list[style*="--breakpoint: 1280px"] .responsive-list__desktop {
+    display: block;
+  }
+}
+
+@media (min-width: 1536px) {
+  .responsive-list[style*="--breakpoint: 1536px"] .responsive-list__mobile {
+    display: none;
+  }
+  .responsive-list[style*="--breakpoint: 1536px"] .responsive-list__desktop {
+    display: block;
+  }
+}
+</style>
