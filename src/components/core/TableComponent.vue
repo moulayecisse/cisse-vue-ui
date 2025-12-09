@@ -5,12 +5,40 @@ import NumberType from '@/components/type/NumberType.vue'
 import DateType from '@/components/type/DateType.vue'
 import BooleanType from '@/components/type/BooleanType.vue'
 import BadgeType from '@/components/type/BadgeType.vue'
-import { computed, type Component } from 'vue'
+import Checkbox from '@/components/form/Checkbox.vue'
+import { computed, type Component, useSlots } from 'vue'
 
-const { properties, items } = defineProps<{
-  properties: Property[]
-  items: { id: number | string; [key: string]: unknown }[]
+type ItemType = { id: number | string; [key: string]: unknown }
+
+const props = withDefaults(
+  defineProps<{
+    /** Column definitions */
+    properties: Property[]
+    /** Array of items to display */
+    items: ItemType[]
+    /** Enable selection mode */
+    selectable?: boolean
+    /** Set of selected item keys */
+    selectedItems?: Set<string>
+    /** Filter function to determine if an item is selectable */
+    selectableFilter?: (item: ItemType) => boolean
+    /** Key field for unique identification (default: 'id') */
+    keyField?: string
+  }>(),
+  {
+    selectable: false,
+    keyField: 'id',
+  },
+)
+
+const emit = defineEmits<{
+  /** Emitted when an item is selected/deselected */
+  select: [id: string]
+  /** Emitted when select all is toggled */
+  selectAll: []
 }>()
+
+const slots = useSlots()
 
 // Type components mapping
 const typeComponents: Record<string, Component> = {
@@ -26,7 +54,13 @@ const getTypeComponent = (type: string = 'text'): Component => {
 }
 
 // Filter out hidden properties
-const visibleProperties = computed(() => properties.filter((p) => !p.hidden))
+const visibleProperties = computed(() => props.properties.filter((p) => !p.hidden))
+
+// Get item key
+const getKey = (item: ItemType): string => {
+  const keyValue = item[props.keyField]
+  return String(keyValue ?? Math.random())
+}
 
 // Get nested property value
 const getItemValue = (item: Record<string, unknown>, property: Property): unknown => {
@@ -61,62 +95,123 @@ const getMainClass = (main?: boolean) => {
   }
   return 'text-xs font-medium text-gray-600 dark:text-gray-400'
 }
+
+// Selection logic
+const selectableItems = computed(() => {
+  if (!props.selectableFilter) return props.items
+  return props.items.filter(props.selectableFilter)
+})
+
+const allSelected = computed(() => {
+  if (selectableItems.value.length === 0) return false
+  return selectableItems.value.every((item) => props.selectedItems?.has(getKey(item)))
+})
+
+const someSelected = computed(() => {
+  return (props.selectedItems?.size || 0) > 0 && !allSelected.value
+})
+
+const isSelected = (item: ItemType): boolean => {
+  return props.selectedItems?.has(getKey(item)) || false
+}
+
+const isSelectable = (item: ItemType): boolean => {
+  if (!props.selectable) return false
+  if (!props.selectableFilter) return true
+  return props.selectableFilter(item)
+}
+
+const handleSelect = (item: ItemType) => {
+  emit('select', getKey(item))
+}
+
+const hasActionSlot = computed(() => !!slots.action)
 </script>
 
 <template>
-  <table class="w-full divide-y divide-black/10 text-left dark:divide-white/10">
-    <thead
-      class="bg-black/5 text-sm font-semibold text-gray-600 uppercase dark:bg-white/5 dark:text-gray-400"
-    >
-      <tr>
-        <th
-          v-for="property in visibleProperties"
-          :key="property.name"
-          :class="[getAlignmentClass(property.align), 'px-3 py-3']"
+  <div
+    class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+  >
+    <div class="overflow-x-auto">
+      <table class="w-full divide-y divide-black/10 text-left dark:divide-white/10">
+        <thead
+          class="bg-black/5 text-sm font-semibold text-gray-600 uppercase dark:bg-white/5 dark:text-gray-400"
         >
-          <slot :name="'header-' + property.name" :property>
-            {{ property.label ?? property.name }}
-          </slot>
-        </th>
+          <tr>
+            <!-- Selection header -->
+            <th v-if="selectable" class="w-12 px-3 py-3">
+              <Checkbox
+                :model-value="allSelected"
+                :indeterminate="someSelected"
+                :disabled="selectableItems.length === 0"
+                @update:model-value="emit('selectAll')"
+              />
+            </th>
 
-        <th class="px-3 py-3 text-right"></th>
-      </tr>
-    </thead>
+            <th
+              v-for="property in visibleProperties"
+              :key="property.name"
+              :class="[getAlignmentClass(property.align), 'px-3 py-3']"
+            >
+              <slot :name="'header-' + property.name" :property>
+                {{ property.label ?? property.name }}
+              </slot>
+            </th>
 
-    <tbody class="divide-y divide-black/10 font-medium dark:divide-white/10">
-      <tr v-for="item in items" :key="item.id" class="hover:bg-black/5 dark:hover:bg-white/5">
-        <td
-          v-for="property in visibleProperties"
-          :key="property.name"
-          :class="[
-            getAlignmentClass(property.align),
-            getMainClass(property.main),
-            property.className,
-            'px-3 py-4',
-          ]"
-        >
-          <slot
-            :item="item"
-            :name="'item-' + property.name"
-            :property
-            :value="getItemValue(item, property)"
+            <th v-if="hasActionSlot" class="px-3 py-3 text-right"></th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-black/10 font-medium dark:divide-white/10">
+          <tr
+            v-for="item in items"
+            :key="getKey(item)"
+            class="hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            :class="{ 'bg-primary/5 dark:bg-primary/10': isSelected(item) }"
           >
-            <component
-              :is="getTypeComponent(property.type || 'text')"
-              :value="getItemValue(item, property)"
-            />
-          </slot>
-        </td>
+            <!-- Selection cell -->
+            <td v-if="selectable" class="px-3 py-4">
+              <Checkbox
+                v-if="isSelectable(item)"
+                :model-value="isSelected(item)"
+                @update:model-value="handleSelect(item)"
+              />
+            </td>
 
-        <td class="flex items-center justify-end gap-2 px-3 py-4">
-          <slot :item="item" name="action"></slot>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <td
+              v-for="property in visibleProperties"
+              :key="property.name"
+              :class="[
+                getAlignmentClass(property.align),
+                getMainClass(property.main),
+                property.className,
+                'px-3 py-4',
+              ]"
+            >
+              <slot
+                :item="item"
+                :name="'item-' + property.name"
+                :property
+                :value="getItemValue(item, property)"
+              >
+                <component
+                  :is="getTypeComponent(property.type || 'text')"
+                  :value="getItemValue(item, property)"
+                />
+              </slot>
+            </td>
 
-  <!-- Empty state -->
-  <div v-if="!items || items.length === 0">
-    <slot name="empty"></slot>
+            <td v-if="hasActionSlot" class="flex items-center justify-end gap-2 px-3 py-4">
+              <slot :item="item" name="action"></slot>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty state -->
+    <div v-if="!items || items.length === 0">
+      <slot name="empty"></slot>
+    </div>
   </div>
 </template>

@@ -92,7 +92,9 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 |-----------|-------------|
 | `Button` | Button with variants (primary, secondary, outline, ghost, danger, success), sizes, icons, loading state |
 | `CardComponent` | Card container with header, content, and footer slots |
-| `TableComponent` | Data table with sorting, actions, and custom column rendering |
+| `TableComponent` | Data table with sorting, selection, actions, and custom column rendering |
+| `MobileList` | Mobile-optimized card-based list with selection support |
+| `ResponsiveList` | Combines MobileList (mobile) and TableComponent (desktop) with automatic breakpoint switching |
 | `Tabs` | Tab navigation with variants (underline, pills, boxed) |
 | `TabPanel` | Tab content panel (use with Tabs) |
 | `Dropdown` | Dropdown menu with items, icons, and dividers |
@@ -339,31 +341,183 @@ const steps = [
 
 ```vue
 <script setup>
+import { ref } from 'vue'
 import { TableComponent } from 'cisse-vue-ui'
 
 const properties = [
-  { key: 'name', label: 'Name', sortable: true },
-  { key: 'email', label: 'Email' },
-  { key: 'role', label: 'Role', type: 'badge' }
+  { name: 'name', label: 'Name', main: true },
+  { name: 'email', label: 'Email' },
+  { name: 'role', label: 'Role', type: 'badge' }
 ]
 
-const data = [
+const items = [
   { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
   { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' }
 ]
+
+// Selection support
+const selectedItems = ref(new Set())
+const toggleSelect = (id) => {
+  if (selectedItems.value.has(id)) {
+    selectedItems.value.delete(id)
+  } else {
+    selectedItems.value.add(id)
+  }
+}
 </script>
 
 <template>
   <TableComponent
     :properties="properties"
-    :data="data"
-    :loading="false"
+    :items="items"
+    selectable
+    :selected-items="selectedItems"
+    @select="toggleSelect"
+    @select-all="toggleSelectAll"
   >
-    <template #actions="{ item }">
+    <template #action="{ item }">
       <TableAction icon="lucide:edit" @click="edit(item)" />
       <TableAction icon="lucide:trash" variant="danger" @click="delete(item)" />
     </template>
   </TableComponent>
+</template>
+```
+
+### ResponsiveList
+
+A component that automatically switches between a mobile card layout and a desktop table layout based on screen size.
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { ResponsiveList } from 'cisse-vue-ui'
+
+const columns = [
+  { key: 'name', label: 'Name' },
+  { key: 'email', label: 'Email' },
+  { key: 'status', label: 'Status' }
+]
+
+const items = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'inactive' }
+]
+
+const selectedItems = ref(new Set())
+
+const toggleSelect = (id) => {
+  if (selectedItems.value.has(id)) {
+    selectedItems.value.delete(id)
+  } else {
+    selectedItems.value.add(id)
+  }
+}
+
+const toggleSelectAll = () => {
+  if (selectedItems.value.size === items.length) {
+    selectedItems.value.clear()
+  } else {
+    items.forEach(item => selectedItems.value.add(String(item.id)))
+  }
+}
+</script>
+
+<template>
+  <ResponsiveList
+    :items="items"
+    :columns="columns"
+    key-field="id"
+    selectable
+    :selected-items="selectedItems"
+    breakpoint="lg"
+    @select="toggleSelect"
+    @select-all="toggleSelectAll"
+  >
+    <!-- Mobile view: avatar -->
+    <template #avatar="{ item }">
+      <div class="w-10 h-10 rounded-full bg-primary-500 flex items-center justify-center text-white">
+        {{ item.name[0] }}
+      </div>
+    </template>
+
+    <!-- Mobile view: content -->
+    <template #mobileContent="{ item }">
+      <h3 class="font-semibold">{{ item.name }}</h3>
+      <p class="text-sm text-gray-500">{{ item.email }}</p>
+    </template>
+
+    <!-- Mobile view: actions -->
+    <template #mobileActions="{ item }">
+      <button @click="viewItem(item)">View</button>
+    </template>
+
+    <!-- Desktop table: custom cell rendering -->
+    <template #cell-name="{ item }">
+      <span class="font-medium">{{ item.name }}</span>
+    </template>
+
+    <template #cell-status="{ item }">
+      <span :class="item.status === 'active' ? 'text-green-600' : 'text-red-600'">
+        {{ item.status }}
+      </span>
+    </template>
+
+    <!-- Desktop table: actions column -->
+    <template #actions="{ item }">
+      <Button size="sm" variant="ghost" @click="edit(item)">Edit</Button>
+    </template>
+
+    <!-- Empty state -->
+    <template #empty>
+      <EmptyState title="No items" message="No items to display" />
+    </template>
+  </ResponsiveList>
+</template>
+```
+
+#### ResponsiveList Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `items` | `Array` | required | Array of items to display |
+| `columns` | `Array` | required | Column definitions with `key` or `name`, `label`, and optional `type` |
+| `keyField` | `string` | `'id'` | Field to use as unique key for items |
+| `selectable` | `boolean` | `false` | Enable selection mode |
+| `selectedItems` | `Set<string>` | - | Set of selected item keys |
+| `selectableFilter` | `Function` | - | Filter function to determine if an item is selectable |
+| `breakpoint` | `string` | `'lg'` | Breakpoint for switching views: `'sm'`, `'md'`, `'lg'`, `'xl'`, `'2xl'` |
+
+### MobileList
+
+A mobile-optimized card-based list component with selection support.
+
+```vue
+<script setup>
+import { MobileList } from 'cisse-vue-ui'
+</script>
+
+<template>
+  <MobileList
+    :items="items"
+    key-field="id"
+    selectable
+    :selected-items="selectedItems"
+    @select="toggleSelect"
+    @select-all="toggleSelectAll"
+  >
+    <template #avatar="{ item }">
+      <div class="w-12 h-12 rounded-full bg-blue-500" />
+    </template>
+
+    <template #content="{ item }">
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+    </template>
+
+    <template #actions="{ item }">
+      <button>View</button>
+    </template>
+  </MobileList>
 </template>
 ```
 
