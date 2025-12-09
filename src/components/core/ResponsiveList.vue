@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
+import { useBreakpoints } from '@vueuse/core'
 import type { Property } from '@/types'
 import MobileList from './MobileList.vue'
 import TableComponent from './TableComponent.vue'
@@ -101,18 +102,6 @@ const tableProperties = computed<Property[]>(() =>
   })),
 )
 
-// Get breakpoint value in pixels
-const breakpointPx = computed(() => {
-  const breakpoints: Record<string, number> = {
-    sm: 640,
-    md: 768,
-    lg: 1024,
-    xl: 1280,
-    '2xl': 1536,
-  }
-  return breakpoints[props.breakpoint]
-})
-
 // Get cell value for table slots
 const getCellValue = (item: ItemType, key: string): unknown => {
   const keys = key.split('.')
@@ -133,128 +122,84 @@ const hasCellSlot = (key: string): boolean => {
 }
 
 const hasActionsSlot = computed(() => !!slots.actions)
+
+// Tailwind breakpoints
+const breakpoints = useBreakpoints({
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  '2xl': 1536,
+})
+
+// Reactive desktop detection based on selected breakpoint
+const isDesktop = computed(() => breakpoints.greaterOrEqual(props.breakpoint).value)
 </script>
 
 <template>
-  <div class="responsive-list" :style="{ '--breakpoint': breakpointPx + 'px' }">
+  <div>
     <!-- Mobile View -->
-    <div class="responsive-list__mobile">
-      <MobileList
-        :items="items"
-        :key-field="keyField"
-        :selectable="selectable"
-        :selected-items="selectedItems"
-        :selectable-filter="selectableFilter"
-        @select="emit('select', $event)"
-        @select-all="emit('selectAll')"
-      >
-        <template #avatar="{ item }">
-          <slot name="avatar" :item="item" />
-        </template>
+    <MobileList
+      v-if="!isDesktop"
+      :items="items"
+      :key-field="keyField"
+      :selectable="selectable"
+      :selected-items="selectedItems"
+      :selectable-filter="selectableFilter"
+      @select="emit('select', $event)"
+      @select-all="emit('selectAll')"
+    >
+      <template #avatar="{ item }">
+        <slot name="avatar" :item="item" />
+      </template>
 
-        <template #content="{ item }">
-          <slot name="mobileContent" :item="item" />
-        </template>
+      <template #content="{ item }">
+        <slot name="mobileContent" :item="item" />
+      </template>
 
-        <template #actions="{ item }">
-          <slot name="mobileActions" :item="item">
-            <slot name="actions" :item="item" />
-          </slot>
-        </template>
+      <template #actions="{ item }">
+        <slot name="mobileActions" :item="item">
+          <slot name="actions" :item="item" />
+        </slot>
+      </template>
 
-        <template #empty>
-          <slot name="empty" />
-        </template>
-      </MobileList>
-    </div>
+      <template #empty>
+        <slot name="empty" />
+      </template>
+    </MobileList>
 
     <!-- Desktop View -->
-    <div class="responsive-list__desktop">
-      <TableComponent
-        :items="items"
-        :properties="tableProperties"
-        :key-field="keyField"
-        :selectable="selectable"
-        :selected-items="selectedItems"
-        :selectable-filter="selectableFilter"
-        @select="emit('select', $event)"
-        @select-all="emit('selectAll')"
-      >
-        <!-- Forward cell slots -->
-        <template v-for="col in columns" :key="getColumnKey(col)" #[`item-${getColumnKey(col)}`]="{ item, value }">
-          <slot
-            v-if="hasCellSlot(getColumnKey(col))"
-            :name="`cell-${getColumnKey(col)}`"
-            :item="item"
-            :value="getCellValue(item, getColumnKey(col))"
-          />
-          <template v-else>{{ value }}</template>
-        </template>
+    <TableComponent
+      v-else
+      :items="items"
+      :properties="tableProperties"
+      :key-field="keyField"
+      :selectable="selectable"
+      :selected-items="selectedItems"
+      :selectable-filter="selectableFilter"
+      @select="emit('select', $event)"
+      @select-all="emit('selectAll')"
+    >
+      <!-- Forward cell slots -->
+      <template v-for="col in columns" :key="getColumnKey(col)" #[`item-${getColumnKey(col)}`]="{ item, value }">
+        <slot
+          v-if="hasCellSlot(getColumnKey(col))"
+          :name="`cell-${getColumnKey(col)}`"
+          :item="item"
+          :value="getCellValue(item, getColumnKey(col))"
+        />
+        <template v-else>{{ value }}</template>
+      </template>
 
-        <!-- Actions slot -->
-        <template v-if="hasActionsSlot" #action="{ item }">
-          <slot name="actions" :item="item" />
-        </template>
+      <!-- Actions slot -->
+      <template v-if="hasActionsSlot" #action="{ item }">
+        <slot name="actions" :item="item" />
+      </template>
 
-        <template #empty>
-          <slot name="empty" />
-        </template>
-      </TableComponent>
-    </div>
+      <template #empty>
+        <slot name="empty" />
+      </template>
+    </TableComponent>
   </div>
 </template>
 
-<style scoped>
-.responsive-list__mobile {
-  display: block;
-}
-
-.responsive-list__desktop {
-  display: none;
-}
-
-@media (min-width: 640px) {
-  .responsive-list[style*="--breakpoint: 640px"] .responsive-list__mobile {
-    display: none;
-  }
-  .responsive-list[style*="--breakpoint: 640px"] .responsive-list__desktop {
-    display: block;
-  }
-}
-
-@media (min-width: 768px) {
-  .responsive-list[style*="--breakpoint: 768px"] .responsive-list__mobile {
-    display: none;
-  }
-  .responsive-list[style*="--breakpoint: 768px"] .responsive-list__desktop {
-    display: block;
-  }
-}
-
-@media (min-width: 1024px) {
-  .responsive-list[style*="--breakpoint: 1024px"] .responsive-list__mobile {
-    display: none;
-  }
-  .responsive-list[style*="--breakpoint: 1024px"] .responsive-list__desktop {
-    display: block;
-  }
-}
-
-@media (min-width: 1280px) {
-  .responsive-list[style*="--breakpoint: 1280px"] .responsive-list__mobile {
-    display: none;
-  }
-  .responsive-list[style*="--breakpoint: 1280px"] .responsive-list__desktop {
-    display: block;
-  }
-}
-
-@media (min-width: 1536px) {
-  .responsive-list[style*="--breakpoint: 1536px"] .responsive-list__mobile {
-    display: none;
-  }
-  .responsive-list[style*="--breakpoint: 1536px"] .responsive-list__desktop {
-    display: block;
-  }
-}
-</style>
