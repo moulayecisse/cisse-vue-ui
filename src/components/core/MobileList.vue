@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
 import Checkbox from '@/components/form/Checkbox.vue'
+import CardComponent from './CardComponent.vue'
 
 export interface MobileListColumn {
   key: string
@@ -93,31 +94,30 @@ const hasEmptySlot = computed(() => !!slots.empty)
 <template>
   <div class="space-y-3">
     <!-- Select All Header (when selectable) -->
-    <div
-      v-if="selectable && selectableItems.length > 0"
-      class="flex items-center gap-3 p-3 bg-white dark:bg-slate-950 rounded-lg shadow-md"
-    >
-      <Checkbox
-        :model-value="allSelected"
-        :indeterminate="someSelected"
-        @update:model-value="emit('selectAll')"
-      />
-      <span class="text-sm text-gray-600 dark:text-gray-400">
-        {{ allSelected ? 'Tout désélectionner' : 'Tout sélectionner' }}
-      </span>
-      <span
-        v-if="selectedItems && selectedItems.size > 0"
-        class="text-sm text-primary font-medium"
-      >
-        ({{ selectedItems.size }} sélectionné{{ selectedItems.size > 1 ? 's' : '' }})
-      </span>
-    </div>
+    <CardComponent v-if="selectable && selectableItems.length > 0">
+      <div class="flex items-center gap-3 p-3">
+        <Checkbox
+          :model-value="allSelected"
+          :indeterminate="someSelected"
+          @update:model-value="emit('selectAll')"
+        />
+        <span class="text-sm text-gray-600 dark:text-gray-400">
+          {{ allSelected ? 'Tout désélectionner' : 'Tout sélectionner' }}
+        </span>
+        <span
+          v-if="selectedItems && selectedItems.size > 0"
+          class="text-sm text-primary font-medium"
+        >
+          ({{ selectedItems.size }} sélectionné{{ selectedItems.size > 1 ? 's' : '' }})
+        </span>
+      </div>
+    </CardComponent>
 
     <!-- Items List -->
-    <div
+    <CardComponent
       v-for="item in items"
       :key="getKey(item)"
-      class="bg-white dark:bg-slate-950 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+      class="hover:shadow-lg transition-all duration-200"
       :class="{
         'ring-2 ring-primary': isSelected(item),
       }"
@@ -146,7 +146,7 @@ const hasEmptySlot = computed(() => !!slots.empty)
           <slot name="actions" :item="item" />
         </div>
       </div>
-    </div>
+    </CardComponent>
 
     <!-- Empty state -->
     <div v-if="items.length === 0 && hasEmptySlot">
