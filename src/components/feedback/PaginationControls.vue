@@ -47,14 +47,15 @@ const changePageSize = (event: Event) => {
 <template>
   <div
     v-if="totalPages > 1"
-    class="flex items-center justify-between border-t border-gray-200 px-6 py-4 dark:border-gray-700"
+    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-gray-200 px-4 sm:px-6 py-4 dark:border-gray-700"
   >
-    <div class="flex items-center gap-4">
-      <div class="text-sm text-gray-700 dark:text-gray-300">
+    <!-- Info and page size -->
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+      <div class="text-sm text-gray-700 dark:text-gray-300 text-center sm:text-left">
         {{ pageLabel }} {{ currentPage }} {{ ofLabel }} {{ totalPages }}
       </div>
-      <div v-if="showPageSize" class="flex items-center gap-2">
-        <label class="text-sm text-gray-600 dark:text-gray-400" for="page-size">
+      <div v-if="showPageSize" class="flex items-center justify-center sm:justify-start gap-2">
+        <label class="text-sm text-gray-600 dark:text-gray-400 hidden sm:inline" for="page-size">
           {{ itemsPerPageLabel }}
         </label>
         <select
@@ -69,21 +70,23 @@ const changePageSize = (event: Event) => {
         </select>
       </div>
     </div>
-    <div class="flex gap-2">
+
+    <!-- Navigation buttons -->
+    <div class="flex justify-center sm:justify-end gap-2">
       <button
         :disabled="currentPage === 1 || loading"
-        class="focus:ring-primary inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+        class="focus:ring-primary inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 sm:px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
         @click="changePage(currentPage - 1)"
       >
         <Icon class="h-4 w-4" icon="lucide:chevron-left" />
-        {{ previousLabel }}
+        <span class="hidden sm:inline">{{ previousLabel }}</span>
       </button>
       <button
         :disabled="currentPage === totalPages || loading"
-        class="focus:ring-primary inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+        class="focus:ring-primary inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 sm:px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
         @click="changePage(currentPage + 1)"
       >
-        {{ nextLabel }}
+        <span class="hidden sm:inline">{{ nextLabel }}</span>
         <Icon class="h-4 w-4" icon="lucide:chevron-right" />
       </button>
     </div>
