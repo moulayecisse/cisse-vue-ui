@@ -129,9 +129,7 @@ const hasActionSlot = computed(() => !!slots.action)
 </script>
 
 <template>
-  <div
-    class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden"
-  >
+  <div class="overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full divide-y divide-black/10 text-left dark:divide-white/10">
         <thead
