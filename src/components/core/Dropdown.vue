@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref, computed, onUnmounted, nextTick, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
+import { useDropdown } from '@/composables/useDropdown'
 
 export interface DropdownItem {
   key: string
@@ -34,66 +35,19 @@ const emit = defineEmits<{
   select: [item: DropdownItem]
 }>()
 
-const isOpen = ref(false)
-const dropdownRef = ref<HTMLElement>()
 const triggerRef = ref<HTMLElement>()
 const menuRef = ref<HTMLElement>()
-const dropdownPosition = ref({ top: 0, left: 0, right: 0, width: 0 })
 
-const updatePosition = () => {
-  if (!triggerRef.value || !props.teleport) return
-  const rect = triggerRef.value.getBoundingClientRect()
-  dropdownPosition.value = {
-    top: rect.bottom + window.scrollY + 8,
-    left: rect.left + window.scrollX,
-    right: window.innerWidth - rect.right - window.scrollX,
-    width: rect.width,
-  }
-}
-
-const toggle = () => {
-  isOpen.value = !isOpen.value
-  if (isOpen.value) {
-    nextTick(updatePosition)
-  }
-}
-
-const close = () => {
-  isOpen.value = false
-}
+const { isOpen, dropdownStyle, toggle, close } = useDropdown(triggerRef, menuRef, {
+  teleport: props.teleport,
+  align: props.align,
+})
 
 const selectItem = (item: DropdownItem) => {
   if (item.disabled || item.divider) return
   emit('select', item)
   close()
 }
-
-const handleClickOutside = (event: MouseEvent) => {
-  const target = event.target as Node
-  const isInsideTrigger = triggerRef.value?.contains(target)
-  const isInsideMenu = menuRef.value?.contains(target)
-  if (!isInsideTrigger && !isInsideMenu) {
-    close()
-  }
-}
-
-watch(isOpen, (newValue) => {
-  if (newValue) {
-    document.addEventListener('click', handleClickOutside)
-    window.addEventListener('scroll', updatePosition, true)
-    window.addEventListener('resize', updatePosition)
-  } else {
-    document.removeEventListener('click', handleClickOutside)
-    window.removeEventListener('scroll', updatePosition, true)
-    window.removeEventListener('resize', updatePosition)
-  }
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-  window.removeEventListener('scroll', updatePosition, true)
-  window.removeEventListener('resize', updatePosition)
-})
 
 const widthClasses = {
   auto: 'w-auto min-w-[10rem]',
@@ -103,19 +57,15 @@ const widthClasses = {
   lg: 'w-64',
 }
 
-const dropdownStyle = computed(() => {
+const computedDropdownStyle = computed(() => {
   if (!props.teleport) return {}
-  return {
-    position: 'absolute' as const,
-    top: `${dropdownPosition.value.top}px`,
-    left: props.align === 'right' ? 'auto' : `${dropdownPosition.value.left}px`,
-    right: props.align === 'right' ? `${dropdownPosition.value.right}px` : 'auto',
-  }
+  const { width: _, ...rest } = dropdownStyle.value
+  return rest
 })
 </script>
 
 <template>
-  <div ref="dropdownRef" class="relative inline-block">
+  <div class="relative inline-block">
     <div ref="triggerRef" @click="toggle">
       <slot name="trigger">
         <button
@@ -143,7 +93,7 @@ const dropdownStyle = computed(() => {
         <div
           v-if="isOpen"
           ref="menuRef"
-          :style="dropdownStyle"
+          :style="computedDropdownStyle"
           :class="[
             'z-[9999] rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800',
             widthClasses[width],

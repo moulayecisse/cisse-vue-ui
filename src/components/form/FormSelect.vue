@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { computed, ref, watch, nextTick, onUnmounted } from 'vue'
+import { computed, ref, watch, nextTick } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { SelectProps, SelectOption } from '@/types'
+import { useDropdown } from '@/composables/useDropdown'
 
 const props = withDefaults(
   defineProps<
@@ -25,13 +26,26 @@ const props = withDefaults(
 
 const modelValue = defineModel<string | number | boolean | null>()
 
-const isOpen = ref(false)
 const searchQuery = ref('')
-const highlightedIndex = ref(-1)
 const triggerRef = ref<HTMLElement>()
 const dropdownRef = ref<HTMLElement>()
 const searchInputRef = ref<HTMLInputElement>()
-const dropdownPosition = ref({ top: 0, left: 0, width: 0 })
+
+const {
+  isOpen,
+  highlightedIndex,
+  dropdownStyle,
+  open: openDropdown,
+  close,
+  handleKeydown: baseHandleKeydown,
+  scrollToHighlighted,
+} = useDropdown(triggerRef, dropdownRef, {
+  teleport: props.teleport,
+  gap: 4,
+  onClose: () => {
+    searchQuery.value = ''
+  },
+})
 
 const visibleOptions = computed(() => {
   return (props.options ?? []).filter((opt) => !opt.hidden)
@@ -59,35 +73,18 @@ const displayValue = computed(() => {
   return props.placeholder || 'Select...'
 })
 
-const updatePosition = () => {
-  if (!triggerRef.value || !props.teleport) return
-  const rect = triggerRef.value.getBoundingClientRect()
-  dropdownPosition.value = {
-    top: rect.bottom + window.scrollY + 4,
-    left: rect.left + window.scrollX,
-    width: rect.width,
-  }
-}
-
 const open = () => {
   if (props.disabled) return
-  isOpen.value = true
   searchQuery.value = ''
   highlightedIndex.value = filteredOptions.value.findIndex(
     (opt) => opt.value === modelValue.value
   )
+  openDropdown()
   nextTick(() => {
-    updatePosition()
     if (props.searchable) {
       searchInputRef.value?.focus()
     }
   })
-}
-
-const close = () => {
-  isOpen.value = false
-  searchQuery.value = ''
-  highlightedIndex.value = -1
 }
 
 const toggle = () => {
@@ -104,96 +101,23 @@ const selectOption = (option: SelectOption) => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  if (!isOpen.value) {
-    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
-      event.preventDefault()
-      open()
-    }
-    return
-  }
-
-  switch (event.key) {
-    case 'ArrowDown':
-      event.preventDefault()
-      highlightedIndex.value = Math.min(
-        highlightedIndex.value + 1,
-        filteredOptions.value.length - 1
-      )
-      scrollToHighlighted()
-      break
-    case 'ArrowUp':
-      event.preventDefault()
-      highlightedIndex.value = Math.max(highlightedIndex.value - 1, 0)
-      scrollToHighlighted()
-      break
-    case 'Enter':
-      event.preventDefault()
-      if (highlightedIndex.value >= 0 && filteredOptions.value[highlightedIndex.value]) {
-        selectOption(filteredOptions.value[highlightedIndex.value])
+  baseHandleKeydown(event, {
+    itemCount: filteredOptions.value.length,
+    onSelect: (index) => {
+      if (filteredOptions.value[index]) {
+        selectOption(filteredOptions.value[index])
       }
-      break
-    case 'Escape':
-      event.preventDefault()
-      close()
-      break
-    case 'Tab':
-      close()
-      break
-  }
-}
-
-const scrollToHighlighted = () => {
-  nextTick(() => {
-    if (dropdownRef.value) {
-      const highlighted = dropdownRef.value.querySelector(
-        `[data-index="${highlightedIndex.value}"]`
-      ) as HTMLElement
-      if (highlighted) {
-        highlighted.scrollIntoView({ block: 'nearest' })
-      }
-    }
+    },
+    onOpen: open,
+    handleOpenKeys: true,
   })
-}
-
-const handleClickOutside = (event: MouseEvent) => {
-  const target = event.target as Node
-  const isInsideTrigger = triggerRef.value?.contains(target)
-  const isInsideDropdown = dropdownRef.value?.contains(target)
-  if (!isInsideTrigger && !isInsideDropdown) {
-    close()
+  if (isOpen.value) {
+    scrollToHighlighted(dropdownRef.value ?? null)
   }
 }
-
-watch(isOpen, (newValue) => {
-  if (newValue) {
-    document.addEventListener('click', handleClickOutside)
-    window.addEventListener('scroll', updatePosition, true)
-    window.addEventListener('resize', updatePosition)
-  } else {
-    document.removeEventListener('click', handleClickOutside)
-    window.removeEventListener('scroll', updatePosition, true)
-    window.removeEventListener('resize', updatePosition)
-  }
-})
 
 watch(searchQuery, () => {
   highlightedIndex.value = 0
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-  window.removeEventListener('scroll', updatePosition, true)
-  window.removeEventListener('resize', updatePosition)
-})
-
-const dropdownStyle = computed(() => {
-  if (!props.teleport) return {}
-  return {
-    position: 'absolute' as const,
-    top: `${dropdownPosition.value.top}px`,
-    left: `${dropdownPosition.value.left}px`,
-    width: `${dropdownPosition.value.width}px`,
-  }
 })
 
 const triggerClasses = computed(() => {

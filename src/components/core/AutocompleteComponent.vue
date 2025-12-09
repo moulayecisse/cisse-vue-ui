@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { AutocompleteOption } from '@/types'
+import { useDropdown } from '@/composables/useDropdown'
 
 const props = withDefaults(
   defineProps<{
@@ -25,13 +26,22 @@ const emit = defineEmits<{
 }>()
 
 const searchQuery = ref('')
-const isOpen = ref(false)
-const highlightedIndex = ref(-1)
 const inputRef = ref<HTMLInputElement | null>(null)
-const dropdownRef = ref<HTMLDivElement | null>(null)
 const containerRef = ref<HTMLDivElement | null>(null)
+const dropdownRef = ref<HTMLDivElement | null>(null)
 const inputWrapperRef = ref<HTMLDivElement | null>(null)
-const dropdownPosition = ref({ top: 0, left: 0, width: 0 })
+
+const {
+  isOpen,
+  highlightedIndex,
+  dropdownStyle,
+  open: openBase,
+  close: closeBase,
+  handleKeydown: baseHandleKeydown,
+  scrollToHighlighted,
+} = useDropdown(inputWrapperRef, dropdownRef, {
+  teleport: props.teleport,
+})
 
 const filteredOptions = computed(() => {
   if (!searchQuery.value) {
@@ -60,31 +70,19 @@ watch(
   { immediate: true },
 )
 
-const updatePosition = () => {
-  if (!inputWrapperRef.value || !props.teleport) return
-  const rect = inputWrapperRef.value.getBoundingClientRect()
-  dropdownPosition.value = {
-    top: rect.bottom + window.scrollY + 8,
-    left: rect.left + window.scrollX,
-    width: rect.width,
-  }
-}
-
 const openDropdown = () => {
   if (props.disabled) return
-  isOpen.value = true
   searchQuery.value = ''
   highlightedIndex.value = -1
+  openBase()
   nextTick(() => {
     inputRef.value?.focus()
-    updatePosition()
   })
 }
 
 const closeDropdown = () => {
-  isOpen.value = false
+  closeBase()
   searchQuery.value = selectedLabel.value
-  highlightedIndex.value = -1
 }
 
 const selectOption = (option: AutocompleteOption) => {
@@ -103,84 +101,18 @@ const clearSelection = () => {
 }
 
 const handleKeydown = (event: KeyboardEvent) => {
-  if (!isOpen.value) return
-
-  switch (event.key) {
-    case 'ArrowDown':
-      event.preventDefault()
-      highlightedIndex.value = Math.min(
-        highlightedIndex.value + 1,
-        filteredOptions.value.length - 1,
-      )
-      scrollToHighlighted()
-      break
-    case 'ArrowUp':
-      event.preventDefault()
-      highlightedIndex.value = Math.max(highlightedIndex.value - 1, 0)
-      scrollToHighlighted()
-      break
-    case 'Enter':
-      event.preventDefault()
-      if (highlightedIndex.value >= 0 && filteredOptions.value[highlightedIndex.value]) {
-        selectOption(filteredOptions.value[highlightedIndex.value])
+  baseHandleKeydown(event, {
+    itemCount: filteredOptions.value.length,
+    onSelect: (index) => {
+      if (filteredOptions.value[index]) {
+        selectOption(filteredOptions.value[index])
       }
-      break
-    case 'Escape':
-      event.preventDefault()
-      closeDropdown()
-      break
-  }
-}
-
-const scrollToHighlighted = () => {
-  nextTick(() => {
-    if (dropdownRef.value) {
-      const highlightedElement = dropdownRef.value.querySelector(
-        `[data-index="${highlightedIndex.value}"]`,
-      ) as HTMLElement
-      if (highlightedElement) {
-        highlightedElement.scrollIntoView({ block: 'nearest' })
-      }
-    }
+    },
   })
-}
-
-const handleClickOutside = (event: MouseEvent) => {
-  const target = event.target as Node
-  const isInsideContainer = containerRef.value?.contains(target)
-  const isInsideDropdown = dropdownRef.value?.contains(target)
-  if (!isInsideContainer && !isInsideDropdown) {
-    closeDropdown()
+  if (isOpen.value) {
+    scrollToHighlighted(dropdownRef.value)
   }
 }
-
-watch(isOpen, (newValue) => {
-  if (newValue) {
-    document.addEventListener('click', handleClickOutside)
-    window.addEventListener('scroll', updatePosition, true)
-    window.addEventListener('resize', updatePosition)
-  } else {
-    document.removeEventListener('click', handleClickOutside)
-    window.removeEventListener('scroll', updatePosition, true)
-    window.removeEventListener('resize', updatePosition)
-  }
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-  window.removeEventListener('scroll', updatePosition, true)
-  window.removeEventListener('resize', updatePosition)
-})
-
-const dropdownStyle = computed(() => {
-  if (!props.teleport) return {}
-  return {
-    position: 'absolute' as const,
-    top: `${dropdownPosition.value.top}px`,
-    left: `${dropdownPosition.value.left}px`,
-    width: `${dropdownPosition.value.width}px`,
-  }
-})
 </script>
 
 <template>

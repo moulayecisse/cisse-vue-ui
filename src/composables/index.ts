@@ -1,3 +1,5 @@
 export { useNotifications } from './useNotifications'
 export { useDarkMode, type DarkModeOptions } from './useDarkMode'
 export { useExportCSV } from './useExportCSV'
+export { useDropdown, type UseDropdownOptions, type UseDropdownReturn, type KeyboardNavigationOptions } from './useDropdown'
+export { useModal, useModals, type UseModalReturn } from './useModal'

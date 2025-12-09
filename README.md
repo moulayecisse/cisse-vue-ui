@@ -151,7 +151,73 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 ## Composables
 
 ```typescript
-import { useNotifications, useDarkMode, useExportCSV } from 'cisse-vue-ui/composables'
+import { useNotifications, useDarkMode, useExportCSV, useDropdown, useModal } from 'cisse-vue-ui/composables'
+```
+
+### useModal
+
+Manage modal state with data support:
+
+```typescript
+import { useModal } from 'cisse-vue-ui/composables'
+
+// Simple modal
+const createModal = useModal()
+createModal.open()
+createModal.close()
+
+// Modal with data (e.g., for editing)
+const editModal = useModal<User>()
+editModal.open(selectedUser)
+// Access editModal.data.value in template
+
+// With callbacks
+const deleteModal = useModal<Item>({
+  onOpen: (data) => console.log('Opening with:', data),
+  onClose: () => refetchData()
+})
+```
+
+```vue
+<template>
+  <!-- Use isOpen for v-model binding -->
+  <Modal v-model="editModal.isOpen.value" title="Edit User">
+    <FormInput v-model="editModal.data.value.name" label="Name" />
+    <template #footer>
+      <Button @click="editModal.close()">Cancel</Button>
+      <Button variant="primary" @click="save">Save</Button>
+    </template>
+  </Modal>
+</template>
+```
+
+### useDropdown
+
+Shared dropdown logic for custom dropdown components (used internally by Dropdown, FormSelect, AutocompleteComponent):
+
+```typescript
+import { useDropdown } from 'cisse-vue-ui/composables'
+import { ref } from 'vue'
+
+const triggerRef = ref<HTMLElement>()
+const dropdownRef = ref<HTMLElement>()
+
+const {
+  isOpen,
+  highlightedIndex,
+  dropdownStyle,
+  open,
+  close,
+  toggle,
+  handleKeydown,
+  scrollToHighlighted,
+} = useDropdown(triggerRef, dropdownRef, {
+  teleport: true,
+  align: 'left',
+  gap: 8,
+  onOpen: () => console.log('Opened'),
+  onClose: () => console.log('Closed'),
+})
 ```
 
 ### useNotifications
