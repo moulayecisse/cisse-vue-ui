@@ -6,9 +6,11 @@ import DateType from '@/components/type/DateType.vue'
 import BooleanType from '@/components/type/BooleanType.vue'
 import BadgeType from '@/components/type/BadgeType.vue'
 import Checkbox from '@/components/form/Checkbox.vue'
-import { computed, type Component, useSlots } from 'vue'
+import { computed, type Component, useSlots, type Slots } from 'vue'
 
 type ItemType = { id: number | string; [key: string]: unknown }
+
+const slots: Slots = useSlots()
 
 const props = withDefaults(
   defineProps<{
@@ -37,8 +39,6 @@ const emit = defineEmits<{
   /** Emitted when select all is toggled */
   selectAll: []
 }>()
-
-const slots = useSlots()
 
 // Type components mapping
 const typeComponents: Record<string, Component> = {
@@ -125,7 +125,7 @@ const handleSelect = (item: ItemType) => {
   emit('select', getKey(item))
 }
 
-const hasActionSlot = computed(() => !!slots.action)
+const hasActionSlot = computed((): boolean => !!slots.action)
 </script>
 
 <template>
