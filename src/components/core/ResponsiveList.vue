@@ -4,6 +4,7 @@ import { useBreakpoints } from '@vueuse/core'
 import type { Property } from '@/types'
 import MobileList from './MobileList.vue'
 import TableComponent from './TableComponent.vue'
+import CardComponent from './CardComponent.vue'
 
 export interface ResponsiveListColumn {
   /** Column key - corresponds to the data field name (alias for 'name' for backward compatibility) */
@@ -169,37 +170,38 @@ const isDesktop = computed(() => breakpoints.greaterOrEqual(props.breakpoint).va
     </MobileList>
 
     <!-- Desktop View -->
-    <TableComponent
-      v-else
-      :items="items"
-      :properties="tableProperties"
-      :key-field="keyField"
-      :selectable="selectable"
-      :selected-items="selectedItems"
-      :selectable-filter="selectableFilter"
-      @select="emit('select', $event)"
-      @select-all="emit('selectAll')"
-    >
-      <!-- Forward cell slots -->
-      <template v-for="col in columns" :key="getColumnKey(col)" #[`item-${getColumnKey(col)}`]="{ item, value }">
-        <slot
-          v-if="hasCellSlot(getColumnKey(col))"
-          :name="`cell-${getColumnKey(col)}`"
-          :item="item"
-          :value="getCellValue(item, getColumnKey(col))"
-        />
-        <template v-else>{{ value }}</template>
-      </template>
+    <CardComponent v-else>
+      <TableComponent
+        :items="items"
+        :properties="tableProperties"
+        :key-field="keyField"
+        :selectable="selectable"
+        :selected-items="selectedItems"
+        :selectable-filter="selectableFilter"
+        @select="emit('select', $event)"
+        @select-all="emit('selectAll')"
+      >
+        <!-- Forward cell slots -->
+        <template v-for="col in columns" :key="getColumnKey(col)" #[`item-${getColumnKey(col)}`]="{ item, value }">
+          <slot
+            v-if="hasCellSlot(getColumnKey(col))"
+            :name="`cell-${getColumnKey(col)}`"
+            :item="item"
+            :value="getCellValue(item, getColumnKey(col))"
+          />
+          <template v-else>{{ value }}</template>
+        </template>
 
-      <!-- Actions slot -->
-      <template v-if="hasActionsSlot" #action="{ item }">
-        <slot name="actions" :item="item" />
-      </template>
+        <!-- Actions slot -->
+        <template v-if="hasActionsSlot" #action="{ item }">
+          <slot name="actions" :item="item" />
+        </template>
 
-      <template #empty>
-        <slot name="empty" />
-      </template>
-    </TableComponent>
+        <template #empty>
+          <slot name="empty" />
+        </template>
+      </TableComponent>
+    </CardComponent>
   </div>
 </template>
 

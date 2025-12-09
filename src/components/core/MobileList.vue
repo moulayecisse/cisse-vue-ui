@@ -95,7 +95,7 @@ const hasEmptySlot = computed(() => !!slots.empty)
     <!-- Select All Header (when selectable) -->
     <div
       v-if="selectable && selectableItems.length > 0"
-      class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl"
+      class="flex items-center gap-3 p-3 bg-white dark:bg-slate-950 rounded-lg shadow-md"
     >
       <Checkbox
         :model-value="allSelected"
@@ -117,9 +117,9 @@ const hasEmptySlot = computed(() => !!slots.empty)
     <div
       v-for="item in items"
       :key="getKey(item)"
-      class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-primary/30 dark:hover:border-primary/50 hover:shadow-md transition-all duration-200"
+      class="bg-white dark:bg-slate-950 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
       :class="{
-        'ring-2 ring-primary border-primary': isSelected(item),
+        'ring-2 ring-primary': isSelected(item),
       }"
     >
       <div class="p-4 flex items-center gap-4">
