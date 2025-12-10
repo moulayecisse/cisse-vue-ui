@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, resolveComponent } from 'vue'
 
-export interface Breadcrumb {
+export interface PageBreadcrumb {
   label: string
   link: string
 }
@@ -12,7 +12,7 @@ defineProps<{
   /** Page description */
   description?: string
   /** Breadcrumb navigation items */
-  breadcrumbs?: Breadcrumb[]
+  breadcrumbs?: PageBreadcrumb[]
 }>()
 
 // Try to resolve RouterLink
