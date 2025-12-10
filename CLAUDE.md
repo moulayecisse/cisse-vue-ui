@@ -12,6 +12,9 @@ bun run dev            # Run playground dev server
 bun run type-check     # TypeScript type checking only
 bun run lint           # ESLint with auto-fix
 bun run test           # Run tests with Vitest
+bun run storybook        # Run Storybook dev server on port 6006
+bun run build-storybook  # Build static Storybook site
+bun run deploy-storybook # Build and deploy Storybook to GitHub Pages
 ```
 
 ## Architecture
