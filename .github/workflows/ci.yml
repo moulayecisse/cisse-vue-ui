@@ -27,7 +27,7 @@ jobs:
         run: bun run type-check
 
       - name: Run unit tests
-        run: bun run test --project=unit
+        run: bun run test --run
 
       - name: Build library
         run: bun run build

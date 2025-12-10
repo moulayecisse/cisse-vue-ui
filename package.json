@@ -1,6 +1,6 @@
 {
   "name": "cisse-vue-ui",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Vue 3 + TypeScript + Tailwind CSS v4 component library",
   "author": "Cisse",
   "license": "MIT",
@@ -98,7 +98,8 @@
     "build:css": "bunx @tailwindcss/cli -i ./src/styles/components.css -o ./dist/style.css --minify",
     "build:watch": "vite build --watch",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest --config vitest.config.ts",
+    "test:storybook": "vitest --project storybook",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --fix",
     "prepublishOnly": "bun run build",
