@@ -68,9 +68,15 @@ if (props.duration > 0) {
     ]"
     role="alert"
   >
-    <Icon :icon="config.icon" :class="['size-5 shrink-0', config.iconColor]" />
+    <Icon
+      :icon="config.icon"
+      :class="['size-5 shrink-0', config.iconColor]"
+    />
     <div class="flex-1 min-w-0">
-      <p v-if="title" class="font-medium text-gray-900 dark:text-white">
+      <p
+        v-if="title"
+        class="font-medium text-gray-900 dark:text-white"
+      >
         {{ title }}
       </p>
       <p class="text-sm text-gray-700 dark:text-gray-300">
@@ -83,7 +89,10 @@ if (props.duration > 0) {
       class="shrink-0 rounded p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
       @click="emit('close')"
     >
-      <Icon icon="lucide:x" class="size-4" />
+      <Icon
+        icon="lucide:x"
+        class="size-4"
+      />
     </button>
   </div>
 </template>

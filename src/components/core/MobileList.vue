@@ -124,26 +124,41 @@ const hasEmptySlot = computed(() => !!slots.empty)
     >
       <div class="p-4 flex items-center gap-4">
         <!-- Checkbox -->
-        <div v-if="selectable" class="flex-shrink-0">
+        <div
+          v-if="selectable"
+          class="flex-shrink-0"
+        >
           <Checkbox
             v-if="isSelectable(item)"
             :model-value="isSelected(item)"
             @update:model-value="handleSelect(item)"
           />
-          <div v-else class="w-5 h-5" />
+          <div
+            v-else
+            class="w-5 h-5"
+          />
         </div>
 
         <!-- Avatar slot -->
-        <slot name="avatar" :item="item" />
+        <slot
+          name="avatar"
+          :item="item"
+        />
 
         <!-- Content -->
         <div class="flex-1 min-w-0">
-          <slot name="content" :item="item" />
+          <slot
+            name="content"
+            :item="item"
+          />
         </div>
 
         <!-- Actions -->
         <div class="flex-shrink-0">
-          <slot name="actions" :item="item" />
+          <slot
+            name="actions"
+            :item="item"
+          />
         </div>
       </div>
     </CardComponent>

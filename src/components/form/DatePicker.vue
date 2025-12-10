@@ -177,13 +177,22 @@ const clear = () => {
           class="rounded p-0.5 hover:bg-gray-100 dark:hover:bg-gray-800"
           @click.stop="clear"
         >
-          <Icon icon="lucide:x" class="size-4 text-gray-400" />
+          <Icon
+            icon="lucide:x"
+            class="size-4 text-gray-400"
+          />
         </button>
-        <Icon icon="lucide:calendar" class="size-4 text-gray-400" />
+        <Icon
+          icon="lucide:calendar"
+          class="size-4 text-gray-400"
+        />
       </div>
     </button>
 
-    <Teleport to="body" :disabled="!teleport">
+    <Teleport
+      to="body"
+      :disabled="!teleport"
+    >
       <Transition
         enter-active-class="transition duration-100 ease-out"
         enter-from-class="opacity-0 scale-95"
@@ -205,7 +214,10 @@ const clear = () => {
               class="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
               @click="prevMonth"
             >
-              <Icon icon="lucide:chevron-left" class="size-5 text-gray-600 dark:text-gray-400" />
+              <Icon
+                icon="lucide:chevron-left"
+                class="size-5 text-gray-600 dark:text-gray-400"
+              />
             </button>
             <span class="font-medium text-gray-900 dark:text-white">{{ monthYear }}</span>
             <button
@@ -213,7 +225,10 @@ const clear = () => {
               class="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
               @click="nextMonth"
             >
-              <Icon icon="lucide:chevron-right" class="size-5 text-gray-600 dark:text-gray-400" />
+              <Icon
+                icon="lucide:chevron-right"
+                class="size-5 text-gray-600 dark:text-gray-400"
+              />
             </button>
           </div>
 

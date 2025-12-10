@@ -46,7 +46,10 @@ const handleInput = (event: Event) => {
 
 <template>
   <div class="w-full">
-    <div v-if="showValue" class="mb-2 flex justify-between text-sm">
+    <div
+      v-if="showValue"
+      class="mb-2 flex justify-between text-sm"
+    >
       <span class="text-gray-600 dark:text-gray-400">{{ min }}</span>
       <span class="font-medium text-gray-900 dark:text-white">{{ displayValue }}</span>
       <span class="text-gray-600 dark:text-gray-400">{{ max }}</span>
@@ -61,7 +64,7 @@ const handleInput = (event: Event) => {
         :disabled="disabled"
         class="slider-input w-full cursor-pointer appearance-none bg-transparent disabled:cursor-not-allowed disabled:opacity-50"
         @input="handleInput"
-      />
+      >
       <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
         <div
           class="h-2 rounded-full bg-primary"

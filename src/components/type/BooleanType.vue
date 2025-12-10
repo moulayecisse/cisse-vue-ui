@@ -25,8 +25,15 @@ const colorClass = boolValue
 </script>
 
 <template>
-  <span :class="colorClass" class="inline-flex items-center gap-1">
-    <Icon v-if="display === 'icon' || display === 'both'" :icon="icon" class="h-4 w-4" />
+  <span
+    :class="colorClass"
+    class="inline-flex items-center gap-1"
+  >
+    <Icon
+      v-if="display === 'icon' || display === 'both'"
+      :icon="icon"
+      class="h-4 w-4"
+    />
     <span v-if="display === 'text' || display === 'both'">{{ label }}</span>
   </span>
 </template>

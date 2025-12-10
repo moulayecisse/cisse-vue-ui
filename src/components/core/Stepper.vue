@@ -103,7 +103,10 @@ const isStepPending = (index: number) => index > getCurrentStepIndex()
             :icon="step.icon"
             class="size-6"
           />
-          <span v-else class="text-sm font-semibold">{{ index + 1 }}</span>
+          <span
+            v-else
+            class="text-sm font-semibold"
+          >{{ index + 1 }}</span>
         </div>
 
         <!-- Step Content -->

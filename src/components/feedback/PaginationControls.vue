@@ -54,8 +54,14 @@ const changePageSize = (event: Event) => {
       <div class="text-sm text-gray-700 dark:text-gray-300 text-center sm:text-left">
         {{ pageLabel }} {{ currentPage }} {{ ofLabel }} {{ totalPages }}
       </div>
-      <div v-if="showPageSize" class="flex items-center justify-center sm:justify-start gap-2">
-        <label class="text-sm text-gray-600 dark:text-gray-400 hidden sm:inline" for="page-size">
+      <div
+        v-if="showPageSize"
+        class="flex items-center justify-center sm:justify-start gap-2"
+      >
+        <label
+          class="text-sm text-gray-600 dark:text-gray-400 hidden sm:inline"
+          for="page-size"
+        >
           {{ itemsPerPageLabel }}
         </label>
         <select
@@ -64,7 +70,11 @@ const changePageSize = (event: Event) => {
           class="focus:border-primary focus:ring-primary rounded border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
           @change="changePageSize"
         >
-          <option v-for="size in pageSizeOptions" :key="size" :value="size">
+          <option
+            v-for="size in pageSizeOptions"
+            :key="size"
+            :value="size"
+          >
             {{ size }}
           </option>
         </select>
@@ -78,7 +88,10 @@ const changePageSize = (event: Event) => {
         class="focus:ring-primary inline-flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 sm:px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
         @click="changePage(currentPage - 1)"
       >
-        <Icon class="h-4 w-4" icon="lucide:chevron-left" />
+        <Icon
+          class="h-4 w-4"
+          icon="lucide:chevron-left"
+        />
         <span class="hidden sm:inline">{{ previousLabel }}</span>
       </button>
       <button
@@ -87,7 +100,10 @@ const changePageSize = (event: Event) => {
         @click="changePage(currentPage + 1)"
       >
         <span class="hidden sm:inline">{{ nextLabel }}</span>
-        <Icon class="h-4 w-4" icon="lucide:chevron-right" />
+        <Icon
+          class="h-4 w-4"
+          icon="lucide:chevron-right"
+        />
       </button>
     </div>
   </div>

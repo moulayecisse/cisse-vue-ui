@@ -137,7 +137,10 @@ const hasActionSlot = computed((): boolean => !!slots.action)
         >
           <tr>
             <!-- Selection header -->
-            <th v-if="selectable" class="w-12 px-3 py-3">
+            <th
+              v-if="selectable"
+              class="w-12 px-3 py-3"
+            >
               <Checkbox
                 :model-value="allSelected"
                 :indeterminate="someSelected"
@@ -151,12 +154,18 @@ const hasActionSlot = computed((): boolean => !!slots.action)
               :key="property.name"
               :class="[getAlignmentClass(property.align), 'px-3 py-3']"
             >
-              <slot :name="'header-' + property.name" :property>
+              <slot
+                :name="'header-' + property.name"
+                :property
+              >
                 {{ property.label ?? property.name }}
               </slot>
             </th>
 
-            <th v-if="hasActionSlot" class="px-3 py-3 text-right"></th>
+            <th
+              v-if="hasActionSlot"
+              class="px-3 py-3 text-right"
+            />
           </tr>
         </thead>
 
@@ -168,7 +177,10 @@ const hasActionSlot = computed((): boolean => !!slots.action)
             :class="{ 'bg-primary/5 dark:bg-primary/10': isSelected(item) }"
           >
             <!-- Selection cell -->
-            <td v-if="selectable" class="px-3 py-4">
+            <td
+              v-if="selectable"
+              class="px-3 py-4"
+            >
               <Checkbox
                 v-if="isSelectable(item)"
                 :model-value="isSelected(item)"
@@ -199,8 +211,14 @@ const hasActionSlot = computed((): boolean => !!slots.action)
               </slot>
             </td>
 
-            <td v-if="hasActionSlot" class="flex items-center justify-end gap-2 px-3 py-4">
-              <slot :item="item" name="action"></slot>
+            <td
+              v-if="hasActionSlot"
+              class="flex items-center justify-end gap-2 px-3 py-4"
+            >
+              <slot
+                :item="item"
+                name="action"
+              />
             </td>
           </tr>
         </tbody>
@@ -209,7 +227,7 @@ const hasActionSlot = computed((): boolean => !!slots.action)
 
     <!-- Empty state -->
     <div v-if="!items || items.length === 0">
-      <slot name="empty"></slot>
+      <slot name="empty" />
     </div>
   </div>
 </template>

@@ -138,15 +138,19 @@ const triggerClasses = computed(() => {
   <div class="relative">
     <!-- Trigger -->
     <button
+      :id="id ?? name ?? undefined"
       ref="triggerRef"
       type="button"
-      :id="id ?? name ?? undefined"
       :disabled="disabled"
       :class="triggerClasses"
       @click="toggle"
       @keydown="handleKeydown"
     >
-      <slot name="selected" :option="selectedOption" :placeholder="placeholder">
+      <slot
+        name="selected"
+        :option="selectedOption"
+        :placeholder="placeholder"
+      >
         <span class="flex-1 truncate">{{ displayValue }}</span>
       </slot>
       <Icon
@@ -156,7 +160,10 @@ const triggerClasses = computed(() => {
     </button>
 
     <!-- Dropdown -->
-    <Teleport to="body" :disabled="!teleport">
+    <Teleport
+      to="body"
+      :disabled="!teleport"
+    >
       <Transition
         enter-active-class="transition duration-100 ease-out"
         enter-from-class="opacity-0 scale-95"
@@ -175,9 +182,15 @@ const triggerClasses = computed(() => {
           ]"
         >
           <!-- Search input -->
-          <div v-if="searchable" class="sticky top-0 border-b border-gray-200 bg-white p-2 dark:border-gray-700 dark:bg-gray-800">
+          <div
+            v-if="searchable"
+            class="sticky top-0 border-b border-gray-200 bg-white p-2 dark:border-gray-700 dark:bg-gray-800"
+          >
             <div class="flex items-center gap-2 rounded-md border border-gray-300 bg-gray-50 px-2 py-1.5 dark:border-gray-600 dark:bg-gray-900">
-              <Icon icon="lucide:search" class="size-4 text-gray-400" />
+              <Icon
+                icon="lucide:search"
+                class="size-4 text-gray-400"
+              />
               <input
                 ref="searchInputRef"
                 v-model="searchQuery"
@@ -185,7 +198,7 @@ const triggerClasses = computed(() => {
                 class="flex-1 bg-transparent text-sm outline-none dark:text-white"
                 placeholder="Search..."
                 @keydown="handleKeydown"
-              />
+              >
             </div>
           </div>
 
@@ -213,13 +226,21 @@ const triggerClasses = computed(() => {
               @click="selectOption(option)"
               @mouseenter="highlightedIndex = index"
             >
-              <slot name="option" :option="option" :selected="modelValue === option.value" :index="index">
+              <slot
+                name="option"
+                :option="option"
+                :selected="modelValue === option.value"
+                :index="index"
+              >
                 <Icon
                   v-if="modelValue === option.value"
                   icon="lucide:check"
                   class="size-4 shrink-0 text-primary"
                 />
-                <span v-else class="size-4 shrink-0" />
+                <span
+                  v-else
+                  class="size-4 shrink-0"
+                />
                 <span class="flex-1">{{ option.label }}</span>
               </slot>
             </button>

@@ -12,7 +12,10 @@ const isActive = computed(() => activeTab?.value === props.value)
 </script>
 
 <template>
-  <div v-show="isActive" role="tabpanel">
+  <div
+    v-show="isActive"
+    role="tabpanel"
+  >
     <slot />
   </div>
 </template>

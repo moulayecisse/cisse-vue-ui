@@ -30,7 +30,10 @@ const variantClasses: Record<SkeletonVariant, string> = {
 </script>
 
 <template>
-  <div v-if="variant === 'text' && lines > 1" class="space-y-2">
+  <div
+    v-if="variant === 'text' && lines > 1"
+    class="space-y-2"
+  >
     <div
       v-for="i in lines"
       :key="i"

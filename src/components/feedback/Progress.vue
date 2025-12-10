@@ -55,7 +55,10 @@ const variantClasses: Record<ProgressVariant, string> = {
 
 <template>
   <div class="w-full">
-    <div v-if="showLabel && !indeterminate" class="mb-1 flex justify-between text-sm">
+    <div
+      v-if="showLabel && !indeterminate"
+      class="mb-1 flex justify-between text-sm"
+    >
       <span class="text-gray-600 dark:text-gray-400">Progress</span>
       <span class="font-medium text-gray-900 dark:text-white">{{ Math.round(percentage) }}%</span>
     </div>

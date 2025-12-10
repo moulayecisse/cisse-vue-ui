@@ -63,11 +63,17 @@ const widthClasses = {
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <div ref="triggerRef" @click="handleTrigger">
+    <div
+      ref="triggerRef"
+      @click="handleTrigger"
+    >
       <slot name="trigger" />
     </div>
 
-    <Teleport to="body" :disabled="!teleport">
+    <Teleport
+      to="body"
+      :disabled="!teleport"
+    >
       <Transition
         enter-active-class="transition duration-150 ease-out"
         enter-from-class="opacity-0 scale-95"

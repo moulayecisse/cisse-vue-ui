@@ -78,7 +78,7 @@ const linkProps = computed(() => {
       <span
         v-if="menuItem.notification"
         class="absolute top-0.25 right-0.25 size-1.5 rounded-full bg-red-600"
-      ></span>
+      />
     </div>
 
     <Transition
@@ -97,8 +97,7 @@ const linkProps = computed(() => {
             : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500'
         "
         class="text-sm font-semibold whitespace-nowrap"
-        >{{ menuItem.label }}</span
-      >
+      >{{ menuItem.label }}</span>
     </Transition>
   </component>
 </template>

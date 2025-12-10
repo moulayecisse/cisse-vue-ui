@@ -69,6 +69,10 @@ const linkProps = computed(() => {
     :class="colorClass"
     class="group flex size-8 items-center justify-center rounded-lg border"
   >
-    <Icon :class="iconColorClass" :icon class="size-4" />
+    <Icon
+      :class="iconColorClass"
+      :icon
+      class="size-4"
+    />
   </component>
 </template>

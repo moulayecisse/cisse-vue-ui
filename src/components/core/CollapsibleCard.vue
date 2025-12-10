@@ -25,7 +25,10 @@ const toggle = () => {
 </script>
 
 <template>
-  <CardComponent :title="title" :description="description">
+  <CardComponent
+    :title="title"
+    :description="description"
+  >
     <template #actions>
       <slot name="actions" />
       <button
@@ -48,7 +51,10 @@ const toggle = () => {
       leave-from-class="opacity-100 max-h-[2000px]"
       leave-to-class="opacity-0 max-h-0"
     >
-      <div v-show="isExpanded" class="overflow-hidden">
+      <div
+        v-show="isExpanded"
+        class="overflow-hidden"
+      >
         <div class="space-y-4 p-6">
           <slot />
         </div>

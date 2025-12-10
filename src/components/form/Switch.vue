@@ -72,11 +72,20 @@ const translateSizes = {
         ]"
       />
     </button>
-    <div v-if="label || description" class="flex flex-col">
-      <span v-if="label" class="text-sm font-medium text-gray-900 dark:text-white">
+    <div
+      v-if="label || description"
+      class="flex flex-col"
+    >
+      <span
+        v-if="label"
+        class="text-sm font-medium text-gray-900 dark:text-white"
+      >
         {{ label }}
       </span>
-      <span v-if="description" class="text-sm text-gray-500 dark:text-gray-400">
+      <span
+        v-if="description"
+        class="text-sm text-gray-500 dark:text-gray-400"
+      >
         {{ description }}
       </span>
     </div>

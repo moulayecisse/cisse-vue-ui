@@ -66,13 +66,18 @@ const computedDropdownStyle = computed(() => {
 
 <template>
   <div class="relative inline-block">
-    <div ref="triggerRef" @click="toggle">
+    <div
+      ref="triggerRef"
+      @click="toggle"
+    >
       <slot name="trigger">
         <button
           type="button"
           class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
         >
-          <slot name="trigger-label">Options</slot>
+          <slot name="trigger-label">
+            Options
+          </slot>
           <Icon
             icon="lucide:chevron-down"
             :class="['size-4 transition-transform', isOpen && 'rotate-180']"
@@ -81,7 +86,10 @@ const computedDropdownStyle = computed(() => {
       </slot>
     </div>
 
-    <Teleport to="body" :disabled="!teleport">
+    <Teleport
+      to="body"
+      :disabled="!teleport"
+    >
       <Transition
         enter-active-class="transition ease-out duration-100"
         enter-from-class="transform opacity-0 scale-95"
@@ -103,7 +111,10 @@ const computedDropdownStyle = computed(() => {
           <!-- Custom content via default slot -->
           <slot :close="close">
             <!-- Default items rendering -->
-            <template v-for="item in items" :key="item.key">
+            <template
+              v-for="item in items"
+              :key="item.key"
+            >
               <div
                 v-if="item.divider"
                 class="my-1 border-t border-gray-200 dark:border-gray-700"
@@ -122,7 +133,11 @@ const computedDropdownStyle = computed(() => {
                 ]"
                 @click="selectItem(item)"
               >
-                <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
+                <Icon
+                  v-if="item.icon"
+                  :icon="item.icon"
+                  class="size-4"
+                />
                 {{ item.label }}
               </button>
             </template>

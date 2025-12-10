@@ -19,8 +19,13 @@ const sizeClasses: Record<SpinnerSize, string> = {
       <div
         :class="sizeClasses[size]"
         class="border-primary inline-block animate-spin rounded-full border-4 border-solid border-r-transparent"
-      ></div>
-      <p v-if="text" class="mt-4 text-gray-600 dark:text-gray-400">{{ text }}</p>
+      />
+      <p
+        v-if="text"
+        class="mt-4 text-gray-600 dark:text-gray-400"
+      >
+        {{ text }}
+      </p>
     </div>
   </div>
 </template>

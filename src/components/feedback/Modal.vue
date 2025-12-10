@@ -78,7 +78,10 @@ onUnmounted(() => {
           type="button"
           @click="emit('close')"
         >
-          <Icon class="h-5 w-5" icon="lucide:x" />
+          <Icon
+            class="h-5 w-5"
+            icon="lucide:x"
+          />
           <span class="sr-only">{{ closeButtonLabel }}</span>
         </button>
       </div>

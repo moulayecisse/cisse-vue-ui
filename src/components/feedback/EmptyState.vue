@@ -24,13 +24,19 @@ withDefaults(
       :icon="icon"
       class="mx-auto mb-4 size-12 text-gray-400 dark:text-gray-500"
     />
-    <h3 v-if="title" class="mb-2 text-lg font-medium text-gray-900 dark:text-white">
+    <h3
+      v-if="title"
+      class="mb-2 text-lg font-medium text-gray-900 dark:text-white"
+    >
       {{ title }}
     </h3>
     <p class="text-gray-500 dark:text-gray-400">
       <slot>{{ message }}</slot>
     </p>
-    <div v-if="$slots.action" class="mt-4">
+    <div
+      v-if="$slots.action"
+      class="mt-4"
+    >
       <slot name="action" />
     </div>
   </div>

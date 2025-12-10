@@ -83,7 +83,10 @@ const styles = variantStyles[props.variant]
       class="shrink-0 rounded p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
       @click="emit('dismiss')"
     >
-      <Icon icon="lucide:x" class="size-4" />
+      <Icon
+        icon="lucide:x"
+        class="size-4"
+      />
     </button>
   </div>
 </template>

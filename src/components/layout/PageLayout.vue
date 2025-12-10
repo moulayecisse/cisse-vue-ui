@@ -39,7 +39,10 @@ const getLinkProps = (link: string) => {
 <template>
   <div class="flex flex-col gap-4">
     <!-- Breadcrumbs -->
-    <nav v-if="breadcrumbs && breadcrumbs.length > 0" aria-label="Breadcrumb">
+    <nav
+      v-if="breadcrumbs && breadcrumbs.length > 0"
+      aria-label="Breadcrumb"
+    >
       <ol class="flex items-center">
         <li
           v-for="(breadcrumb, index) in breadcrumbs"
@@ -53,7 +56,12 @@ const getLinkProps = (link: string) => {
             /
           </span>
 
-          <slot name="breadcrumb" :breadcrumb="breadcrumb" :index="index" :isLast="index === breadcrumbs.length - 1">
+          <slot
+            name="breadcrumb"
+            :breadcrumb="breadcrumb"
+            :index="index"
+            :is-last="index === breadcrumbs.length - 1"
+          >
             <component
               :is="linkComponent"
               v-bind="getLinkProps(breadcrumb.link)"
@@ -78,14 +86,18 @@ const getLinkProps = (link: string) => {
           v-if="title"
           class="text-2xl font-bold text-gray-900 dark:text-gray-100"
         >
-          <slot name="title">{{ title }}</slot>
+          <slot name="title">
+            {{ title }}
+          </slot>
         </h1>
 
         <p
           v-if="description"
           class="text-sm text-gray-600 dark:text-gray-400"
         >
-          <slot name="description">{{ description }}</slot>
+          <slot name="description">
+            {{ description }}
+          </slot>
         </p>
       </div>
 

@@ -116,8 +116,14 @@ const handleKeydown = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <div ref="containerRef" class="autocomplete-container">
-    <label v-if="label" class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+  <div
+    ref="containerRef"
+    class="autocomplete-container"
+  >
+    <label
+      v-if="label"
+      class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
+    >
       {{ label }}
     </label>
 
@@ -132,7 +138,10 @@ const handleKeydown = (event: KeyboardEvent) => {
         }"
         class="flex items-center gap-2 rounded-lg border bg-white px-3 py-2 transition dark:bg-gray-800"
       >
-        <Icon class="size-5 text-gray-400" icon="lucide:search" />
+        <Icon
+          class="size-5 text-gray-400"
+          icon="lucide:search"
+        />
 
         <input
           ref="inputRef"
@@ -143,7 +152,7 @@ const handleKeydown = (event: KeyboardEvent) => {
           type="text"
           @focus="openDropdown"
           @keydown="handleKeydown"
-        />
+        >
 
         <button
           v-if="modelValue && !disabled"
@@ -151,7 +160,10 @@ const handleKeydown = (event: KeyboardEvent) => {
           type="button"
           @click.stop="clearSelection"
         >
-          <Icon class="size-4 text-gray-400" icon="lucide:x" />
+          <Icon
+            class="size-4 text-gray-400"
+            icon="lucide:x"
+          />
         </button>
 
         <button
@@ -169,7 +181,10 @@ const handleKeydown = (event: KeyboardEvent) => {
       </div>
 
       <!-- Dropdown -->
-      <Teleport to="body" :disabled="!teleport">
+      <Teleport
+        to="body"
+        :disabled="!teleport"
+      >
         <Transition
           enter-active-class="transition duration-100 ease-out"
           enter-from-class="opacity-0 scale-95"
@@ -187,7 +202,10 @@ const handleKeydown = (event: KeyboardEvent) => {
               !teleport && 'absolute mt-2 w-full',
             ]"
           >
-            <div v-if="filteredOptions.length === 0" class="px-4 py-3 text-sm text-gray-500">
+            <div
+              v-if="filteredOptions.length === 0"
+              class="px-4 py-3 text-sm text-gray-500"
+            >
               {{ noResultsText || 'No results found' }}
             </div>
 
@@ -216,6 +234,11 @@ const handleKeydown = (event: KeyboardEvent) => {
       </Teleport>
     </div>
 
-    <p v-if="error" class="mt-1 text-sm text-red-600">{{ error }}</p>
+    <p
+      v-if="error"
+      class="mt-1 text-sm text-red-600"
+    >
+      {{ error }}
+    </p>
   </div>
 </template>

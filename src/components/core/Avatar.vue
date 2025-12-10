@@ -86,9 +86,13 @@ const showImage = computed(() => props.src && !imageError.value)
         :alt="alt || name"
         class="size-full object-cover"
         @error="imageError = true"
-      />
+      >
       <span v-else-if="initials">{{ initials }}</span>
-      <Icon v-else icon="lucide:user" class="size-1/2" />
+      <Icon
+        v-else
+        icon="lucide:user"
+        class="size-1/2"
+      />
     </div>
     <span
       v-if="status"

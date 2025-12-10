@@ -151,16 +151,28 @@ const isDesktop = computed(() => breakpoints.greaterOrEqual(props.breakpoint).va
       @select-all="emit('selectAll')"
     >
       <template #avatar="{ item }">
-        <slot name="avatar" :item="item" />
+        <slot
+          name="avatar"
+          :item="item"
+        />
       </template>
 
       <template #content="{ item }">
-        <slot name="mobileContent" :item="item" />
+        <slot
+          name="mobileContent"
+          :item="item"
+        />
       </template>
 
       <template #actions="{ item }">
-        <slot name="mobileActions" :item="item">
-          <slot name="actions" :item="item" />
+        <slot
+          name="mobileActions"
+          :item="item"
+        >
+          <slot
+            name="actions"
+            :item="item"
+          />
         </slot>
       </template>
 
@@ -182,19 +194,31 @@ const isDesktop = computed(() => breakpoints.greaterOrEqual(props.breakpoint).va
         @select-all="emit('selectAll')"
       >
         <!-- Forward cell slots -->
-        <template v-for="col in columns" :key="getColumnKey(col)" #[`item-${getColumnKey(col)}`]="{ item, value }">
+        <template
+          v-for="col in columns"
+          :key="getColumnKey(col)"
+          #[`item-${getColumnKey(col)}`]="{ item, value }"
+        >
           <slot
             v-if="hasCellSlot(getColumnKey(col))"
             :name="`cell-${getColumnKey(col)}`"
             :item="item"
             :value="getCellValue(item, getColumnKey(col))"
           />
-          <template v-else>{{ value }}</template>
+          <template v-else>
+            {{ value }}
+          </template>
         </template>
 
         <!-- Actions slot -->
-        <template v-if="hasActionsSlot" #action="{ item }">
-          <slot name="actions" :item="item" />
+        <template
+          v-if="hasActionsSlot"
+          #action="{ item }"
+        >
+          <slot
+            name="actions"
+            :item="item"
+          />
         </template>
 
         <template #empty>

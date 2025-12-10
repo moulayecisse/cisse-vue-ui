@@ -63,7 +63,13 @@ const positionClasses = computed(() => {
 </script>
 
 <template>
-  <div class="relative inline-block" @mouseenter="show" @mouseleave="hide" @focus="show" @blur="hide">
+  <div
+    class="relative inline-block"
+    @mouseenter="show"
+    @mouseleave="hide"
+    @focus="show"
+    @blur="hide"
+  >
     <slot />
     <Transition
       enter-active-class="transition duration-150 ease-out"
@@ -73,7 +79,11 @@ const positionClasses = computed(() => {
       leave-from-class="opacity-100 scale-100"
       leave-to-class="opacity-0 scale-95"
     >
-      <div v-if="isVisible && content" :class="positionClasses" role="tooltip">
+      <div
+        v-if="isVisible && content"
+        :class="positionClasses"
+        role="tooltip"
+      >
         {{ content }}
       </div>
     </Transition>

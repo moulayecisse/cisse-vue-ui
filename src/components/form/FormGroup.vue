@@ -18,10 +18,17 @@ const isSelect = computed(() => props.select === true)
 </script>
 
 <template>
-  <div :style="{ gridColumn: computedCols }" :hidden="hidden">
+  <div
+    :style="{ gridColumn: computedCols }"
+    :hidden="hidden"
+  >
     <slot>
       <slot name="label">
-        <FormLabel v-if="label" :html-for="id ?? name" :error="error">
+        <FormLabel
+          v-if="label"
+          :html-for="id ?? name"
+          :error="error"
+        >
           {{ label }}
         </FormLabel>
       </slot>
@@ -39,7 +46,10 @@ const isSelect = computed(() => props.select === true)
         />
       </slot>
 
-      <FormHelp v-if="error && typeof error === 'string'" :error="true">
+      <FormHelp
+        v-if="error && typeof error === 'string'"
+        :error="true"
+      >
         {{ error }}
       </FormHelp>
     </slot>

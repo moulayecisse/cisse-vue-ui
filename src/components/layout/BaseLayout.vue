@@ -131,7 +131,7 @@ const handleUserMenuClick = (item: UserMenuItem) => {
       v-if="sidebarOpenModel"
       class="absolute z-40 h-full w-full bg-slate-950/20 lg:hidden dark:bg-white/20"
       @click="sidebarOpenModel = false"
-    ></div>
+    />
 
     <!-- Sidebar -->
     <aside
@@ -148,7 +148,10 @@ const handleUserMenuClick = (item: UserMenuItem) => {
             <div
               class="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-lg bg-white/20"
             >
-              <Icon class="size-5 text-white" :icon="appIcon" />
+              <Icon
+                class="size-5 text-white"
+                :icon="appIcon"
+              />
             </div>
             <span
               :class="sidebarOpenModel ? 'block' : 'hidden'"
@@ -163,7 +166,10 @@ const handleUserMenuClick = (item: UserMenuItem) => {
           class="rounded-lg bg-white/10 p-1 transition hover:bg-white/20 lg:hidden"
           @click="toggleSidebar"
         >
-          <Icon class="size-6 text-white" icon="lucide:menu" />
+          <Icon
+            class="size-6 text-white"
+            icon="lucide:menu"
+          />
         </button>
       </div>
 
@@ -172,7 +178,10 @@ const handleUserMenuClick = (item: UserMenuItem) => {
         :class="sidebarOpenModel ? 'items-start' : 'items-center'"
         class="flex flex-1 flex-col gap-8 px-2 lg:justify-center"
       >
-        <slot name="menu" :current-path="currentPath">
+        <slot
+          name="menu"
+          :current-path="currentPath"
+        >
           <MenuItem
             v-for="(item, index) in menuItems"
             :key="index"
@@ -226,7 +235,10 @@ const handleUserMenuClick = (item: UserMenuItem) => {
           </button>
 
           <!-- User Menu -->
-          <Dropdown v-if="userName || userAvatar" align="right">
+          <Dropdown
+            v-if="userName || userAvatar"
+            align="right"
+          >
             <template #trigger>
               <button
                 class="flex items-center gap-2 rounded-lg p-1.5 transition hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -239,7 +251,10 @@ const handleUserMenuClick = (item: UserMenuItem) => {
                 <span class="hidden text-sm font-medium text-gray-700 dark:text-gray-300 md:block">
                   {{ userName }}
                 </span>
-                <Icon icon="lucide:chevron-down" class="size-4 text-gray-500" />
+                <Icon
+                  icon="lucide:chevron-down"
+                  class="size-4 text-gray-500"
+                />
               </button>
             </template>
 
@@ -253,7 +268,11 @@ const handleUserMenuClick = (item: UserMenuItem) => {
                   class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                   @click="handleUserMenuClick(item); close()"
                 >
-                  <Icon v-if="item.icon" :icon="item.icon" class="size-4" />
+                  <Icon
+                    v-if="item.icon"
+                    :icon="item.icon"
+                    class="size-4"
+                  />
                   {{ item.label }}
                 </component>
               </div>
@@ -266,7 +285,10 @@ const handleUserMenuClick = (item: UserMenuItem) => {
       <div class="flex flex-1 flex-col overflow-y-auto">
         <main class="container mx-auto flex flex-1 flex-col gap-5 p-5">
           <slot>
-            <component :is="routerViewComponent" v-if="routerViewComponent" />
+            <component
+              :is="routerViewComponent"
+              v-if="routerViewComponent"
+            />
           </slot>
         </main>
       </div>

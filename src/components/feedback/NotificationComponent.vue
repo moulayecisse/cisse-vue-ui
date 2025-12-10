@@ -79,14 +79,24 @@ onMounted(() => {
     class="flex max-w-md items-start space-x-3 rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-800 dark:bg-black"
   >
     <div :class="[bgColor, 'flex items-center justify-center rounded-full p-2']">
-      <Icon :class="iconColor" :icon="iconName" class="h-5 w-5" />
+      <Icon
+        :class="iconColor"
+        :icon="iconName"
+        class="h-5 w-5"
+      />
     </div>
 
     <div class="flex min-w-0 flex-1 flex-col">
-      <h4 v-if="notification.title" class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+      <h4
+        v-if="notification.title"
+        class="text-sm font-semibold text-gray-900 dark:text-gray-100"
+      >
         {{ notification.title }}
       </h4>
-      <p v-if="notification.message" class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+      <p
+        v-if="notification.message"
+        class="mt-1 text-sm text-gray-600 dark:text-gray-400"
+      >
         {{ notification.message }}
       </p>
     </div>
@@ -95,7 +105,10 @@ onMounted(() => {
       class="shrink-0 text-gray-400 transition-colors hover:text-gray-600 dark:text-gray-600 dark:hover:text-gray-400"
       @click="handleDismiss"
     >
-      <Icon class="h-4 w-4" icon="lucide:x" />
+      <Icon
+        class="h-4 w-4"
+        icon="lucide:x"
+      />
     </button>
   </div>
 </template>
