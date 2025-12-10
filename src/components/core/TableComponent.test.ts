@@ -264,8 +264,8 @@ describe('TableComponent', () => {
 
     it('uses custom keyField', async () => {
       const itemsWithUuid = [
-        { uuid: 'abc-123', name: 'Item 1' },
-        { uuid: 'def-456', name: 'Item 2' },
+        { id: 1, uuid: 'abc-123', name: 'Item 1' },
+        { id: 2, uuid: 'def-456', name: 'Item 2' },
       ]
 
       const wrapper = mount(TableComponent, {

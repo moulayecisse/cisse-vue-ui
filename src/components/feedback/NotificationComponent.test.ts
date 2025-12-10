@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import NotificationComponent from './NotificationComponent.vue'
 
@@ -30,7 +30,7 @@ describe('NotificationComponent', () => {
   it('does not render title when not provided', () => {
     const wrapper = mount(NotificationComponent, {
       props: {
-        notification: { id: '1', type: 'info', message: 'Message only' },
+        notification: { id: '1', type: 'info' as const, message: 'Message only' },
       },
     })
 
@@ -41,7 +41,7 @@ describe('NotificationComponent', () => {
   it('does not render message when not provided', () => {
     const wrapper = mount(NotificationComponent, {
       props: {
-        notification: { id: '1', type: 'info', title: 'Title only' },
+        notification: { id: '1', type: 'info' as const, title: 'Title only', message: '' },
       },
     })
 

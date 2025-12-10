@@ -171,7 +171,7 @@ describe('MobileList', () => {
         props: {
           items: mockItems,
           selectable: true,
-          selectableFilter: (item: { id: number }) => item.id !== 2,
+          selectableFilter: (item) => item.id !== 2,
         },
       })
 
@@ -183,8 +183,8 @@ describe('MobileList', () => {
 
   it('uses custom keyField', () => {
     const customItems = [
-      { customId: 'a', name: 'Item A' },
-      { customId: 'b', name: 'Item B' },
+      { id: 'a', customId: 'a', name: 'Item A' },
+      { id: 'b', customId: 'b', name: 'Item B' },
     ]
 
     const wrapper = mount(MobileList, {

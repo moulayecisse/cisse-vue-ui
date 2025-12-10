@@ -63,11 +63,15 @@ describe('FormSelect', () => {
   })
 
   it('closes dropdown when option is selected', async () => {
+    let currentValue: string | number | boolean | null | undefined = null
     const wrapper = mount(FormSelect, {
       props: {
         options: mockOptions,
-        modelValue: null,
-        'onUpdate:modelValue': (value: string) => wrapper.setProps({ modelValue: value }),
+        modelValue: currentValue,
+        'onUpdate:modelValue': (value: string | number | boolean | null | undefined) => {
+          currentValue = value
+          wrapper.setProps({ modelValue: currentValue })
+        },
       },
       attachTo: document.body,
     })

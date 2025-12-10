@@ -25,10 +25,14 @@ describe('FormInput', () => {
   })
 
   it('binds v-model correctly', async () => {
+    let currentValue = 'initial'
     const wrapper = mount(FormInput, {
       props: {
-        modelValue: 'initial',
-        'onUpdate:modelValue': (value: string) => wrapper.setProps({ modelValue: value }),
+        modelValue: currentValue,
+        'onUpdate:modelValue': (value: string | undefined) => {
+          currentValue = value ?? ''
+          wrapper.setProps({ modelValue: currentValue })
+        },
       },
     })
 

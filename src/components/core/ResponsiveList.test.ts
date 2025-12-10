@@ -160,8 +160,8 @@ describe('ResponsiveList', () => {
 
   it('uses custom keyField', () => {
     const customItems = [
-      { customId: 'a', name: 'Item A' },
-      { customId: 'b', name: 'Item B' },
+      { id: 'a', customId: 'a', name: 'Item A' },
+      { id: 'b', customId: 'b', name: 'Item B' },
     ]
 
     const wrapper = mount(ResponsiveList, {
