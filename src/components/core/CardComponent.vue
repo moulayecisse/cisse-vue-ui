@@ -7,8 +7,17 @@ defineProps<{
 
 <template>
   <div class="flex flex-col overflow-hidden rounded-lg bg-white shadow-md dark:bg-slate-950">
+    <!-- Custom header slot (replaces standard header) -->
     <div
-      v-if="title || description || $slots.title || $slots.description || $slots.actions"
+      v-if="$slots.header"
+      class="border-b border-gray-200 dark:border-gray-700"
+    >
+      <slot name="header" />
+    </div>
+
+    <!-- Standard header with title/description/actions -->
+    <div
+      v-else-if="title || description || $slots.title || $slots.description || $slots.actions"
       class="flex items-center justify-between border-b border-gray-200 px-5 py-3 dark:border-gray-700"
     >
       <div class="flex flex-col gap-0.5">
