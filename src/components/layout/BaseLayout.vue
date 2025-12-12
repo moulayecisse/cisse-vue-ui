@@ -199,7 +199,7 @@ const handleUserMenuClick = (item: UserMenuItem) => {
     </aside>
 
     <!-- Main Content Area -->
-    <div class="flex flex-1 flex-col">
+    <div class="flex flex-1 flex-col min-w-0">
       <!-- Header -->
       <header
         class="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 dark:border-slate-800 dark:bg-slate-950"
