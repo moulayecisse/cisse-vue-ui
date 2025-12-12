@@ -1,22 +1,22 @@
 import { ref, readonly } from 'vue'
+import { uid } from 'uid'
 import type { Notification, NotificationType, NotificationOptions } from '@/types'
+
+// Global state (singleton pattern) - shared across all useNotifications() calls
+const notifications = ref<Notification[]>([])
 
 /**
  * Composable for managing notifications/toasts
- * Standalone implementation without Pinia dependency
+ * Uses singleton pattern - all components share the same notifications state
  */
 export function useNotifications() {
-  const notifications = ref<Notification[]>([])
-  let idCounter = 0
-
-  const generateId = () => `notification-${++idCounter}-${Date.now()}`
 
   const notify = (
     type: NotificationType,
     message: string,
     options: NotificationOptions = {},
   ): string => {
-    const id = generateId()
+    const id = uid()
     const notification: Notification = {
       id,
       type,

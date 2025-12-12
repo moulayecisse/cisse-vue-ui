@@ -4,6 +4,9 @@ import { useNotifications } from './useNotifications'
 describe('useNotifications', () => {
   beforeEach(() => {
     vi.useFakeTimers()
+    // Clear global notifications state before each test (singleton pattern)
+    const { clear } = useNotifications()
+    clear()
   })
 
   afterEach(() => {
@@ -15,7 +18,8 @@ describe('useNotifications', () => {
 
     const id = notify('info', 'Test message')
 
-    expect(id).toMatch(/^notification-\d+-\d+$/)
+    expect(typeof id).toBe('string')
+    expect(id.length).toBeGreaterThan(0)
     expect(notifications.value).toHaveLength(1)
     expect(notifications.value[0]).toMatchObject({
       type: 'info',
