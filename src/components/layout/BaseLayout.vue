@@ -125,7 +125,7 @@ const handleUserMenuClick = (item: UserMenuItem) => {
 </script>
 
 <template>
-  <div class="font-inter relative flex h-dvh bg-gray-100 dark:bg-slate-900">
+  <div class="font-inter relative flex h-dvh overflow-hidden bg-gray-100 dark:bg-slate-900">
     <!-- Backdrop for mobile -->
     <div
       v-if="sidebarOpenModel"

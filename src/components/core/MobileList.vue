@@ -146,7 +146,7 @@ const hasEmptySlot = computed(() => !!slots.empty)
         />
 
         <!-- Content -->
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 overflow-hidden">
           <slot
             name="content"
             :item="item"
