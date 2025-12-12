@@ -80,11 +80,11 @@ const getLinkProps = (link: string) => {
     </nav>
 
     <!-- Page Header -->
-    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+      <div class="flex flex-col gap-1 min-w-0 flex-1">
         <h1
           v-if="title"
-          class="text-2xl font-bold text-gray-900 dark:text-gray-100"
+          class="text-2xl font-bold text-gray-900 dark:text-gray-100 truncate"
         >
           <slot name="title">
             {{ title }}
@@ -101,7 +101,7 @@ const getLinkProps = (link: string) => {
         </p>
       </div>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 flex-wrap flex-shrink-0">
         <slot name="actions" />
       </div>
     </div>
