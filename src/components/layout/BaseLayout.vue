@@ -282,8 +282,8 @@ const handleUserMenuClick = (item: UserMenuItem) => {
       </header>
 
       <!-- Page Content -->
-      <div class="flex flex-1 flex-col overflow-y-auto">
-        <main class="container mx-auto flex flex-1 flex-col gap-5 p-5">
+      <div class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+        <main class="container mx-auto flex flex-1 flex-col gap-5 p-5 max-w-full">
           <slot>
             <component
               :is="routerViewComponent"
