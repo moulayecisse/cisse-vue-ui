@@ -8,6 +8,8 @@ import BadgeType from '@/components/type/BadgeType.vue'
 import Checkbox from '@/components/form/Checkbox.vue'
 import { computed, type Component, useSlots, type Slots } from 'vue'
 
+export type SortDirection = 'asc' | 'desc'
+
 type ItemType = { id: number | string; [key: string]: unknown }
 
 const slots: Slots = useSlots()
@@ -26,6 +28,10 @@ const props = withDefaults(
     selectableFilter?: (item: ItemType) => boolean
     /** Key field for unique identification (default: 'id') */
     keyField?: string
+    /** Current sort column */
+    sortBy?: string
+    /** Current sort direction */
+    sortDirection?: SortDirection
   }>(),
   {
     selectable: false,
@@ -38,6 +44,8 @@ const emit = defineEmits<{
   select: [id: string]
   /** Emitted when select all is toggled */
   selectAll: []
+  /** Emitted when a sortable column is clicked */
+  sort: [column: string, direction: SortDirection]
 }>()
 
 // Type components mapping
@@ -126,6 +134,20 @@ const handleSelect = (item: ItemType) => {
 }
 
 const hasActionSlot = computed((): boolean => !!slots.action)
+
+// Sorting logic
+const handleSort = (property: Property) => {
+  if (!property.sortable) return
+
+  const newDirection: SortDirection =
+    props.sortBy === property.name && props.sortDirection === 'asc' ? 'desc' : 'asc'
+
+  emit('sort', property.name, newDirection)
+}
+
+const isSortedColumn = (property: Property): boolean => {
+  return props.sortBy === property.name
+}
 </script>
 
 <template>
@@ -152,14 +174,58 @@ const hasActionSlot = computed((): boolean => !!slots.action)
             <th
               v-for="property in visibleProperties"
               :key="property.name"
-              :class="[getAlignmentClass(property.align), 'px-3 py-3']"
+              :class="[
+                getAlignmentClass(property.align),
+                'px-3 py-3',
+                property.sortable ? 'cursor-pointer select-none hover:bg-black/5 dark:hover:bg-white/5' : '',
+              ]"
+              @click="handleSort(property)"
             >
-              <slot
-                :name="'header-' + property.name"
-                :property
+              <div
+                class="flex items-center gap-1"
+                :class="{
+                  'justify-center': property.align === 'center',
+                  'justify-end': property.align === 'right',
+                }"
               >
-                {{ property.label ?? property.name }}
-              </slot>
+                <slot
+                  :name="'header-' + property.name"
+                  :property
+                >
+                  {{ property.label ?? property.name }}
+                </slot>
+                <svg
+                  v-if="property.sortable"
+                  :class="[
+                    'w-4 h-4 transition-colors',
+                    isSortedColumn(property) ? 'text-primary-500' : 'text-gray-400',
+                  ]"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <!-- Up arrow (shows when sorted asc) -->
+                  <path
+                    v-if="isSortedColumn(property) && sortDirection === 'asc'"
+                    d="M7 14l5-5 5 5H7z"
+                  />
+                  <!-- Down arrow (shows when sorted desc) -->
+                  <path
+                    v-else-if="isSortedColumn(property) && sortDirection === 'desc'"
+                    d="M7 10l5 5 5-5H7z"
+                  />
+                  <!-- Both arrows (shows when not sorted) -->
+                  <template v-else>
+                    <path
+                      d="M7 14l5-5 5 5H7z"
+                      class="opacity-40"
+                    />
+                    <path
+                      d="M7 10l5 5 5-5H7z"
+                      class="opacity-40"
+                    />
+                  </template>
+                </svg>
+              </div>
             </th>
 
             <th

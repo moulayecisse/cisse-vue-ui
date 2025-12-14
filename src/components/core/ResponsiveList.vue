@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
 import { useBreakpoints } from '@vueuse/core'
-import type { Property } from '@/types'
+import type { Property, SortDirection } from '@/types'
 import MobileList from './MobileList.vue'
 import TableComponent from './TableComponent.vue'
 import CardComponent from './CardComponent.vue'
@@ -49,6 +49,10 @@ const props = withDefaults(
     selectableFilter?: (item: ItemType) => boolean
     /** Breakpoint for switching between mobile and desktop views (default: 'lg' = 1024px) */
     breakpoint?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+    /** Current sort column */
+    sortBy?: string
+    /** Current sort direction */
+    sortDirection?: SortDirection
   }>(),
   {
     keyField: 'id',
@@ -62,6 +66,8 @@ const emit = defineEmits<{
   select: [id: string]
   /** Emitted when select all is toggled */
   selectAll: []
+  /** Emitted when a sortable column is clicked */
+  sort: [column: string, direction: SortDirection]
 }>()
 
 defineSlots<{
@@ -190,8 +196,11 @@ const isDesktop = computed(() => breakpoints.greaterOrEqual(props.breakpoint).va
         :selectable="selectable"
         :selected-items="selectedItems"
         :selectable-filter="selectableFilter"
+        :sort-by="sortBy"
+        :sort-direction="sortDirection"
         @select="emit('select', $event)"
         @select-all="emit('selectAll')"
+        @sort="(col: string, dir: SortDirection) => emit('sort', col, dir)"
       >
         <!-- Forward cell slots -->
         <template
