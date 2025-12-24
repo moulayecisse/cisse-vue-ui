@@ -58,7 +58,7 @@ const selectItem = (item: DropdownItem) => {
 }
 
 const widthClasses = {
-  auto: 'w-auto min-w-[10rem]',
+  auto: 'w-auto min-w-40',
   full: 'w-full',
   sm: 'w-32',
   md: 'w-48',
@@ -119,7 +119,7 @@ const computedDropdownStyle = computed(() => {
           :aria-labelledby="triggerId"
           :style="computedDropdownStyle"
           :class="[
-            'z-[9999] rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800',
+            'z-9999 rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800',
             widthClasses[width],
             !teleport && (align === 'right' ? 'absolute mt-2 right-0' : 'absolute mt-2 left-0'),
           ]"

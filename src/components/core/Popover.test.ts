@@ -130,8 +130,8 @@ describe('Popover', () => {
       await wrapper.find('.relative > div').trigger('click')
       await wrapper.vm.$nextTick()
 
-      const popover = document.body.querySelector('[class*="z-[9999]"]')
-      expect(popover?.classList.contains('min-w-[12rem]')).toBe(true)
+      const popover = document.body.querySelector('[class*="z-9999"]')
+      expect(popover?.classList.contains('min-w-48')).toBe(true)
 
       wrapper.unmount()
     })
@@ -149,7 +149,7 @@ describe('Popover', () => {
       await wrapper.find('.relative > div').trigger('click')
       await wrapper.vm.$nextTick()
 
-      const popover = document.body.querySelector('[class*="z-[9999]"]')
+      const popover = document.body.querySelector('[class*="z-9999"]')
       expect(popover?.classList.contains('w-48')).toBe(true)
 
       wrapper.unmount()
@@ -168,7 +168,7 @@ describe('Popover', () => {
       await wrapper.find('.relative > div').trigger('click')
       await wrapper.vm.$nextTick()
 
-      const popover = document.body.querySelector('[class*="z-[9999]"]')
+      const popover = document.body.querySelector('[class*="z-9999"]')
       expect(popover?.classList.contains('w-64')).toBe(true)
 
       wrapper.unmount()
@@ -187,7 +187,7 @@ describe('Popover', () => {
       await wrapper.find('.relative > div').trigger('click')
       await wrapper.vm.$nextTick()
 
-      const popover = document.body.querySelector('[class*="z-[9999]"]')
+      const popover = document.body.querySelector('[class*="z-9999"]')
       expect(popover?.classList.contains('w-80')).toBe(true)
 
       wrapper.unmount()

@@ -83,7 +83,7 @@ const getDefaultIcon = (status?: TimelineItemStatus) => {
       <div class="flex items-start gap-4">
         <!-- Dot/Icon -->
         <div
-          class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0"
+          class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full shrink-0"
           :class="getStatusClasses(item.status).dot"
         >
           <Icon
@@ -124,13 +124,13 @@ const getDefaultIcon = (status?: TimelineItemStatus) => {
     <div
       v-for="(item, index) in items"
       :key="item.key"
-      class="flex flex-col items-center flex-shrink-0"
+      class="flex flex-col items-center shrink-0"
       :class="{ 'flex-1': index < items.length - 1 }"
     >
       <div class="flex items-center w-full">
         <!-- Dot/Icon -->
         <div
-          class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0"
+          class="relative z-10 flex items-center justify-center w-8 h-8 rounded-full shrink-0"
           :class="getStatusClasses(item.status).dot"
         >
           <Icon

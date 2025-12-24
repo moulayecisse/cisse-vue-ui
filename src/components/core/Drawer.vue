@@ -80,7 +80,7 @@ const sizeClasses = computed(() => {
     sm: isHorizontal ? 'w-64' : 'h-32',
     md: isHorizontal ? 'w-80' : 'h-48',
     lg: isHorizontal ? 'w-96' : 'h-64',
-    xl: isHorizontal ? 'w-[32rem]' : 'h-96',
+    xl: isHorizontal ? 'w-lg' : 'h-96',
     full: isHorizontal ? 'w-screen' : 'h-screen',
   }
   return sizes[props.size]

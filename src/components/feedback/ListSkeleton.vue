@@ -29,7 +29,7 @@ withDefaults(
       <!-- Avatar -->
       <div
         v-if="showAvatar"
-        class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"
+        class="shrink-0 w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"
       />
 
       <!-- Content -->
@@ -48,7 +48,7 @@ withDefaults(
       <!-- Action -->
       <div
         v-if="showAction"
-        class="flex-shrink-0 w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"
+        class="shrink-0 w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 animate-pulse"
       />
     </div>
   </div>

@@ -58,7 +58,7 @@ const handleMouseLeave = () => {
 }
 
 const widthClasses = {
-  auto: 'w-auto min-w-[12rem]',
+  auto: 'w-auto min-w-48',
   sm: 'w-48',
   md: 'w-64',
   lg: 'w-80',
@@ -101,7 +101,7 @@ const widthClasses = {
           :aria-labelledby="triggerId"
           :style="dropdownStyle"
           :class="[
-            'z-[9999] rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800',
+            'z-9999 rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800',
             widthClasses[width],
           ]"
         >

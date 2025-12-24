@@ -49,7 +49,7 @@ const topStyle = computed(() => {
 <template>
   <Teleport to="body">
     <div
-      :class="['fixed z-[9999] flex flex-col gap-2 w-full max-w-sm', positionClasses[position]]"
+      :class="['fixed z-9999 flex flex-col gap-2 w-full max-w-sm', positionClasses[position]]"
       :style="topStyle"
       aria-live="polite"
       aria-atomic="false"

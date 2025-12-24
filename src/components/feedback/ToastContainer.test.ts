@@ -174,7 +174,7 @@ describe('ToastContainer', () => {
     })
 
     const container = document.body.querySelector('.fixed')
-    expect(container?.classList.contains('z-[9999]')).toBe(true)
+    expect(container?.classList.contains('z-9999')).toBe(true)
 
     wrapper.unmount()
   })

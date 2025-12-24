@@ -145,7 +145,7 @@ const hasEmptySlot = computed(() => !!slots.empty)
         <!-- Checkbox -->
         <div
           v-if="selectable"
-          class="flex-shrink-0"
+          class="shrink-0"
         >
           <Checkbox
             v-if="isSelectable(item)"
@@ -173,7 +173,7 @@ const hasEmptySlot = computed(() => !!slots.empty)
         </div>
 
         <!-- Actions -->
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
           <slot
             name="actions"
             :item="item"

@@ -198,7 +198,7 @@ const handleKeydown = (event: KeyboardEvent) => {
             ref="dropdownRef"
             :style="dropdownStyle"
             :class="[
-              'autocomplete-dropdown z-[9999] max-h-60 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800',
+              'autocomplete-dropdown z-9999 max-h-60 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800',
               !teleport && 'absolute mt-2 w-full',
             ]"
           >

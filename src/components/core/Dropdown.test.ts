@@ -197,8 +197,8 @@ describe('Dropdown', () => {
       trigger?.click()
       await wrapper.vm.$nextTick()
 
-      const menu = document.body.querySelector('[class*="z-[9999]"]')
-      expect(menu?.classList.contains('min-w-[10rem]')).toBe(true)
+      const menu = document.body.querySelector('[class*="z-9999"]')
+      expect(menu?.classList.contains('min-w-40')).toBe(true)
 
       wrapper.unmount()
     })
@@ -213,7 +213,7 @@ describe('Dropdown', () => {
       trigger?.click()
       await wrapper.vm.$nextTick()
 
-      const menu = document.body.querySelector('[class*="z-[9999]"]')
+      const menu = document.body.querySelector('[class*="z-9999"]')
       expect(menu?.classList.contains('w-32')).toBe(true)
 
       wrapper.unmount()

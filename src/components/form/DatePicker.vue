@@ -236,7 +236,7 @@ const getDateLabel = (date: Date): string => {
           aria-modal="true"
           :aria-label="`Choose date, ${monthYear}`"
           :style="dropdownStyle"
-          class="z-[9999] w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+          class="z-9999 w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800"
         >
           <!-- Header -->
           <div class="mb-4 flex items-center justify-between">

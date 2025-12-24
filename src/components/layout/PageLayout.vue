@@ -101,7 +101,7 @@ const getLinkProps = (link: string) => {
         </p>
       </div>
 
-      <div class="flex items-center gap-2 flex-wrap flex-shrink-0">
+      <div class="flex items-center gap-2 flex-wrap shrink-0">
         <slot name="actions" />
       </div>
     </div>

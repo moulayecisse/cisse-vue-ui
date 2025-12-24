@@ -43,7 +43,7 @@ defineEmits<{
         <Icon
           v-if="index > 0"
           :icon="separator"
-          class="w-4 h-4 mx-2 text-gray-400 dark:text-gray-500 flex-shrink-0"
+          class="w-4 h-4 mx-2 text-gray-400 dark:text-gray-500 shrink-0"
         />
 
         <!-- Item -->
