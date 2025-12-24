@@ -136,10 +136,10 @@ const handleUserMenuClick = (item: UserMenuItem) => {
     <!-- Sidebar -->
     <aside
       :class="[
-        sidebarOpenModel ? 'lg:w-60' : '-translate-x-76 lg:w-16 lg:translate-x-0',
+        sidebarOpenModel ? 'lg:w-60' : 'max-lg:-translate-x-76 lg:w-16',
         sidebarClass,
       ]"
-      class="@container absolute z-50 flex h-full w-76 flex-col justify-between gap-10 transition-all duration-1000 ease-in-out lg:relative"
+      class="@container max-lg:absolute max-lg:z-50 flex h-full w-76 flex-col justify-between gap-10 transition-all duration-1000 ease-in-out"
     >
       <!-- Sidebar Header -->
       <div class="flex h-16 items-center px-3">
