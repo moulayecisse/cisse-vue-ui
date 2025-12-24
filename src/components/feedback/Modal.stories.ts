@@ -15,6 +15,10 @@ const meta: Meta<typeof Modal> = {
     title: { control: 'text' },
     closeOnBackdrop: { control: 'boolean' },
     closeOnEscape: { control: 'boolean' },
+    teleport: {
+      control: 'text',
+      description: 'Teleport target (e.g., "body", "#app"). Set to empty string to disable.',
+    },
   },
   args: {
     size: 'default',
