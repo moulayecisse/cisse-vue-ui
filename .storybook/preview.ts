@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/vue3-vite'
+import { withThemeByClassName } from '@storybook/addon-themes'
 import { MINIMAL_VIEWPORTS } from 'storybook/viewport'
 import '../src/styles/components.css'
 
@@ -53,31 +54,17 @@ const preview: Preview = {
       test: 'todo',
     },
   },
-  globalTypes: {
-    theme: {
-      description: 'Global theme for components',
-      toolbar: {
-        title: 'Theme',
-        icon: 'circlehollow',
-        items: ['light', 'dark'],
-        dynamicTitle: true,
-      },
-    },
-  },
   initialGlobals: {
-    theme: 'light',
     backgrounds: { value: '#ffffff' },
   },
   decorators: [
-    (story, context) => {
-      const theme = context.globals.theme || 'light'
-      document.documentElement.classList.toggle('dark', theme === 'dark')
-      document.body.style.backgroundColor = theme === 'dark' ? '#0f172a' : '#ffffff'
-      return {
-        template: `<div :class="theme === 'dark' ? 'dark' : ''"><story /></div>`,
-        data: () => ({ theme }),
-      }
-    },
+    withThemeByClassName({
+      themes: {
+        light: '',
+        dark: 'dark',
+      },
+      defaultTheme: 'light',
+    }),
   ],
 }
 
