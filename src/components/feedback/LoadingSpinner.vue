@@ -16,9 +16,9 @@ const props = withDefaults(
 )
 
 const sizeClasses: Record<SpinnerSize, string> = {
-  sm: 'h-8 w-8',
-  md: 'h-12 w-12',
-  lg: 'h-16 w-16',
+  sm: 'size-8',
+  md: 'size-12',
+  lg: 'size-16',
 }
 
 const accessibleLabel = computed(() => props.text || props.ariaLabel)

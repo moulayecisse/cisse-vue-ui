@@ -20,7 +20,7 @@ withDefaults(
   <div class="bg-white dark:bg-gray-900 rounded-lg shadow-md p-4 space-y-4" aria-hidden="true">
     <!-- Header with avatar -->
     <div v-if="showAvatar" class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
+      <div class="size-10 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
       <div class="flex-1 space-y-2">
         <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-1/2" />
         <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-1/3" />

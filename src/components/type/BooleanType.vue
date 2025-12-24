@@ -32,7 +32,7 @@ const colorClass = boolValue
     <Icon
       v-if="display === 'icon' || display === 'both'"
       :icon="icon"
-      class="h-4 w-4"
+      class="size-4"
     />
     <span v-if="display === 'text' || display === 'both'">{{ label }}</span>
   </span>

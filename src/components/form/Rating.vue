@@ -57,11 +57,11 @@ const displayValue = computed(() => {
 const sizeClasses = computed(() => {
   switch (props.size) {
     case 'sm':
-      return 'w-4 h-4'
+      return 'size-4'
     case 'lg':
-      return 'w-8 h-8'
+      return 'size-8'
     default:
-      return 'w-6 h-6'
+      return 'size-6'
   }
 })
 
@@ -113,7 +113,7 @@ const handleMouseLeave = () => {
         v-for="index in max"
         :key="index"
         type="button"
-        class="relative focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 rounded"
+        class="relative focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 rounded"
         :class="[
           readonly || disabled ? 'cursor-default' : 'cursor-pointer',
           disabled && 'opacity-50',

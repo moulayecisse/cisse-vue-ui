@@ -181,7 +181,7 @@ watch(isOpen, (open) => {
         :disabled="disabled"
         aria-autocomplete="list"
         :aria-controls="listboxId"
-        class="flex-1 border-none bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-gray-500"
+        class="flex-1 border-none bg-transparent text-sm text-gray-900 outline-hidden placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-gray-500"
         @click.stop
       />
 
@@ -195,14 +195,14 @@ watch(isOpen, (open) => {
           aria-label="Clear selection"
           @click.stop="clear"
         >
-          <Icon icon="lucide:x" class="h-4 w-4" aria-hidden="true" />
+          <Icon icon="lucide:x" class="size-4" aria-hidden="true" />
         </button>
 
         <!-- Chevron -->
         <Icon
           icon="lucide:chevron-down"
           :class="[
-            'h-4 w-4 text-gray-400 transition-transform',
+            'size-4 text-gray-400 transition-transform',
             isOpen && 'rotate-180',
           ]"
           aria-hidden="true"
@@ -252,14 +252,14 @@ watch(isOpen, (open) => {
               <span
                 v-if="multiple"
                 :class="[
-                  'flex h-4 w-4 items-center justify-center rounded border',
+                  'flex size-4 items-center justify-center rounded border',
                   isSelected(option)
                     ? 'border-primary bg-primary text-white'
                     : 'border-gray-300 dark:border-gray-600',
                 ]"
                 aria-hidden="true"
               >
-                <Icon v-if="isSelected(option)" icon="lucide:check" class="h-3 w-3" />
+                <Icon v-if="isSelected(option)" icon="lucide:check" class="size-3" />
               </span>
 
               <!-- Label -->
@@ -269,7 +269,7 @@ watch(isOpen, (open) => {
               <Icon
                 v-if="!multiple && isSelected(option)"
                 icon="lucide:check"
-                class="h-4 w-4 text-primary"
+                class="size-4 text-primary"
                 aria-hidden="true"
               />
             </button>

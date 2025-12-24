@@ -148,7 +148,7 @@ const handleTrackClick = (event: MouseEvent) => {
 
       <!-- Min handle -->
       <div
-        class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full border-2 shadow transition-shadow"
+        class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-5 rounded-full border-2 shadow transition-shadow"
         :class="[
           disabled
             ? 'bg-gray-300 border-gray-400 cursor-not-allowed'
@@ -161,7 +161,7 @@ const handleTrackClick = (event: MouseEvent) => {
 
       <!-- Max handle -->
       <div
-        class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-5 h-5 rounded-full border-2 shadow transition-shadow"
+        class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-5 rounded-full border-2 shadow transition-shadow"
         :class="[
           disabled
             ? 'bg-gray-300 border-gray-400 cursor-not-allowed'

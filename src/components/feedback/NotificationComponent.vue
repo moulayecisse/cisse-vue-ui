@@ -82,7 +82,7 @@ onMounted(() => {
       <Icon
         :class="iconColor"
         :icon="iconName"
-        class="h-5 w-5"
+        class="size-5"
       />
     </div>
 
@@ -106,7 +106,7 @@ onMounted(() => {
       @click="handleDismiss"
     >
       <Icon
-        class="h-4 w-4"
+        class="size-4"
         icon="lucide:x"
       />
     </button>

@@ -212,7 +212,7 @@ const isSortedColumn = (property: Property): boolean => {
                 <svg
                   v-if="property.sortable"
                   :class="[
-                    'w-4 h-4 transition-colors',
+                    'size-4 transition-colors',
                     isSortedColumn(property) ? 'text-primary-500' : 'text-gray-400',
                   ]"
                   viewBox="0 0 24 24"

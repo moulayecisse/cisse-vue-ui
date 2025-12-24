@@ -193,7 +193,7 @@ const getFileIcon = (file: File): string => {
       <div class="space-y-2">
         <Icon
           icon="heroicons:cloud-arrow-up"
-          class="w-12 h-12 mx-auto text-gray-400"
+          class="size-12 mx-auto text-gray-400"
           :class="{ 'text-primary-500': isDragging }"
         />
         <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -215,7 +215,7 @@ const getFileIcon = (file: File): string => {
         :key="uploadedFile.id"
         class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
       >
-        <Icon :icon="getFileIcon(uploadedFile.file)" class="w-8 h-8 text-gray-400" />
+        <Icon :icon="getFileIcon(uploadedFile.file)" class="size-8 text-gray-400" />
 
         <div class="flex-1 min-w-0">
           <p class="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
@@ -231,7 +231,7 @@ const getFileIcon = (file: File): string => {
           class="p-1 text-gray-400 hover:text-red-500 rounded"
           @click.stop="removeFile(uploadedFile.id)"
         >
-          <Icon icon="heroicons:x-mark" class="w-5 h-5" />
+          <Icon icon="heroicons:x-mark" class="size-5" />
         </button>
       </li>
     </ul>

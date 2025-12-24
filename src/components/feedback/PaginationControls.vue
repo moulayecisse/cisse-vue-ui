@@ -89,7 +89,7 @@ const changePageSize = (event: Event) => {
         @click="changePage(currentPage - 1)"
       >
         <Icon
-          class="h-4 w-4"
+          class="size-4"
           icon="lucide:chevron-left"
         />
         <span class="hidden sm:inline">{{ previousLabel }}</span>
@@ -101,7 +101,7 @@ const changePageSize = (event: Event) => {
       >
         <span class="hidden sm:inline">{{ nextLabel }}</span>
         <Icon
-          class="h-4 w-4"
+          class="size-4"
           icon="lucide:chevron-right"
         />
       </button>

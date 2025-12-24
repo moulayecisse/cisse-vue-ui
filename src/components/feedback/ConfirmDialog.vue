@@ -80,10 +80,10 @@ const config = variantConfig[props.variant]
   >
     <div class="text-center">
       <!-- Icon -->
-      <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+      <div class="mx-auto mb-4 flex size-14 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
         <Icon
           :icon="icon || config.icon"
-          :class="[config.iconClass, 'h-8 w-8']"
+          :class="[config.iconClass, 'size-8']"
         />
       </div>
 

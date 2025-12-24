@@ -77,7 +77,7 @@ provide('activeTab', activeTab)
         :aria-selected="activeTab === tab.key"
         :disabled="tab.disabled"
         :class="[
-          'text-sm font-medium transition-colors focus:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+          'text-sm font-medium transition-colors focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
           variantClasses[variant].tab,
           activeTab === tab.key
             ? variantClasses[variant].active

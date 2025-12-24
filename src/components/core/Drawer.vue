@@ -168,7 +168,7 @@ const transformClasses = computed(() => {
             class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
             @click="close"
           >
-            <Icon icon="heroicons:x-mark" class="w-5 h-5" />
+            <Icon icon="heroicons:x-mark" class="size-5" />
           </button>
         </div>
 

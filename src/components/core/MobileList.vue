@@ -154,7 +154,7 @@ const hasEmptySlot = computed(() => !!slots.empty)
           />
           <div
             v-else
-            class="w-5 h-5"
+            class="size-5"
           />
         </div>
 

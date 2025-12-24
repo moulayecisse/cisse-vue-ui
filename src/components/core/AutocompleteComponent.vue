@@ -148,7 +148,7 @@ const handleKeydown = (event: KeyboardEvent) => {
           v-model="searchQuery"
           :disabled="disabled"
           :placeholder="placeholder || 'Search...'"
-          class="flex-1 bg-transparent text-sm outline-none dark:text-white"
+          class="flex-1 bg-transparent text-sm outline-hidden dark:text-white"
           type="text"
           @focus="openDropdown"
           @keydown="handleKeydown"

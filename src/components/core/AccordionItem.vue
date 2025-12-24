@@ -53,12 +53,12 @@ const toggle = () => {
       @click="toggle"
     >
       <span class="flex items-center gap-2 font-medium">
-        <Icon v-if="icon" :icon="icon" class="w-5 h-5" aria-hidden="true" />
+        <Icon v-if="icon" :icon="icon" class="size-5" aria-hidden="true" />
         {{ title }}
       </span>
       <Icon
         icon="heroicons:chevron-down"
-        class="w-5 h-5 transition-transform duration-200"
+        class="size-5 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
         aria-hidden="true"
       />

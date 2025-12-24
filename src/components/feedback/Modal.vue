@@ -125,7 +125,7 @@ onUnmounted(() => {
             @click="emit('close')"
           >
             <Icon
-              class="h-5 w-5"
+              class="size-5"
               icon="lucide:x"
               aria-hidden="true"
             />

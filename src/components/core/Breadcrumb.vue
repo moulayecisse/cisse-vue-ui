@@ -43,7 +43,7 @@ defineEmits<{
         <Icon
           v-if="index > 0"
           :icon="separator"
-          class="w-4 h-4 mx-2 text-gray-400 dark:text-gray-500 shrink-0"
+          class="size-4 mx-2 text-gray-400 dark:text-gray-500 shrink-0"
         />
 
         <!-- Item -->
@@ -64,13 +64,13 @@ defineEmits<{
           <Icon
             v-if="index === 0 && showHomeIcon"
             :icon="item.icon || homeIcon"
-            class="w-4 h-4"
+            class="size-4"
           />
           <!-- Custom icon -->
           <Icon
             v-else-if="item.icon"
             :icon="item.icon"
-            class="w-4 h-4"
+            class="size-4"
           />
           <span>{{ item.label }}</span>
         </component>

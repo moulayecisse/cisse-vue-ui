@@ -93,7 +93,7 @@ const closePicker = () => {
       @click="togglePicker"
     >
       <span
-        class="w-6 h-6 rounded border border-gray-200 dark:border-gray-600"
+        class="size-6 rounded border border-gray-200 dark:border-gray-600"
         :style="{ backgroundColor: modelValue }"
       />
       <span class="text-sm font-mono text-gray-700 dark:text-gray-300">
@@ -101,7 +101,7 @@ const closePicker = () => {
       </span>
       <Icon
         icon="heroicons:chevron-down"
-        class="w-4 h-4 text-gray-400"
+        class="size-4 text-gray-400"
         :class="{ 'rotate-180': isOpen }"
       />
     </button>
@@ -127,7 +127,7 @@ const closePicker = () => {
               v-for="color in swatches"
               :key="color"
               type="button"
-              class="w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1"
+              class="size-8 rounded-lg border-2 transition-transform hover:scale-110 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-1"
               :class="[
                 modelValue === color
                   ? 'border-primary-500 ring-2 ring-primary-500 ring-offset-1'
@@ -140,7 +140,7 @@ const closePicker = () => {
               <Icon
                 v-if="modelValue === color"
                 icon="heroicons:check"
-                class="w-4 h-4 mx-auto"
+                class="size-4 mx-auto"
                 :class="[
                   ['#ffffff', '#f9fafb', '#f3f4f6', '#e5e7eb', '#eab308', '#f59e0b'].includes(color)
                     ? 'text-gray-800'
@@ -155,7 +155,7 @@ const closePicker = () => {
             <input
               type="color"
               :value="modelValue"
-              class="w-8 h-8 rounded cursor-pointer border-0 p-0"
+              class="size-8 rounded cursor-pointer border-0 p-0"
               @input="handleNativeInput"
             />
             <input

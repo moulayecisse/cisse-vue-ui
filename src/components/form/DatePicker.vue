@@ -306,7 +306,7 @@ const getDateLabel = (date: Date): string => {
               :aria-disabled="day.isDisabled || undefined"
               :disabled="day.isDisabled"
               :class="[
-                'h-8 w-8 rounded text-sm transition',
+                'size-8 rounded text-sm transition',
                 day.isDisabled && 'cursor-not-allowed opacity-30',
                 !day.isCurrentMonth && 'text-gray-400 dark:text-gray-600',
                 day.isCurrentMonth && !day.isSelected && !day.isToday && 'text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700',

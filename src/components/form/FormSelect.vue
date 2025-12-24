@@ -211,7 +211,7 @@ const triggerClasses = computed(() => {
                 ref="searchInputRef"
                 v-model="searchQuery"
                 type="text"
-                class="flex-1 bg-transparent text-sm outline-none dark:text-white"
+                class="flex-1 bg-transparent text-sm outline-hidden dark:text-white"
                 placeholder="Search..."
                 aria-label="Search options"
                 @keydown="handleKeydown"

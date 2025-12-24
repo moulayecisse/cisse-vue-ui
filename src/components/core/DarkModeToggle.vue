@@ -29,9 +29,9 @@ const props = withDefaults(
 const { isDark, toggle } = useDarkMode({ storageKey: props.storageKey })
 
 const sizeClasses: Record<DarkModeToggleSize, { button: string; icon: string }> = {
-  sm: { button: 'p-1.5', icon: 'h-4 w-4' },
-  md: { button: 'p-2', icon: 'h-5 w-5' },
-  lg: { button: 'p-2.5', icon: 'h-6 w-6' },
+  sm: { button: 'p-1.5', icon: 'size-4' },
+  md: { button: 'p-2', icon: 'size-5' },
+  lg: { button: 'p-2.5', icon: 'size-6' },
 }
 </script>
 
@@ -43,7 +43,7 @@ const sizeClasses: Record<DarkModeToggleSize, { button: string; icon: string }> 
       'inline-flex items-center gap-2 rounded-lg transition-colors',
       'text-gray-600 hover:bg-gray-100 hover:text-gray-900',
       'dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100',
-      'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',
+      'focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2',
     ]"
     :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
     @click="toggle"

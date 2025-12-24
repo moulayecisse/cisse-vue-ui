@@ -26,7 +26,7 @@ const handleInput = (event: Event) => {
   <div class="relative">
     <Icon
       :icon="icon"
-      class="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400"
+      class="absolute top-1/2 left-3 size-5 -translate-y-1/2 text-gray-400"
     />
     <input
       :disabled="disabled"
