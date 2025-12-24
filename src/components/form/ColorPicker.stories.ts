@@ -6,6 +6,12 @@ const meta: Meta<typeof ColorPicker> = {
   title: 'Form/ColorPicker',
   component: ColorPicker,
   tags: ['autodocs'],
+  argTypes: {
+    teleport: {
+      control: 'text',
+      description: 'Teleport target (e.g., "body", "#app"). Leave empty to disable.',
+    },
+  },
 }
 
 export default meta

@@ -14,6 +14,9 @@ describe('Modal', () => {
 
   it('renders slot content', () => {
     const wrapper = mount(Modal, {
+      props: {
+        teleport: false,
+      },
       slots: {
         default: 'Modal content',
       },
@@ -26,6 +29,7 @@ describe('Modal', () => {
     const wrapper = mount(Modal, {
       props: {
         title: 'Modal Title',
+        teleport: false,
       },
     })
 
@@ -34,6 +38,9 @@ describe('Modal', () => {
 
   it('renders header slot', () => {
     const wrapper = mount(Modal, {
+      props: {
+        teleport: false,
+      },
       slots: {
         header: 'Custom Header',
       },
@@ -44,6 +51,9 @@ describe('Modal', () => {
 
   it('renders footer slot', () => {
     const wrapper = mount(Modal, {
+      props: {
+        teleport: false,
+      },
       slots: {
         footer: '<button>Save</button>',
       },
@@ -56,6 +66,7 @@ describe('Modal', () => {
     const wrapper = mount(Modal, {
       props: {
         title: 'Test Modal',
+        teleport: false,
       },
     })
 
@@ -67,7 +78,11 @@ describe('Modal', () => {
   })
 
   it('emits close on backdrop click by default', async () => {
-    const wrapper = mount(Modal)
+    const wrapper = mount(Modal, {
+      props: {
+        teleport: false,
+      },
+    })
 
     // Click the backdrop (the outer div)
     await wrapper.find('.fixed').trigger('click')
@@ -79,6 +94,7 @@ describe('Modal', () => {
     const wrapper = mount(Modal, {
       props: {
         closeOnBackdrop: false,
+        teleport: false,
       },
     })
 
@@ -91,6 +107,7 @@ describe('Modal', () => {
     const wrapper = mount(Modal, {
       props: {
         title: 'Test',
+        teleport: false,
       },
       slots: {
         default: '<div class="content">Content</div>',
@@ -109,7 +126,7 @@ describe('Modal', () => {
 
     sizes.forEach((size) => {
       const wrapper = mount(Modal, {
-        props: { size },
+        props: { size, teleport: false },
       })
 
       expect(wrapper.find('.bg-white').classes().some((c) => c.includes('max-w'))).toBe(true)
@@ -117,7 +134,11 @@ describe('Modal', () => {
   })
 
   it('locks body scroll on mount', () => {
-    mount(Modal)
+    mount(Modal, {
+      props: {
+        teleport: false,
+      },
+    })
 
     expect(document.body.style.overflow).toBe('hidden')
   })
@@ -127,6 +148,7 @@ describe('Modal', () => {
       props: {
         title: 'Test',
         closeButtonLabel: 'Fermer',
+        teleport: false,
       },
     })
 
@@ -134,7 +156,11 @@ describe('Modal', () => {
   })
 
   it('emits close on Escape key', async () => {
-    const wrapper = mount(Modal)
+    const wrapper = mount(Modal, {
+      props: {
+        teleport: false,
+      },
+    })
 
     // Simulate Escape key
     const event = new KeyboardEvent('keydown', { key: 'Escape' })
@@ -147,6 +173,7 @@ describe('Modal', () => {
     const wrapper = mount(Modal, {
       props: {
         closeOnEscape: false,
+        teleport: false,
       },
     })
 
