@@ -4,8 +4,10 @@ import { useExportCSV } from './useExportCSV'
 describe('useExportCSV', () => {
   let originalCreateObjectURL: typeof URL.createObjectURL
   let originalRevokeObjectURL: typeof URL.revokeObjectURL
-  let appendChildSpy: ReturnType<typeof vi.spyOn>
-  let removeChildSpy: ReturnType<typeof vi.spyOn>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let appendChildSpy: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let removeChildSpy: any
 
   beforeEach(() => {
     originalCreateObjectURL = URL.createObjectURL

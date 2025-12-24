@@ -45,7 +45,6 @@ const emit = defineEmits<{
 // Generate unique IDs for ARIA relationships
 const { id: modalId, related } = useId({ prefix: 'modal', id: props.id })
 const titleId = computed(() => related('title'))
-const descriptionId = computed(() => related('description'))
 
 // Focus trap
 const isActive = ref(true)

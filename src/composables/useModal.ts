@@ -98,7 +98,8 @@ export function useModal<T = unknown>(options?: {
  * modals.delete.close()
  * ```
  */
-export function useModals<T extends Record<string, UseModalReturn<unknown>>>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function useModals<T extends Record<string, UseModalReturn<any>>>(
   modals: T
 ): T {
   return modals

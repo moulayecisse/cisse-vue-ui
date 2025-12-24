@@ -91,7 +91,7 @@ describe('useDarkMode', () => {
   })
 
   it('saves to localStorage when value changes', async () => {
-    const { isDark, set } = useDarkMode({ storageKey: 'test-dark-mode' })
+    const { set } = useDarkMode({ storageKey: 'test-dark-mode' })
 
     set(true)
     await nextTick()

@@ -17,7 +17,7 @@ const props = defineProps<{
 }>()
 
 // Generate unique IDs for accessibility
-const { id: generatedId, related } = useId({ prefix: 'accordion', id: props.id })
+const { related } = useId({ prefix: 'accordion', id: props.id })
 const headerId = computed(() => related('header'))
 const panelId = computed(() => related('panel'))
 

@@ -27,7 +27,7 @@ const props = withDefaults(
 )
 
 // Generate unique IDs for accessibility
-const { id: generatedId, related } = useId({ prefix: 'popover', id: props.id })
+const { related } = useId({ prefix: 'popover', id: props.id })
 const triggerId = computed(() => related('trigger'))
 const popoverId = computed(() => related('content'))
 

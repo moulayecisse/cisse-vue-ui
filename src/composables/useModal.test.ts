@@ -153,9 +153,11 @@ describe('useModals', () => {
   })
 
   it('allows accessing individual modals', () => {
+    const createModal = useModal()
+    const editModal = useModal<{ id: number }>()
     const modals = useModals({
-      create: useModal(),
-      edit: useModal<{ id: number }>(),
+      create: createModal,
+      edit: editModal,
     })
 
     modals.create.open()
