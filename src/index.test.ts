@@ -30,6 +30,8 @@ describe('Main library index', () => {
     expect(Library.useDropdown).toBeDefined()
     expect(Library.useModal).toBeDefined()
     expect(Library.useToast).toBeDefined()
+    expect(Library.useId).toBeDefined()
+    expect(Library.useFocusTrap).toBeDefined()
   })
 
   it('exports Vue plugin', () => {

@@ -6,6 +6,10 @@ export interface InputProps {
   invalid?: boolean
   id?: string
   name?: string
+  /** Mark as required field */
+  required?: boolean
+  /** ID of element that describes this input (for aria-describedby) */
+  describedBy?: string
 }
 
 export interface SelectOption {

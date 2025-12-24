@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { inject, computed } from 'vue'
 import { Icon } from '@iconify/vue'
+import { useId } from '@/composables/useId'
 
 const props = defineProps<{
   /** Unique key for this item */
@@ -11,7 +12,14 @@ const props = defineProps<{
   icon?: string
   /** Disable this item */
   disabled?: boolean
+  /** Custom ID for accessibility */
+  id?: string
 }>()
+
+// Generate unique IDs for accessibility
+const { id: generatedId, related } = useId({ prefix: 'accordion', id: props.id })
+const headerId = computed(() => related('header'))
+const panelId = computed(() => related('panel'))
 
 const accordion = inject<{
   toggle: (key: string) => void
@@ -31,6 +39,7 @@ const toggle = () => {
   <div>
     <!-- Header -->
     <button
+      :id="headerId"
       type="button"
       class="flex items-center justify-between w-full px-4 py-3 text-left transition-colors"
       :class="[
@@ -40,16 +49,18 @@ const toggle = () => {
       ]"
       :disabled="disabled"
       :aria-expanded="isOpen"
+      :aria-controls="panelId"
       @click="toggle"
     >
       <span class="flex items-center gap-2 font-medium">
-        <Icon v-if="icon" :icon="icon" class="w-5 h-5" />
+        <Icon v-if="icon" :icon="icon" class="w-5 h-5" aria-hidden="true" />
         {{ title }}
       </span>
       <Icon
         icon="heroicons:chevron-down"
         class="w-5 h-5 transition-transform duration-200"
         :class="{ 'rotate-180': isOpen }"
+        aria-hidden="true"
       />
     </button>
 
@@ -64,6 +75,9 @@ const toggle = () => {
     >
       <div
         v-show="isOpen"
+        :id="panelId"
+        role="region"
+        :aria-labelledby="headerId"
         class="overflow-hidden"
       >
         <div class="px-4 py-3 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300">

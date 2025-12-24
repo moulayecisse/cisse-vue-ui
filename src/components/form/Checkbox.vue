@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-withDefaults(
+import { computed } from 'vue'
+import { useId } from '@/composables/useId'
+
+const props = withDefaults(
   defineProps<{
     /** v-model value */
     modelValue?: boolean
@@ -11,6 +14,8 @@ withDefaults(
     disabled?: boolean
     /** Indeterminate state */
     indeterminate?: boolean
+    /** Custom ID for the checkbox */
+    id?: string
   }>(),
   {
     modelValue: false,
@@ -20,6 +25,11 @@ withDefaults(
 const emit = defineEmits<{
   'update:modelValue': [value: boolean]
 }>()
+
+// Generate unique ID for accessibility
+const { id: generatedId, related } = useId({ prefix: 'checkbox', id: props.id })
+const inputId = computed(() => props.id ?? generatedId.value)
+const descriptionId = computed(() => related('description'))
 
 const toggle = (event: Event) => {
   const target = event.target as HTMLInputElement
@@ -33,10 +43,12 @@ const toggle = (event: Event) => {
     :class="disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'"
   >
     <input
+      :id="inputId"
       type="checkbox"
       :checked="modelValue"
       :disabled="disabled"
       :indeterminate="indeterminate"
+      :aria-describedby="description ? descriptionId : undefined"
       class="mt-0.5 size-4 rounded border-gray-300 text-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-offset-gray-900"
       @change="toggle"
     >
@@ -52,6 +64,7 @@ const toggle = (event: Event) => {
       </span>
       <span
         v-if="description"
+        :id="descriptionId"
         class="text-sm text-gray-500 dark:text-gray-400"
       >
         {{ description }}

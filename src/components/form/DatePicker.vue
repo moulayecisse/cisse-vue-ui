@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useDropdown } from '@/composables/useDropdown'
+import { useId } from '@/composables/useId'
 
 const props = withDefaults(
   defineProps<{
@@ -19,6 +20,8 @@ const props = withDefaults(
     maxDate?: Date
     /** Use teleport */
     teleport?: boolean
+    /** Custom ID for accessibility */
+    id?: string
   }>(),
   {
     placeholder: 'Select date',
@@ -28,6 +31,12 @@ const props = withDefaults(
     teleport: true,
   },
 )
+
+// Generate unique IDs for accessibility
+const { id: generatedId, related } = useId({ prefix: 'datepicker', id: props.id })
+const triggerId = computed(() => related('trigger'))
+const calendarId = computed(() => related('calendar'))
+const gridId = computed(() => related('grid'))
 
 const modelValue = defineModel<Date | null>({ default: null })
 
@@ -150,14 +159,29 @@ const selectDate = (day: typeof calendarDays.value[0]) => {
 const clear = () => {
   modelValue.value = null
 }
+
+// Generate accessible label for a date
+const getDateLabel = (date: Date): string => {
+  const formatter = new Intl.DateTimeFormat(props.locale, {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+  return formatter.format(date)
+}
 </script>
 
 <template>
   <div class="relative">
     <button
+      :id="triggerId"
       ref="triggerRef"
       type="button"
       :disabled="disabled"
+      :aria-expanded="isOpen"
+      :aria-haspopup="'dialog'"
+      :aria-controls="calendarId"
       :class="[
         'flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm text-left transition',
         disabled
@@ -175,16 +199,19 @@ const clear = () => {
           v-if="modelValue"
           type="button"
           class="rounded p-0.5 hover:bg-gray-100 dark:hover:bg-gray-800"
+          aria-label="Clear date"
           @click.stop="clear"
         >
           <Icon
             icon="lucide:x"
             class="size-4 text-gray-400"
+            aria-hidden="true"
           />
         </button>
         <Icon
           icon="lucide:calendar"
           class="size-4 text-gray-400"
+          aria-hidden="true"
         />
       </div>
     </button>
@@ -203,7 +230,11 @@ const clear = () => {
       >
         <div
           v-if="isOpen"
+          :id="calendarId"
           ref="calendarRef"
+          role="dialog"
+          aria-modal="true"
+          :aria-label="`Choose date, ${monthYear}`"
           :style="dropdownStyle"
           class="z-[9999] w-72 rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800"
         >
@@ -212,43 +243,67 @@ const clear = () => {
             <button
               type="button"
               class="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label="Previous month"
               @click="prevMonth"
             >
               <Icon
                 icon="lucide:chevron-left"
                 class="size-5 text-gray-600 dark:text-gray-400"
+                aria-hidden="true"
               />
             </button>
-            <span class="font-medium text-gray-900 dark:text-white">{{ monthYear }}</span>
+            <span
+              class="font-medium text-gray-900 dark:text-white"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {{ monthYear }}
+            </span>
             <button
               type="button"
               class="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
+              aria-label="Next month"
               @click="nextMonth"
             >
               <Icon
                 icon="lucide:chevron-right"
                 class="size-5 text-gray-600 dark:text-gray-400"
+                aria-hidden="true"
               />
             </button>
           </div>
 
           <!-- Week days -->
-          <div class="mb-2 grid grid-cols-7 gap-1">
+          <div
+            class="mb-2 grid grid-cols-7 gap-1"
+            role="row"
+          >
             <div
               v-for="day in weekDays"
               :key="day"
               class="text-center text-xs font-medium text-gray-500 dark:text-gray-400"
+              role="columnheader"
+              :abbr="day"
             >
               {{ day }}
             </div>
           </div>
 
           <!-- Days grid -->
-          <div class="grid grid-cols-7 gap-1">
+          <div
+            :id="gridId"
+            class="grid grid-cols-7 gap-1"
+            role="grid"
+            :aria-label="monthYear"
+          >
             <button
               v-for="(day, index) in calendarDays"
               :key="index"
               type="button"
+              role="gridcell"
+              :aria-label="getDateLabel(day.date)"
+              :aria-selected="day.isSelected"
+              :aria-disabled="day.isDisabled || undefined"
               :disabled="day.isDisabled"
               :class="[
                 'h-8 w-8 rounded text-sm transition',

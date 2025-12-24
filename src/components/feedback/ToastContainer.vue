@@ -48,7 +48,12 @@ const topStyle = computed(() => {
 
 <template>
   <Teleport to="body">
-    <div :class="['fixed z-[9999] flex flex-col gap-2 w-full max-w-sm', positionClasses[position]]" :style="topStyle">
+    <div
+      :class="['fixed z-[9999] flex flex-col gap-2 w-full max-w-sm', positionClasses[position]]"
+      :style="topStyle"
+      aria-live="polite"
+      aria-atomic="false"
+    >
       <TransitionGroup
         enter-active-class="transition duration-300 ease-out"
         enter-from-class="opacity-0 translate-x-4"

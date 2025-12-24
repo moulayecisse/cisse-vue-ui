@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue'
-import { onMounted, onUnmounted, computed } from 'vue'
+import { onMounted, onUnmounted, computed, ref } from 'vue'
 import type { ModalSize } from '@/types'
+import { useId } from '@/composables/useId'
+import { useFocusTrap } from '@/composables/useFocusTrap'
 
 const props = withDefaults(
   defineProps<{
@@ -12,6 +14,8 @@ const props = withDefaults(
     closeButtonLabel?: string
     /** Teleport target (e.g., 'body', '#app'). Set to false to disable teleport. */
     teleport?: string | false
+    /** Custom ID for the modal (auto-generated if not provided) */
+    id?: string
   }>(),
   {
     title: '',
@@ -37,6 +41,22 @@ const teleportTarget = computed(() => props.teleport === false ? 'body' : props.
 const emit = defineEmits<{
   close: []
 }>()
+
+// Generate unique IDs for ARIA relationships
+const { id: modalId, related } = useId({ prefix: 'modal', id: props.id })
+const titleId = computed(() => related('title'))
+const descriptionId = computed(() => related('description'))
+
+// Focus trap
+const isActive = ref(true)
+const { containerRef: dialogRef } = useFocusTrap({
+  active: isActive,
+  focusFirst: true,
+  restoreFocus: true,
+})
+
+// Check if modal has a title (for aria-labelledby)
+const hasTitle = computed(() => Boolean(props.title))
 
 const sizeClasses: Record<ModalSize, string> = {
   sm: 'max-w-md',
@@ -76,6 +96,11 @@ onUnmounted(() => {
       @click.self="handleBackdropClick"
     >
       <div
+        ref="dialogRef"
+        :id="modalId"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="hasTitle ? titleId : undefined"
         :class="sizeClasses[size]"
         class="flex max-h-[90vh] w-full flex-col rounded-lg bg-white shadow-xl dark:bg-gray-900"
       >
@@ -84,7 +109,10 @@ onUnmounted(() => {
           v-if="title || $slots.header || $slots.title"
           class="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700"
         >
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          <h3
+            :id="titleId"
+            class="text-xl font-semibold text-gray-900 dark:text-gray-100"
+          >
             <slot name="header">
               <slot name="title">
                 {{ title }}
@@ -94,11 +122,13 @@ onUnmounted(() => {
           <button
             class="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-100"
             type="button"
+            aria-label="Close dialog"
             @click="emit('close')"
           >
             <Icon
               class="h-5 w-5"
               icon="lucide:x"
+              aria-hidden="true"
             />
             <span class="sr-only">{{ closeButtonLabel }}</span>
           </button>

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useDropdown } from '@/composables/useDropdown'
+import { useId } from '@/composables/useId'
 
 export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right'
 
@@ -14,6 +15,8 @@ const props = withDefaults(
     teleport?: boolean
     /** Width of the popover */
     width?: 'auto' | 'sm' | 'md' | 'lg'
+    /** Custom ID for accessibility */
+    id?: string
   }>(),
   {
     position: 'bottom',
@@ -22,6 +25,11 @@ const props = withDefaults(
     width: 'auto',
   },
 )
+
+// Generate unique IDs for accessibility
+const { id: generatedId, related } = useId({ prefix: 'popover', id: props.id })
+const triggerId = computed(() => related('trigger'))
+const popoverId = computed(() => related('content'))
 
 const triggerRef = ref<HTMLElement>()
 const popoverRef = ref<HTMLElement>()
@@ -65,6 +73,9 @@ const widthClasses = {
   >
     <div
       ref="triggerRef"
+      :id="triggerId"
+      :aria-expanded="isOpen"
+      :aria-controls="popoverId"
       @click="handleTrigger"
     >
       <slot name="trigger" />
@@ -84,7 +95,10 @@ const widthClasses = {
       >
         <div
           v-if="isOpen"
+          :id="popoverId"
           ref="popoverRef"
+          role="dialog"
+          :aria-labelledby="triggerId"
           :style="dropdownStyle"
           :class="[
             'z-[9999] rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800',

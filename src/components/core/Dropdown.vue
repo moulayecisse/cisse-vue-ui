@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useDropdown } from '@/composables/useDropdown'
+import { useId } from '@/composables/useId'
 
 export interface DropdownItem {
   key: string
@@ -22,6 +23,8 @@ const props = withDefaults(
     width?: 'auto' | 'full' | 'sm' | 'md' | 'lg'
     /** Use teleport to body to avoid overflow clipping */
     teleport?: boolean
+    /** Custom ID for accessibility */
+    id?: string
   }>(),
   {
     items: () => [],
@@ -30,6 +33,11 @@ const props = withDefaults(
     teleport: true,
   },
 )
+
+// Generate unique IDs for accessibility
+const { id: generatedId, related } = useId({ prefix: 'dropdown', id: props.id })
+const triggerId = computed(() => related('trigger'))
+const menuId = computed(() => related('menu'))
 
 const emit = defineEmits<{
   select: [item: DropdownItem]
@@ -72,7 +80,11 @@ const computedDropdownStyle = computed(() => {
     >
       <slot name="trigger">
         <button
+          :id="triggerId"
           type="button"
+          :aria-expanded="isOpen"
+          aria-haspopup="menu"
+          :aria-controls="menuId"
           class="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
         >
           <slot name="trigger-label">
@@ -81,6 +93,7 @@ const computedDropdownStyle = computed(() => {
           <Icon
             icon="lucide:chevron-down"
             :class="['size-4 transition-transform', isOpen && 'rotate-180']"
+            aria-hidden="true"
           />
         </button>
       </slot>
@@ -100,7 +113,10 @@ const computedDropdownStyle = computed(() => {
       >
         <div
           v-if="isOpen"
+          :id="menuId"
           ref="menuRef"
+          role="menu"
+          :aria-labelledby="triggerId"
           :style="computedDropdownStyle"
           :class="[
             'z-[9999] rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800',
@@ -117,11 +133,13 @@ const computedDropdownStyle = computed(() => {
             >
               <div
                 v-if="item.divider"
+                role="separator"
                 class="my-1 border-t border-gray-200 dark:border-gray-700"
               />
               <button
                 v-else
                 type="button"
+                role="menuitem"
                 :disabled="item.disabled"
                 :class="[
                   'flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors',
@@ -137,6 +155,7 @@ const computedDropdownStyle = computed(() => {
                   v-if="item.icon"
                   :icon="item.icon"
                   class="size-4"
+                  aria-hidden="true"
                 />
                 {{ item.label }}
               </button>

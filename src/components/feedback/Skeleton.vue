@@ -33,6 +33,7 @@ const variantClasses: Record<SkeletonVariant, string> = {
   <div
     v-if="variant === 'text' && lines > 1"
     class="space-y-2"
+    aria-hidden="true"
   >
     <div
       v-for="i in lines"
@@ -59,5 +60,6 @@ const variantClasses: Record<SkeletonVariant, string> = {
       width: width || (variant === 'circular' ? '3rem' : '100%'),
       height: height || (variant === 'circular' ? '3rem' : variant === 'text' ? '1rem' : '6rem'),
     }"
+    aria-hidden="true"
   />
 </template>

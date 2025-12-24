@@ -3,6 +3,7 @@ import { computed, ref, watch, nextTick } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { SelectProps, SelectOption } from '@/types'
 import { useDropdown } from '@/composables/useDropdown'
+import { useId } from '@/composables/useId'
 
 const props = withDefaults(
   defineProps<
@@ -23,6 +24,11 @@ const props = withDefaults(
     noResultsText: 'No results found',
   },
 )
+
+// Generate unique IDs for accessibility
+const { id: generatedId, related } = useId({ prefix: 'select', id: props.id })
+const triggerId = computed(() => props.id ?? props.name ?? generatedId.value)
+const listboxId = computed(() => related('listbox'))
 
 const modelValue = defineModel<string | number | boolean | null>()
 
@@ -138,11 +144,16 @@ const triggerClasses = computed(() => {
   <div class="relative">
     <!-- Trigger -->
     <button
-      :id="id ?? name ?? undefined"
+      :id="triggerId"
       ref="triggerRef"
       type="button"
       :disabled="disabled"
       :class="triggerClasses"
+      :aria-haspopup="'listbox'"
+      :aria-expanded="isOpen"
+      :aria-controls="listboxId"
+      :aria-invalid="invalid || undefined"
+      :aria-describedby="describedBy || undefined"
       @click="toggle"
       @keydown="handleKeydown"
     >
@@ -156,6 +167,7 @@ const triggerClasses = computed(() => {
       <Icon
         icon="lucide:chevron-down"
         :class="['size-4 shrink-0 text-gray-400 transition-transform', isOpen && 'rotate-180']"
+        aria-hidden="true"
       />
     </button>
 
@@ -174,7 +186,10 @@ const triggerClasses = computed(() => {
       >
         <div
           v-if="isOpen"
+          :id="listboxId"
           ref="dropdownRef"
+          role="listbox"
+          :aria-label="placeholder || 'Select an option'"
           :style="dropdownStyle"
           :class="[
             'z-[9999] max-h-60 overflow-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800',
@@ -190,6 +205,7 @@ const triggerClasses = computed(() => {
               <Icon
                 icon="lucide:search"
                 class="size-4 text-gray-400"
+                aria-hidden="true"
               />
               <input
                 ref="searchInputRef"
@@ -197,6 +213,7 @@ const triggerClasses = computed(() => {
                 type="text"
                 class="flex-1 bg-transparent text-sm outline-none dark:text-white"
                 placeholder="Search..."
+                aria-label="Search options"
                 @keydown="handleKeydown"
               >
             </div>
@@ -206,6 +223,7 @@ const triggerClasses = computed(() => {
           <div
             v-if="filteredOptions.length === 0"
             class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400"
+            role="status"
           >
             {{ noResultsText }}
           </div>
@@ -216,6 +234,8 @@ const triggerClasses = computed(() => {
               v-for="(option, index) in filteredOptions"
               :key="String(option.value)"
               type="button"
+              role="option"
+              :aria-selected="modelValue === option.value"
               :data-index="index"
               :class="[
                 'flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors',
@@ -236,10 +256,12 @@ const triggerClasses = computed(() => {
                   v-if="modelValue === option.value"
                   icon="lucide:check"
                   class="size-4 shrink-0 text-primary"
+                  aria-hidden="true"
                 />
                 <span
                   v-else
                   class="size-4 shrink-0"
+                  aria-hidden="true"
                 />
                 <span class="flex-1">{{ option.label }}</span>
               </slot>

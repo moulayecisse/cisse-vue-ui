@@ -17,7 +17,7 @@ withDefaults(
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full" aria-hidden="true">
     <!-- Header -->
     <div
       v-if="showHeader"

@@ -65,6 +65,7 @@ const styles = variantStyles[props.variant]
     <Icon
       :icon="icon || styles.icon"
       :class="['size-5 shrink-0', styles.iconColor]"
+      aria-hidden="true"
     />
     <div class="flex-1">
       <h4
@@ -81,11 +82,13 @@ const styles = variantStyles[props.variant]
       v-if="dismissible"
       type="button"
       class="shrink-0 rounded p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+      aria-label="Dismiss alert"
       @click="emit('dismiss')"
     >
       <Icon
         icon="lucide:x"
         class="size-4"
+        aria-hidden="true"
       />
     </button>
   </div>

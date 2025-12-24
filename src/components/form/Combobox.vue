@@ -2,6 +2,7 @@
 import { ref, computed, watch, nextTick } from 'vue'
 import { Icon } from '@iconify/vue'
 import { onClickOutside } from '@vueuse/core'
+import { useId } from '@/composables/useId'
 
 export interface ComboboxOption {
   value: string | number
@@ -44,6 +45,11 @@ const props = withDefaults(
     teleport: false,
   },
 )
+
+// Generate unique IDs for accessibility
+const { id: generatedId, related } = useId({ prefix: 'combobox', id: props.id })
+const inputId = computed(() => props.id ?? generatedId.value)
+const listboxId = computed(() => related('listbox'))
 
 const teleportDisabled = computed(() => props.teleport === false)
 const teleportTarget = computed(() => props.teleport === false ? 'body' : props.teleport)
@@ -137,6 +143,10 @@ watch(isOpen, (open) => {
   >
     <!-- Trigger -->
     <div
+      role="combobox"
+      :aria-expanded="isOpen"
+      :aria-haspopup="'listbox'"
+      :aria-controls="listboxId"
       :class="[
         'flex min-h-[42px] w-full cursor-pointer items-center rounded-lg border bg-white px-3 py-2 transition-colors',
         'dark:bg-gray-900',
@@ -162,13 +172,15 @@ watch(isOpen, (open) => {
       <!-- Search input (when open) -->
       <input
         v-else
-        :id="id"
+        :id="inputId"
         ref="inputRef"
         v-model="search"
         type="text"
         :name="name"
         :placeholder="searchPlaceholder"
         :disabled="disabled"
+        aria-autocomplete="list"
+        :aria-controls="listboxId"
         class="flex-1 border-none bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400 dark:text-gray-100 dark:placeholder:text-gray-500"
         @click.stop
       />
@@ -180,9 +192,10 @@ watch(isOpen, (open) => {
           v-if="clearable && selectedOptions.length > 0 && !disabled"
           type="button"
           class="rounded p-0.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+          aria-label="Clear selection"
           @click.stop="clear"
         >
-          <Icon icon="lucide:x" class="h-4 w-4" />
+          <Icon icon="lucide:x" class="h-4 w-4" aria-hidden="true" />
         </button>
 
         <!-- Chevron -->
@@ -192,6 +205,7 @@ watch(isOpen, (open) => {
             'h-4 w-4 text-gray-400 transition-transform',
             isOpen && 'rotate-180',
           ]"
+          aria-hidden="true"
         />
       </div>
     </div>
@@ -208,6 +222,10 @@ watch(isOpen, (open) => {
       >
         <div
           v-if="isOpen"
+          :id="listboxId"
+          role="listbox"
+          :aria-label="placeholder"
+          :aria-multiselectable="multiple || undefined"
           class="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-900"
         >
           <!-- Options -->
@@ -216,6 +234,9 @@ watch(isOpen, (open) => {
               v-for="option in filteredOptions"
               :key="option.value"
               type="button"
+              role="option"
+              :aria-selected="isSelected(option)"
+              :aria-disabled="option.disabled || undefined"
               :disabled="option.disabled"
               :class="[
                 'flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors',
@@ -236,6 +257,7 @@ watch(isOpen, (open) => {
                     ? 'border-primary bg-primary text-white'
                     : 'border-gray-300 dark:border-gray-600',
                 ]"
+                aria-hidden="true"
               >
                 <Icon v-if="isSelected(option)" icon="lucide:check" class="h-3 w-3" />
               </span>
@@ -248,6 +270,7 @@ watch(isOpen, (open) => {
                 v-if="!multiple && isSelected(option)"
                 icon="lucide:check"
                 class="h-4 w-4 text-primary"
+                aria-hidden="true"
               />
             </button>
           </template>
@@ -256,6 +279,7 @@ watch(isOpen, (open) => {
           <div
             v-else
             class="px-3 py-2 text-center text-sm text-gray-500 dark:text-gray-400"
+            role="status"
           >
             {{ noResultsText }}
           </div>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
+import { useId } from '@/composables/useId'
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right'
 
@@ -13,6 +14,8 @@ const props = withDefaults(
     delay?: number
     /** Disable the tooltip */
     disabled?: boolean
+    /** Custom ID for accessibility */
+    id?: string
   }>(),
   {
     position: 'top',
@@ -20,6 +23,9 @@ const props = withDefaults(
     disabled: false,
   },
 )
+
+// Generate unique ID for accessibility
+const { id: tooltipId } = useId({ prefix: 'tooltip', id: props.id })
 
 const isVisible = ref(false)
 let timeoutId: ReturnType<typeof setTimeout> | null = null
@@ -65,6 +71,7 @@ const positionClasses = computed(() => {
 <template>
   <div
     class="relative inline-block"
+    :aria-describedby="content && !disabled ? tooltipId : undefined"
     @mouseenter="show"
     @mouseleave="hide"
     @focus="show"
@@ -81,6 +88,7 @@ const positionClasses = computed(() => {
     >
       <div
         v-if="isVisible && content"
+        :id="tooltipId"
         :class="positionClasses"
         role="tooltip"
       >

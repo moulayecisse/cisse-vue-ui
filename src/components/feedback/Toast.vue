@@ -71,6 +71,7 @@ if (props.duration > 0) {
     <Icon
       :icon="config.icon"
       :class="['size-5 shrink-0', config.iconColor]"
+      aria-hidden="true"
     />
     <div class="flex-1 min-w-0">
       <p
@@ -87,11 +88,13 @@ if (props.duration > 0) {
       v-if="closable"
       type="button"
       class="shrink-0 rounded p-1 text-gray-400 hover:bg-gray-200 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+      aria-label="Dismiss notification"
       @click="emit('close')"
     >
       <Icon
         icon="lucide:x"
         class="size-4"
+        aria-hidden="true"
       />
     </button>
   </div>
