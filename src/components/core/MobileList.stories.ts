@@ -183,3 +183,28 @@ export const Empty: Story = {
     `,
   }),
 }
+
+export const Loading: Story = {
+  args: {
+    items: [],
+    loading: true,
+  },
+  render: (args) => ({
+    components: { MobileList },
+    setup: () => ({ args }),
+    template: '<MobileList v-bind="args" />',
+  }),
+}
+
+export const LoadingCustomItems: Story = {
+  args: {
+    items: [],
+    loading: true,
+    loadingItems: 3,
+  },
+  render: (args) => ({
+    components: { MobileList },
+    setup: () => ({ args }),
+    template: '<MobileList v-bind="args" />',
+  }),
+}

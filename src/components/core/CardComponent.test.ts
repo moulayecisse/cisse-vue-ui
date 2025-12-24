@@ -98,16 +98,29 @@ describe('CardComponent', () => {
 
   it('has rounded corners', () => {
     const wrapper = mount(CardComponent)
-    expect(wrapper.classes()).toContain('rounded-lg')
+    expect(wrapper.find('.rounded-lg').exists()).toBe(true)
   })
 
   it('has shadow', () => {
     const wrapper = mount(CardComponent)
-    expect(wrapper.classes()).toContain('shadow-md')
+    expect(wrapper.find('.shadow-md').exists()).toBe(true)
   })
 
   it('has white background', () => {
     const wrapper = mount(CardComponent)
-    expect(wrapper.classes()).toContain('bg-white')
+    expect(wrapper.find('.bg-white').exists()).toBe(true)
+  })
+
+  it('shows loading skeleton when loading', () => {
+    const wrapper = mount(CardComponent, { props: { loading: true } })
+    expect(wrapper.findComponent({ name: 'CardSkeleton' }).exists()).toBe(true)
+  })
+
+  it('hides content when loading', () => {
+    const wrapper = mount(CardComponent, {
+      props: { loading: true },
+      slots: { default: '<p>Content</p>' },
+    })
+    expect(wrapper.find('p').exists()).toBe(false)
   })
 })

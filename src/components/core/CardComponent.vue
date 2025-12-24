@@ -1,12 +1,29 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import CardSkeleton from '@/components/feedback/CardSkeleton.vue'
 
-const props = defineProps<{
-  title?: string
-  description?: string
-  titleClass?: string
-  dividerClass?: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    title?: string
+    description?: string
+    titleClass?: string
+    dividerClass?: string
+    /** Show loading skeleton */
+    loading?: boolean
+    /** Number of skeleton lines */
+    loadingLines?: number
+    /** Show avatar in skeleton */
+    loadingAvatar?: boolean
+    /** Show actions in skeleton */
+    loadingActions?: boolean
+  }>(),
+  {
+    loading: false,
+    loadingLines: 3,
+    loadingAvatar: false,
+    loadingActions: false,
+  },
+)
 
 const titleClasses = computed(() =>
   props.titleClass || 'text-gray-800 dark:text-gray-200'
@@ -18,7 +35,16 @@ const dividerClasses = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col overflow-hidden rounded-lg bg-white shadow-md dark:bg-slate-950">
+  <!-- Loading State -->
+  <CardSkeleton
+    v-if="loading"
+    :lines="loadingLines"
+    :show-avatar="loadingAvatar"
+    :show-actions="loadingActions"
+  />
+
+  <!-- Content -->
+  <div v-else class="flex flex-col overflow-hidden rounded-lg bg-white shadow-md dark:bg-slate-950">
     <!-- Custom header slot (replaces standard header) -->
     <div
       v-if="$slots.header"

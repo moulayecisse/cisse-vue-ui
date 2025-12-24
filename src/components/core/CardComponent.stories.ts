@@ -106,3 +106,24 @@ export const CustomSlots: Story = {
     `,
   }),
 }
+
+export const Loading: Story = {
+  render: () => ({
+    components: { CardComponent },
+    template: '<CardComponent loading />',
+  }),
+}
+
+export const LoadingWithAvatar: Story = {
+  render: () => ({
+    components: { CardComponent },
+    template: '<CardComponent loading loading-avatar />',
+  }),
+}
+
+export const LoadingWithActions: Story = {
+  render: () => ({
+    components: { CardComponent },
+    template: '<CardComponent loading loading-avatar loading-actions :loading-lines="4" />',
+  }),
+}

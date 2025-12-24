@@ -2,6 +2,7 @@
 import { computed, useSlots } from 'vue'
 import Checkbox from '@/components/form/Checkbox.vue'
 import CardComponent from './CardComponent.vue'
+import ListSkeleton from '@/components/feedback/ListSkeleton.vue'
 
 export interface MobileListColumn {
   key: string
@@ -28,10 +29,16 @@ const props = withDefaults(
     selectedItems?: Set<string>
     /** Filter function to determine if an item is selectable */
     selectableFilter?: (item: ItemType) => boolean
+    /** Show loading skeleton */
+    loading?: boolean
+    /** Number of skeleton items to show when loading */
+    loadingItems?: number
   }>(),
   {
     keyField: 'id',
     selectable: false,
+    loading: false,
+    loadingItems: 5,
   },
 )
 
@@ -93,28 +100,40 @@ const hasEmptySlot = computed(() => !!slots.empty)
 
 <template>
   <div class="space-y-3">
-    <!-- Select All Header (when selectable) -->
-    <CardComponent v-if="selectable && selectableItems.length > 0">
-      <div class="flex items-center gap-3 p-3">
-        <Checkbox
-          :model-value="allSelected"
-          :indeterminate="someSelected"
-          @update:model-value="emit('selectAll')"
-        />
-        <span class="text-sm text-gray-600 dark:text-gray-400">
-          {{ allSelected ? 'Tout désélectionner' : 'Tout sélectionner' }}
-        </span>
-        <span
-          v-if="selectedItems && selectedItems.size > 0"
-          class="text-sm text-primary font-medium"
-        >
-          ({{ selectedItems.size }} sélectionné{{ selectedItems.size > 1 ? 's' : '' }})
-        </span>
-      </div>
+    <!-- Loading State -->
+    <CardComponent v-if="loading">
+      <ListSkeleton
+        :items="loadingItems"
+        show-avatar
+        show-secondary
+        show-action
+      />
     </CardComponent>
 
-    <!-- Items List -->
-    <CardComponent
+    <!-- Content (when not loading) -->
+    <template v-else>
+      <!-- Select All Header (when selectable) -->
+      <CardComponent v-if="selectable && selectableItems.length > 0">
+        <div class="flex items-center gap-3 p-3">
+          <Checkbox
+            :model-value="allSelected"
+            :indeterminate="someSelected"
+            @update:model-value="emit('selectAll')"
+          />
+          <span class="text-sm text-gray-600 dark:text-gray-400">
+            {{ allSelected ? 'Tout désélectionner' : 'Tout sélectionner' }}
+          </span>
+          <span
+            v-if="selectedItems && selectedItems.size > 0"
+            class="text-sm text-primary font-medium"
+          >
+            ({{ selectedItems.size }} sélectionné{{ selectedItems.size > 1 ? 's' : '' }})
+          </span>
+        </div>
+      </CardComponent>
+
+      <!-- Items List -->
+      <CardComponent
       v-for="item in items"
       :key="getKey(item)"
       class="hover:shadow-lg transition-all duration-200"
@@ -161,11 +180,12 @@ const hasEmptySlot = computed(() => !!slots.empty)
           />
         </div>
       </div>
-    </CardComponent>
+      </CardComponent>
 
-    <!-- Empty state -->
-    <div v-if="items.length === 0 && hasEmptySlot">
-      <slot name="empty" />
-    </div>
+      <!-- Empty state -->
+      <div v-if="items.length === 0 && hasEmptySlot">
+        <slot name="empty" />
+      </div>
+    </template>
   </div>
 </template>

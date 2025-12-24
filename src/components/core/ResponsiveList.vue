@@ -53,11 +53,17 @@ const props = withDefaults(
     sortBy?: string
     /** Current sort direction */
     sortDirection?: SortDirection
+    /** Show loading skeleton */
+    loading?: boolean
+    /** Number of skeleton rows/items to show when loading */
+    loadingRows?: number
   }>(),
   {
     keyField: 'id',
     selectable: false,
     breakpoint: 'lg',
+    loading: false,
+    loadingRows: 5,
   },
 )
 
@@ -153,6 +159,8 @@ const isDesktop = computed(() => breakpoints.greaterOrEqual(props.breakpoint).va
       :selectable="selectable"
       :selected-items="selectedItems"
       :selectable-filter="selectableFilter"
+      :loading="loading"
+      :loading-items="loadingRows"
       @select="emit('select', $event)"
       @select-all="emit('selectAll')"
     >
@@ -198,6 +206,8 @@ const isDesktop = computed(() => breakpoints.greaterOrEqual(props.breakpoint).va
         :selectable-filter="selectableFilter"
         :sort-by="sortBy"
         :sort-direction="sortDirection"
+        :loading="loading"
+        :loading-rows="loadingRows"
         @select="emit('select', $event)"
         @select-all="emit('selectAll')"
         @sort="(col: string, dir: SortDirection) => emit('sort', col, dir)"

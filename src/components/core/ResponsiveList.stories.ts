@@ -273,3 +273,30 @@ export const Empty: Story = {
     `,
   }),
 }
+
+export const Loading: Story = {
+  args: {
+    items: [],
+    columns: defaultColumns,
+    loading: true,
+  },
+  render: (args) => ({
+    components: { ResponsiveList },
+    setup: () => ({ args }),
+    template: '<ResponsiveList v-bind="args" />',
+  }),
+}
+
+export const LoadingCustomRows: Story = {
+  args: {
+    items: [],
+    columns: defaultColumns,
+    loading: true,
+    loadingRows: 8,
+  },
+  render: (args) => ({
+    components: { ResponsiveList },
+    setup: () => ({ args }),
+    template: '<ResponsiveList v-bind="args" />',
+  }),
+}

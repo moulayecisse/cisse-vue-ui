@@ -6,6 +6,7 @@ import DateType from '@/components/type/DateType.vue'
 import BooleanType from '@/components/type/BooleanType.vue'
 import BadgeType from '@/components/type/BadgeType.vue'
 import Checkbox from '@/components/form/Checkbox.vue'
+import TableSkeleton from '@/components/feedback/TableSkeleton.vue'
 import { computed, type Component, useSlots, type Slots } from 'vue'
 
 export type SortDirection = 'asc' | 'desc'
@@ -32,10 +33,16 @@ const props = withDefaults(
     sortBy?: string
     /** Current sort direction */
     sortDirection?: SortDirection
+    /** Show loading skeleton */
+    loading?: boolean
+    /** Number of skeleton rows to show when loading */
+    loadingRows?: number
   }>(),
   {
     selectable: false,
     keyField: 'id',
+    loading: false,
+    loadingRows: 5,
   },
 )
 
@@ -152,7 +159,15 @@ const isSortedColumn = (property: Property): boolean => {
 
 <template>
   <div class="overflow-hidden">
-    <div class="overflow-x-auto">
+    <!-- Loading State -->
+    <TableSkeleton
+      v-if="loading"
+      :rows="loadingRows"
+      :columns="visibleProperties.length"
+    />
+
+    <!-- Content -->
+    <div v-else class="overflow-x-auto">
       <table class="w-full divide-y divide-black/10 text-left dark:divide-white/10">
         <thead
           class="bg-black/5 text-sm font-semibold text-gray-600 uppercase dark:bg-white/5 dark:text-gray-400"
@@ -289,11 +304,11 @@ const isSortedColumn = (property: Property): boolean => {
           </tr>
         </tbody>
       </table>
-    </div>
 
-    <!-- Empty state -->
-    <div v-if="!items || items.length === 0">
-      <slot name="empty" />
+      <!-- Empty state -->
+      <div v-if="!items || items.length === 0">
+        <slot name="empty" />
+      </div>
     </div>
   </div>
 </template>

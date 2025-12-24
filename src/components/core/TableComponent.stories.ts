@@ -220,3 +220,29 @@ export const NestedProperties: Story = {
     template: '<TableComponent :items="items" :properties="properties" />',
   }),
 }
+
+export const Loading: Story = {
+  render: () => ({
+    components: { TableComponent },
+    setup: () => ({
+      properties: basicProperties,
+    }),
+    template: '<TableComponent :items="[]" :properties="properties" loading />',
+  }),
+}
+
+export const LoadingCustomRows: Story = {
+  render: () => ({
+    components: { TableComponent },
+    setup: () => ({
+      properties: [
+        { name: 'name', label: 'Name', main: true },
+        { name: 'email', label: 'Email' },
+        { name: 'role', label: 'Role' },
+        { name: 'status', label: 'Status' },
+        { name: 'date', label: 'Date' },
+      ],
+    }),
+    template: '<TableComponent :items="[]" :properties="properties" loading :loading-rows="10" />',
+  }),
+}
