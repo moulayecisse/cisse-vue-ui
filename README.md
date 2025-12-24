@@ -107,30 +107,51 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 | `TableAction` | Icon button for table row actions |
 | `Stepper` | Multi-step progress indicator with horizontal/vertical orientation |
 | `CollapsibleCard` | Card that can expand/collapse its content |
+| `Accordion` | Expandable content sections with single/multiple mode |
+| `Breadcrumb` | Navigation breadcrumb trail |
+| `Drawer` | Slide-out panel from any edge (left, right, top, bottom) |
+| `Popover` | Floating content panel triggered by click or hover |
+| `Timeline` | Vertical timeline for events/history display |
+| `Tooltip` | Hover tooltip with customizable position |
 
 ### Form
 
 | Component | Description |
 |-----------|-------------|
-| `FormInput` | Text input with label, validation, and icons |
-| `FormSelect` | Select dropdown with label and validation |
-| `FormGroup` | Form field wrapper with label and help text |
-| `FormLabel` | Styled form label |
-| `FormHelp` | Help text for form fields |
+| `FormInput` | Text input with validation states and ARIA support |
+| `FormSelect` | Select dropdown with search, multi-select, and validation |
+| `FormGroup` | Form field wrapper with label, help text, and error states |
+| `FormLabel` | Styled form label with required indicator |
+| `FormHelp` | Help/error text for form fields |
 | `SearchInput` | Search input with icon and clear button |
 | `Switch` | Toggle switch with label and description |
-| `Checkbox` | Checkbox with label and description |
+| `Checkbox` | Checkbox with label, description, and indeterminate state |
+| `Combobox` | Multi-select combobox with search and tags |
+| `DatePicker` | Calendar date picker with min/max dates |
+| `ColorPicker` | Color selection with swatches and custom input |
+| `FileUpload` | Drag-and-drop file upload with preview |
+| `Rating` | Star rating input with half-star support |
+| `Slider` | Single value slider input |
+| `RangeSlider` | Dual-handle range slider |
 
 ### Feedback
 
 | Component | Description |
 |-----------|-------------|
-| `Modal` | Modal dialog with header, body, footer slots |
+| `Modal` | Modal dialog with focus trap, ARIA support, and slots |
+| `ConfirmDialog` | Confirmation modal with customizable actions |
 | `Alert` | Alert banner with variants (info, success, warning, error) |
+| `Toast` | Individual toast notification with auto-dismiss |
+| `ToastContainer` | Toast notification container with positioning |
 | `LoadingSpinner` | Loading indicator with size variants |
+| `Progress` | Progress bar with percentage display |
+| `Skeleton` | Loading placeholder with animation |
+| `CardSkeleton` | Card loading skeleton |
+| `ListSkeleton` | List loading skeleton |
+| `TableSkeleton` | Table loading skeleton |
 | `PaginationControls` | Pagination with page numbers and navigation |
-| `NotificationList` | Toast notification container |
-| `NotificationComponent` | Individual toast notification |
+| `NotificationList` | Notification list container |
+| `NotificationComponent` | Individual notification item |
 | `EmptyState` | Placeholder for empty content with icon and action slot |
 
 ### Layout
@@ -153,7 +174,16 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 ## Composables
 
 ```typescript
-import { useNotifications, useDarkMode, useExportCSV, useDropdown, useModal } from 'cisse-vue-ui/composables'
+import {
+  useNotifications,
+  useDarkMode,
+  useExportCSV,
+  useDropdown,
+  useModal,
+  useToast,
+  useFocusTrap,
+  useId
+} from 'cisse-vue-ui/composables'
 ```
 
 ### useModal
@@ -250,6 +280,73 @@ const { isDark, toggle, enable, disable } = useDarkMode({
 const { exportToCSV } = useExportCSV()
 
 exportToCSV(data, columns, 'export.csv')
+```
+
+### useToast
+
+Toast notification system with positioning and auto-dismiss:
+
+```typescript
+import { useToast } from 'cisse-vue-ui/composables'
+
+const { toasts, addToast, removeToast, clearToasts } = useToast()
+
+// Add a toast
+addToast({
+  type: 'success',
+  title: 'Success!',
+  message: 'Your changes have been saved.',
+  duration: 5000  // auto-dismiss after 5s
+})
+
+// Different toast types
+addToast({ type: 'error', title: 'Error', message: 'Something went wrong' })
+addToast({ type: 'warning', title: 'Warning', message: 'Please review' })
+addToast({ type: 'info', title: 'Info', message: 'New update available' })
+```
+
+```vue
+<template>
+  <!-- Add ToastContainer to your app root -->
+  <ToastContainer position="top-right" />
+</template>
+```
+
+### useFocusTrap
+
+Trap focus within a container (used internally by Modal):
+
+```typescript
+import { useFocusTrap } from 'cisse-vue-ui/composables'
+import { ref } from 'vue'
+
+const isActive = ref(true)
+const { containerRef } = useFocusTrap({
+  active: isActive,
+  focusFirst: true,      // Focus first focusable element on activate
+  restoreFocus: true     // Restore focus on deactivate
+})
+```
+
+### useId
+
+Generate unique IDs for accessibility (ARIA relationships):
+
+```typescript
+import { useId } from 'cisse-vue-ui/composables'
+
+const { id, related } = useId({ prefix: 'modal' })
+// id.value = 'cisse-modal-1'
+// related('title') = 'cisse-modal-1-title'
+// related('description') = 'cisse-modal-1-description'
+```
+
+```vue
+<template>
+  <div :id="id" role="dialog" :aria-labelledby="related('title')">
+    <h2 :id="related('title')">Dialog Title</h2>
+  </div>
+</template>
 ```
 
 ## Types
