@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/vue3-vite'
-import { INITIAL_VIEWPORTS, MINIMAL_VIEWPORTS } from 'storybook/viewport'
+import { MINIMAL_VIEWPORTS } from 'storybook/viewport'
 import '../src/styles/components.css'
 
 const customViewports = {
