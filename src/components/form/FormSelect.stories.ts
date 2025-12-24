@@ -11,10 +11,13 @@ const meta: Meta<typeof FormSelect> = {
     disabled: { control: 'boolean' },
     searchable: { control: 'boolean' },
     teleport: { control: 'boolean' },
+    triggerClass: { control: 'text' },
+    noResultsText: { control: 'text' },
   },
   args: {
     placeholder: 'Select an option...',
     teleport: true,
+    noResultsText: 'No results found',
   },
 }
 
@@ -128,5 +131,42 @@ export const CountrySelector: Story = {
       return { args, value }
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
+  }),
+}
+
+export const CustomTriggerClass: Story = {
+  args: {
+    options: defaultOptions,
+    triggerClass: 'bg-blue-50 border-blue-300 dark:bg-blue-900/20 dark:border-blue-700',
+  },
+  render: (args) => ({
+    components: { FormSelect },
+    setup: () => {
+      const value = ref(null)
+      return { args, value }
+    },
+    template: '<FormSelect v-bind="args" v-model="value" />',
+  }),
+}
+
+export const CustomNoResultsText: Story = {
+  args: {
+    options: defaultOptions,
+    searchable: true,
+    noResultsText: 'Aucun résultat trouvé',
+    placeholder: 'Rechercher un fruit...',
+  },
+  render: (args) => ({
+    components: { FormSelect },
+    setup: () => {
+      const value = ref(null)
+      return { args, value }
+    },
+    template: `
+      <div>
+        <p class="mb-2 text-sm text-gray-500">Type something that doesn't match to see custom "no results" text</p>
+        <FormSelect v-bind="args" v-model="value" />
+      </div>
+    `,
   }),
 }

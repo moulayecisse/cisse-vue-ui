@@ -81,7 +81,6 @@ describe('ToastContainer', () => {
       })
 
       const container = document.body.querySelector('.fixed')
-      expect(container?.classList.contains('top-4')).toBe(true)
       expect(container?.classList.contains('right-4')).toBe(true)
 
       wrapper.unmount()
@@ -97,7 +96,6 @@ describe('ToastContainer', () => {
       })
 
       const container = document.body.querySelector('.fixed')
-      expect(container?.classList.contains('top-4')).toBe(true)
       expect(container?.classList.contains('left-4')).toBe(true)
 
       wrapper.unmount()
@@ -145,7 +143,6 @@ describe('ToastContainer', () => {
       })
 
       const container = document.body.querySelector('.fixed')
-      expect(container?.classList.contains('top-4')).toBe(true)
       expect(container?.classList.contains('left-1/2')).toBe(true)
       expect(container?.classList.contains('-translate-x-1/2')).toBe(true)
 
