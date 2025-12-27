@@ -176,7 +176,7 @@ const handleUserMenuClick = (item: UserMenuItem) => {
       <!-- Menu Items -->
       <div
         :class="sidebarOpenModel ? 'items-start' : 'items-center'"
-        class="flex flex-1 flex-col gap-8 px-2 lg:justify-center"
+        class="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto px-2 lg:justify-center"
       >
         <slot
           name="menu"
