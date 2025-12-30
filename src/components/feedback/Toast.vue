@@ -30,22 +30,22 @@ const emit = defineEmits<{
 const typeConfig: Record<ToastType, { icon: string; bg: string; iconColor: string }> = {
   success: {
     icon: 'lucide:check-circle',
-    bg: 'bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-800',
+    bg: 'bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800',
     iconColor: 'text-green-500',
   },
   error: {
     icon: 'lucide:x-circle',
-    bg: 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800',
+    bg: 'bg-red-50 border-red-200 dark:bg-red-950 dark:border-red-800',
     iconColor: 'text-red-500',
   },
   warning: {
     icon: 'lucide:alert-triangle',
-    bg: 'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800',
+    bg: 'bg-yellow-50 border-yellow-200 dark:bg-yellow-950 dark:border-yellow-800',
     iconColor: 'text-yellow-500',
   },
   info: {
     icon: 'lucide:info',
-    bg: 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800',
+    bg: 'bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800',
     iconColor: 'text-blue-500',
   },
 }
