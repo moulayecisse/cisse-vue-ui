@@ -12,6 +12,8 @@ export interface UserMenuItem {
   action?: () => void
 }
 
+export type MenuPosition = 'top' | 'center' | 'bottom'
+
 const props = withDefaults(
   defineProps<{
     /** Menu items for the sidebar */
@@ -36,6 +38,8 @@ const props = withDefaults(
     userAvatar?: string
     /** User menu items (dropdown) */
     userMenuItems?: UserMenuItem[]
+    /** Menu vertical position in sidebar: 'top', 'center', or 'bottom' */
+    menuPosition?: MenuPosition
   }>(),
   {
     menuItems: () => [],
@@ -49,8 +53,21 @@ const props = withDefaults(
     userName: undefined,
     userAvatar: undefined,
     userMenuItems: () => [],
+    menuPosition: 'top',
   },
 )
+
+const menuPositionClass = computed(() => {
+  switch (props.menuPosition) {
+    case 'center':
+      return 'lg:justify-center'
+    case 'bottom':
+      return 'lg:justify-end'
+    case 'top':
+    default:
+      return 'lg:justify-start'
+  }
+})
 
 const emit = defineEmits<{
   'update:sidebarOpen': [value: boolean]
@@ -175,8 +192,8 @@ const handleUserMenuClick = (item: UserMenuItem) => {
 
       <!-- Menu Items -->
       <div
-        :class="sidebarOpenModel ? 'items-start' : 'items-center'"
-        class="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto overflow-x-hidden px-2 lg:justify-center"
+        :class="[sidebarOpenModel ? 'items-start' : 'items-center', menuPositionClass]"
+        class="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto overflow-x-hidden px-2"
       >
         <slot
           name="menu"
