@@ -819,6 +819,7 @@ const menuItems = [
     :menu-items="menuItems"
     :current-path="route.path"
     :show-dark-toggle="true"
+    menu-position="top"
   >
     <template #logo>
       <img src="/logo.svg" alt="Logo" class="h-8" />
@@ -828,6 +829,34 @@ const menuItems = [
   </BaseLayout>
 </template>
 ```
+
+#### BaseLayout Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `menuItems` | `MenuItemProps[]` | `[]` | Menu items for the sidebar |
+| `appName` | `string` | `'App'` | App/brand name displayed in sidebar |
+| `appIcon` | `string` | `'lucide:box'` | App icon (Iconify icon name) |
+| `sidebarOpen` | `boolean` | `true` | Whether sidebar is open (v-model:sidebarOpen) |
+| `dark` | `boolean` | `false` | Whether dark mode is enabled (v-model:dark) |
+| `showDarkToggle` | `boolean` | `true` | Show dark mode toggle in header |
+| `sidebarClass` | `string` | `'bg-[#172b4c]...'` | CSS classes for sidebar background |
+| `currentPath` | `string` | - | Current route path for menu active state |
+| `userName` | `string` | - | User display name |
+| `userAvatar` | `string` | - | User avatar (initials or image URL) |
+| `userMenuItems` | `UserMenuItem[]` | `[]` | User menu dropdown items |
+| `menuPosition` | `'top' \| 'center' \| 'bottom'` | `'top'` | Menu vertical position in sidebar |
+
+#### BaseLayout Slots
+
+| Slot | Description |
+|------|-------------|
+| `default` | Main content area (or renders RouterView if available) |
+| `logo` | Custom logo in sidebar header |
+| `menu` | Custom menu content (receives currentPath) |
+| `sidebar-footer` | Content at bottom of sidebar |
+| `header-center` | Center content in header |
+| `header-actions` | Action buttons in header (before dark toggle) |
 
 ## Dark Mode
 

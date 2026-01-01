@@ -209,4 +209,31 @@ describe('BaseLayout', () => {
     expect(wrapper.emitted('update:sidebarOpen')).toBeTruthy()
     expect(wrapper.emitted('update:sidebarOpen')![0]).toEqual([false])
   })
+
+  it('applies top menu position by default', () => {
+    const wrapper = mount(BaseLayout, {
+      props: { sidebarOpen: true },
+    })
+
+    const menuContainer = wrapper.find('.flex.min-h-0.flex-1.flex-col')
+    expect(menuContainer.classes()).toContain('lg:justify-start')
+  })
+
+  it('applies center menu position', () => {
+    const wrapper = mount(BaseLayout, {
+      props: { sidebarOpen: true, menuPosition: 'center' },
+    })
+
+    const menuContainer = wrapper.find('.flex.min-h-0.flex-1.flex-col')
+    expect(menuContainer.classes()).toContain('lg:justify-center')
+  })
+
+  it('applies bottom menu position', () => {
+    const wrapper = mount(BaseLayout, {
+      props: { sidebarOpen: true, menuPosition: 'bottom' },
+    })
+
+    const menuContainer = wrapper.find('.flex.min-h-0.flex-1.flex-col')
+    expect(menuContainer.classes()).toContain('lg:justify-end')
+  })
 })
