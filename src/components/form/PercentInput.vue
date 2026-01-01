@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { computed } from 'vue'
 import InputWrapper from './InputWrapper.vue'
 import type { InputWrapperSize } from './InputWrapper.vue'
@@ -81,6 +85,7 @@ function handleInput(event: Event) {
         :aria-required="required || undefined"
         :aria-describedby="describedBy"
         :class="[inputClass, 'text-right pr-10']"
+        v-bind="$attrs"
         @input="handleInput"
       />
     </template>

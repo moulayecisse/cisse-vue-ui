@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import PhoneInput from './PhoneInput.vue'
+import PhoneInput, { formatPhoneWithPattern, getPhoneDigits } from './PhoneInput.vue'
 
 describe('PhoneInput', () => {
   it('renders a tel input', () => {
@@ -16,9 +16,11 @@ describe('PhoneInput', () => {
       },
     })
 
-    expect((wrapper.find('input[type="tel"]').element as HTMLInputElement).value).toBe('612345678')
+    // Display shows formatted value (French format: X XX XX XX XX)
+    expect((wrapper.find('input[type="tel"]').element as HTMLInputElement).value).toBe('6 12 34 56 78')
 
     await wrapper.find('input[type="tel"]').setValue('698765432')
+    // Model stores raw digits
     expect(wrapper.props('modelValue')).toBe('698765432')
   })
 
@@ -152,5 +154,56 @@ describe('PhoneInput', () => {
     })
 
     expect(wrapper.text()).toContain('🇲🇱')
+  })
+
+  it('formats phone number according to country pattern', async () => {
+    const wrapper = mount(PhoneInput, {
+      props: {
+        modelValue: '612345678',
+        defaultCountry: 'FR',
+      },
+    })
+
+    // French format: X XX XX XX XX
+    const input = wrapper.find('input[type="tel"]').element as HTMLInputElement
+    expect(input.value).toBe('6 12 34 56 78')
+  })
+
+  it('formats US phone number correctly', async () => {
+    const wrapper = mount(PhoneInput, {
+      props: {
+        modelValue: '5551234567',
+        defaultCountry: 'US',
+      },
+    })
+
+    // US format: (XXX) XXX-XXXX
+    const input = wrapper.find('input[type="tel"]').element as HTMLInputElement
+    expect(input.value).toBe('(555) 123-4567')
+  })
+})
+
+describe('formatPhoneWithPattern', () => {
+  it('formats phone number with French pattern', () => {
+    expect(formatPhoneWithPattern('612345678', '# ## ## ## ##')).toBe('6 12 34 56 78')
+  })
+
+  it('formats phone number with US pattern', () => {
+    expect(formatPhoneWithPattern('5551234567', '(###) ###-####')).toBe('(555) 123-4567')
+  })
+
+  it('handles partial input', () => {
+    expect(formatPhoneWithPattern('612', '# ## ## ## ##')).toBe('6 12')
+  })
+
+  it('returns raw value if no pattern', () => {
+    expect(formatPhoneWithPattern('612345678', undefined)).toBe('612345678')
+  })
+})
+
+describe('getPhoneDigits', () => {
+  it('extracts digits from formatted phone', () => {
+    expect(getPhoneDigits('6 12 34 56 78')).toBe('612345678')
+    expect(getPhoneDigits('(555) 123-4567')).toBe('5551234567')
   })
 })

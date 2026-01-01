@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { InputWrapperSize } from './InputWrapper.vue'
@@ -154,6 +158,7 @@ defineExpose({ focus: focusInput })
         'text-gray-900 dark:text-white placeholder-gray-400',
         sizeClasses.input,
       ]"
+      v-bind="$attrs"
       @keydown="handleKeydown"
       @blur="handleBlur"
     />

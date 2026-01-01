@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import InputWrapper from './InputWrapper.vue'
@@ -112,6 +116,7 @@ function handleInput(event: Event) {
         :aria-required="required || undefined"
         :aria-describedby="describedBy"
         :class="[inputClass, 'text-center', showStepper && 'pl-12 pr-12']"
+        v-bind="$attrs"
         @input="handleInput"
       />
     </template>

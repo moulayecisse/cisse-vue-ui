@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { InputWrapperSize } from './InputWrapper.vue'
@@ -121,6 +125,7 @@ const sizeClasses = computed(() => ({
         'disabled:opacity-50',
         sizeClasses.input,
       ]"
+      v-bind="$attrs"
       @input="handleInput"
     />
 

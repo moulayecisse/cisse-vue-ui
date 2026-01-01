@@ -78,7 +78,7 @@ describe('SearchInput', () => {
   it('has rounded corners', () => {
     const wrapper = mount(SearchInput)
 
-    expect(wrapper.find('input').classes()).toContain('rounded-lg')
+    expect(wrapper.find('input').classes()).toContain('rounded-xl')
   })
 
   it('has border', () => {

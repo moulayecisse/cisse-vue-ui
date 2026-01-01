@@ -4,26 +4,53 @@ export interface PhoneCountry {
   name: string
   dialCode: string
   flag: string
+  /** Format pattern: # = digit, space = space separator */
+  format?: string
 }
 
 export const defaultCountries: PhoneCountry[] = [
-  { code: 'FR', name: 'France', dialCode: '+33', flag: '🇫🇷' },
-  { code: 'US', name: 'United States', dialCode: '+1', flag: '🇺🇸' },
-  { code: 'GB', name: 'United Kingdom', dialCode: '+44', flag: '🇬🇧' },
-  { code: 'DE', name: 'Germany', dialCode: '+49', flag: '🇩🇪' },
-  { code: 'ES', name: 'Spain', dialCode: '+34', flag: '🇪🇸' },
-  { code: 'IT', name: 'Italy', dialCode: '+39', flag: '🇮🇹' },
-  { code: 'BE', name: 'Belgium', dialCode: '+32', flag: '🇧🇪' },
-  { code: 'CH', name: 'Switzerland', dialCode: '+41', flag: '🇨🇭' },
-  { code: 'CA', name: 'Canada', dialCode: '+1', flag: '🇨🇦' },
-  { code: 'AU', name: 'Australia', dialCode: '+61', flag: '🇦🇺' },
-  { code: 'ML', name: 'Mali', dialCode: '+223', flag: '🇲🇱' },
-  { code: 'SN', name: 'Senegal', dialCode: '+221', flag: '🇸🇳' },
-  { code: 'CI', name: 'Côte d\'Ivoire', dialCode: '+225', flag: '🇨🇮' },
-  { code: 'MA', name: 'Morocco', dialCode: '+212', flag: '🇲🇦' },
-  { code: 'TN', name: 'Tunisia', dialCode: '+216', flag: '🇹🇳' },
-  { code: 'DZ', name: 'Algeria', dialCode: '+213', flag: '🇩🇿' },
+  { code: 'FR', name: 'France', dialCode: '+33', flag: '🇫🇷', format: '# ## ## ## ##' },
+  { code: 'US', name: 'United States', dialCode: '+1', flag: '🇺🇸', format: '(###) ###-####' },
+  { code: 'GB', name: 'United Kingdom', dialCode: '+44', flag: '🇬🇧', format: '#### ######' },
+  { code: 'DE', name: 'Germany', dialCode: '+49', flag: '🇩🇪', format: '### #######' },
+  { code: 'ES', name: 'Spain', dialCode: '+34', flag: '🇪🇸', format: '### ### ###' },
+  { code: 'IT', name: 'Italy', dialCode: '+39', flag: '🇮🇹', format: '### ### ####' },
+  { code: 'BE', name: 'Belgium', dialCode: '+32', flag: '🇧🇪', format: '### ## ## ##' },
+  { code: 'CH', name: 'Switzerland', dialCode: '+41', flag: '🇨🇭', format: '## ### ## ##' },
+  { code: 'CA', name: 'Canada', dialCode: '+1', flag: '🇨🇦', format: '(###) ###-####' },
+  { code: 'AU', name: 'Australia', dialCode: '+61', flag: '🇦🇺', format: '### ### ###' },
+  { code: 'ML', name: 'Mali', dialCode: '+223', flag: '🇲🇱', format: '## ## ## ##' },
+  { code: 'SN', name: 'Senegal', dialCode: '+221', flag: '🇸🇳', format: '## ### ## ##' },
+  { code: 'CI', name: 'Côte d\'Ivoire', dialCode: '+225', flag: '🇨🇮', format: '## ## ## ## ##' },
+  { code: 'MA', name: 'Morocco', dialCode: '+212', flag: '🇲🇦', format: '## ## ## ## ##' },
+  { code: 'TN', name: 'Tunisia', dialCode: '+216', flag: '🇹🇳', format: '## ### ###' },
+  { code: 'DZ', name: 'Algeria', dialCode: '+213', flag: '🇩🇿', format: '### ## ## ##' },
 ]
+
+/** Format a phone number according to a pattern */
+export function formatPhoneWithPattern(value: string, pattern?: string): string {
+  if (!pattern) return value
+  const digits = value.replace(/\D/g, '')
+  let result = ''
+  let digitIndex = 0
+
+  for (const char of pattern) {
+    if (digitIndex >= digits.length) break
+    if (char === '#') {
+      result += digits[digitIndex]
+      digitIndex++
+    } else {
+      result += char
+    }
+  }
+
+  return result
+}
+
+/** Get raw digits from formatted phone number */
+export function getPhoneDigits(value: string): string {
+  return value.replace(/\D/g, '')
+}
 </script>
 
 <script lang="ts" setup>
@@ -31,6 +58,10 @@ import { ref, computed, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import InputWrapper from './InputWrapper.vue'
 import type { InputWrapperSize } from './InputWrapper.vue'
+
+defineOptions({
+  inheritAttrs: false,
+})
 
 const props = withDefaults(
   defineProps<{
@@ -40,6 +71,8 @@ const props = withDefaults(
     size?: InputWrapperSize
     /** Disabled state */
     disabled?: boolean
+    /** Show dial code in input value */
+    showDialCode?: boolean
     /** Input name */
     name?: string
     /** Input id */
@@ -56,6 +89,7 @@ const props = withDefaults(
   {
     placeholder: 'Phone number',
     size: 'md',
+    showDialCode: false,
     defaultCountry: 'FR',
     countries: () => defaultCountries,
   }
@@ -87,22 +121,68 @@ const fullNumber = computed(() => {
   return `${selectedCountry.value.dialCode}${modelValue.value}`
 })
 
+const displayValue = computed(() => {
+  const formatted = formatPhoneWithPattern(modelValue.value, selectedCountry.value.format)
+  if (props.showDialCode && modelValue.value) {
+    return `${selectedCountry.value.dialCode} ${formatted}`
+  }
+  return formatted
+})
+
 function selectCountry(country: PhoneCountry) {
   selectedCountry.value = country
   showDropdown.value = false
   searchQuery.value = ''
 }
 
-function formatPhoneNumber(value: string): string {
-  // Remove non-numeric characters
-  const cleaned = value.replace(/\D/g, '')
-  return cleaned
+/** Parse a phone number that may contain a dial code and detect country */
+function parsePhoneWithDialCode(value: string): { digits: string; country?: PhoneCountry } {
+  const cleaned = value.replace(/\s/g, '')
+
+  // Check if it starts with + or 00
+  if (cleaned.startsWith('+') || cleaned.startsWith('00')) {
+    const withPlus = cleaned.startsWith('00') ? '+' + cleaned.slice(2) : cleaned
+
+    // Try to match dial code
+    for (const country of props.countries) {
+      if (withPlus.startsWith(country.dialCode)) {
+        const digits = withPlus.slice(country.dialCode.length).replace(/\D/g, '')
+        return { digits, country }
+      }
+    }
+  }
+
+  // No dial code found, just extract digits
+  return { digits: getPhoneDigits(value) }
 }
 
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
-  const formatted = formatPhoneNumber(target.value)
-  modelValue.value = formatted
+  const inputValue = target.value
+
+  // Check if pasted with dial code
+  const { digits, country } = parsePhoneWithDialCode(inputValue)
+
+  if (country) {
+    selectedCountry.value = country
+  }
+
+  modelValue.value = digits
+}
+
+function handlePaste(event: ClipboardEvent) {
+  const pastedData = event.clipboardData?.getData('text')
+  if (!pastedData) return
+
+  // Check if pasted data contains a dial code
+  const { digits, country } = parsePhoneWithDialCode(pastedData)
+
+  if (country) {
+    event.preventDefault()
+    selectedCountry.value = country
+    modelValue.value = digits
+  }
+  // If no country detected, let the normal input handling take over
 }
 
 function handleClickOutside(event: MouseEvent) {
@@ -149,7 +229,7 @@ defineExpose({ selectedCountry, fullNumber })
       <template #default="{ inputClass }">
         <input
           :id="id ?? name"
-          :value="modelValue"
+          :value="displayValue"
           type="tel"
           :name="name"
           :placeholder="placeholder"
@@ -158,7 +238,9 @@ defineExpose({ selectedCountry, fullNumber })
           :aria-required="required || undefined"
           :aria-describedby="describedBy"
           :class="[inputClass, 'pl-20']"
+          v-bind="$attrs"
           @input="handleInput"
+          @paste="handlePaste"
         />
       </template>
       <template #actions>

@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { computed, ref, watch } from 'vue'
 import InputWrapper from './InputWrapper.vue'
 import type { InputWrapperSize } from './InputWrapper.vue'
@@ -125,6 +129,7 @@ function handleBlur() {
         :aria-required="required || undefined"
         :aria-describedby="describedBy"
         :class="[inputClass, 'text-right']"
+        v-bind="$attrs"
         @input="handleInput"
         @blur="handleBlur"
       />

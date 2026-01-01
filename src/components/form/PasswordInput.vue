@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { computed, ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import InputWrapper from './InputWrapper.vue'
@@ -95,6 +99,7 @@ function toggleVisibility() {
           :aria-required="required || undefined"
           :aria-describedby="describedBy"
           :class="inputClass"
+          v-bind="$attrs"
           autocomplete="new-password"
         />
       </template>

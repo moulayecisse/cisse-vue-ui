@@ -1,40 +1,50 @@
 <script lang="ts" setup>
-import { Icon } from '@iconify/vue'
+import InputWrapper from './InputWrapper.vue'
+import type { InputWrapperSize } from './InputWrapper.vue'
 
-const {
-  placeholder = 'Search...',
-  icon = 'lucide:search',
-  disabled = false,
-} = defineProps<{
-  modelValue?: string
-  placeholder?: string
-  icon?: string
-  disabled?: boolean
-}>()
+defineOptions({
+  inheritAttrs: false,
+})
 
-const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
+const props = withDefaults(
+  defineProps<{
+    /** Placeholder text */
+    placeholder?: string
+    /** Search icon (Iconify format) */
+    icon?: string
+    /** Disabled state */
+    disabled?: boolean
+    /** Input size */
+    size?: InputWrapperSize
+    /** Input name */
+    name?: string
+  }>(),
+  {
+    placeholder: 'Search...',
+    icon: 'lucide:search',
+    size: 'md',
+  }
+)
 
-const handleInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  emit('update:modelValue', target.value)
-}
+const modelValue = defineModel<string>({ default: '' })
 </script>
 
 <template>
-  <div class="relative">
-    <Icon
-      :icon="icon"
-      class="absolute top-1/2 left-3 size-5 -translate-y-1/2 text-gray-400"
-    />
-    <input
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :value="modelValue"
-      class="focus:border-primary focus:ring-primary w-full rounded-lg border border-gray-300 bg-white py-2 pr-4 pl-10 text-gray-900 placeholder-gray-400 transition-colors disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
-      type="text"
-      @input="handleInput"
-    >
-  </div>
+  <InputWrapper
+    :icon="props.icon"
+    :size="props.size"
+    :disabled="props.disabled"
+  >
+    <template #default="{ inputClass }">
+      <input
+        v-model="modelValue"
+        type="text"
+        :name="props.name"
+        :placeholder="props.placeholder"
+        :disabled="props.disabled"
+        :class="inputClass"
+        v-bind="$attrs"
+      />
+    </template>
+  </InputWrapper>
 </template>

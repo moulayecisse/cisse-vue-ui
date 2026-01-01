@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { ref, computed, watch, nextTick, onMounted } from 'vue'
 import type { InputWrapperSize } from './InputWrapper.vue'
 

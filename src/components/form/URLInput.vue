@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+defineOptions({
+  inheritAttrs: false,
+})
+
 import { computed, ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import InputWrapper from './InputWrapper.vue'
@@ -77,6 +81,7 @@ function openUrl() {
         :aria-required="required || undefined"
         :aria-describedby="describedBy"
         :class="inputClass"
+        v-bind="$attrs"
         @blur="handleBlur"
       />
     </template>
