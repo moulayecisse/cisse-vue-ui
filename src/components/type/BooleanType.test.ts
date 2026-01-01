@@ -74,7 +74,7 @@ describe('BooleanType', () => {
     })
 
     // Should have icon but no text label
-    expect(wrapper.find('.h-4').exists()).toBe(true)
+    expect(wrapper.find('.size-4').exists()).toBe(true)
     expect(wrapper.text()).toBe('')
   })
 
@@ -88,7 +88,7 @@ describe('BooleanType', () => {
 
     expect(wrapper.text()).toBe('Yes')
     // Icon should not be rendered
-    expect(wrapper.find('.h-4').exists()).toBe(false)
+    expect(wrapper.find('.size-4').exists()).toBe(false)
   })
 
   it('shows both icon and text when display="both"', () => {
@@ -100,7 +100,7 @@ describe('BooleanType', () => {
     })
 
     expect(wrapper.text()).toBe('Yes')
-    expect(wrapper.find('.h-4').exists()).toBe(true)
+    expect(wrapper.find('.size-4').exists()).toBe(true)
   })
 
   it('treats truthy values as true', () => {

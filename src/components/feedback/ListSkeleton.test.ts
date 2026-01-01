@@ -50,14 +50,14 @@ describe('ListSkeleton', () => {
 
   it('does not show action by default', () => {
     const wrapper = mount(ListSkeleton)
-    expect(wrapper.find('.w-8.h-8').exists()).toBe(false)
+    expect(wrapper.find('.size-8').exists()).toBe(false)
   })
 
   it('shows action when showAction is true', () => {
     const wrapper = mount(ListSkeleton, {
       props: { showAction: true },
     })
-    expect(wrapper.find('.w-8.h-8').exists()).toBe(true)
+    expect(wrapper.find('.size-8').exists()).toBe(true)
   })
 
   it('has dividers between items', () => {

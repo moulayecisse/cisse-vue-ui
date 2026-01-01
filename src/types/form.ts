@@ -10,6 +10,10 @@ export interface InputProps {
   required?: boolean
   /** ID of element that describes this input (for aria-describedby) */
   describedBy?: string
+  /** Icon name (iconify format) - displayed on the left */
+  icon?: string
+  /** Icon on the right side */
+  iconRight?: string
 }
 
 export interface SelectOption {

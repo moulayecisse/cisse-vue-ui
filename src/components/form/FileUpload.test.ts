@@ -78,7 +78,7 @@ describe('FileUpload', () => {
 
   it('renders upload icon', () => {
     const wrapper = mount(FileUpload)
-    expect(wrapper.find('.w-12').exists()).toBe(true)
+    expect(wrapper.find('.size-12').exists()).toBe(true)
   })
 
   it('does not show file list initially', () => {

@@ -130,7 +130,7 @@ export const CustomContent: Story = {
         <template #default="{ close }">
           <div class="p-4">
             <div class="mb-3 text-center">
-              <div class="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">JD</div>
+              <div class="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">JD</div>
               <p class="font-medium text-gray-900 dark:text-gray-100">John Doe</p>
               <p class="text-sm text-gray-500">john@example.com</p>
             </div>

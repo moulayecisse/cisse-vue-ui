@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import NotificationList from './NotificationList.vue'
 
@@ -9,33 +9,46 @@ const mockNotifications = [
 ]
 
 describe('NotificationList', () => {
+  beforeEach(() => {
+    document.body.innerHTML = ''
+  })
+
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
 
   it('renders all notifications', () => {
-    const wrapper = mount(NotificationList, {
+    mount(NotificationList, {
       props: { notifications: mockNotifications },
+      attachTo: document.body,
     })
 
-    expect(wrapper.text()).toContain('Success')
-    expect(wrapper.text()).toContain('Error')
-    expect(wrapper.text()).toContain('Info')
+    expect(document.body.textContent).toContain('Success')
+    expect(document.body.textContent).toContain('Error')
+    expect(document.body.textContent).toContain('Info')
   })
 
   it('renders empty when no notifications', () => {
-    const wrapper = mount(NotificationList, {
+    mount(NotificationList, {
       props: { notifications: [] },
+      attachTo: document.body,
     })
 
-    expect(wrapper.findAllComponents({ name: 'NotificationComponent' }).length).toBe(0)
+    // Teleported content should have no notification components
+    const container = document.body.querySelector('.fixed')
+    expect(container?.querySelectorAll('.max-w-md').length ?? 0).toBe(0)
   })
 
   it('emits dismiss when notification dismissed', async () => {
     const wrapper = mount(NotificationList, {
       props: { notifications: mockNotifications },
+      attachTo: document.body,
     })
 
-    // Click dismiss on first notification
-    const buttons = wrapper.findAll('button')
-    await buttons[0].trigger('click')
+    // Click dismiss on first notification (in teleported content)
+    const button = document.body.querySelector('button')
+    button?.click()
+    await wrapper.vm.$nextTick()
 
     expect(wrapper.emitted('dismiss')).toBeTruthy()
     expect(wrapper.emitted('dismiss')![0]).toEqual(['1'])
@@ -47,6 +60,7 @@ describe('NotificationList', () => {
         notifications: mockNotifications,
         autoDismiss: false,
       },
+      attachTo: document.body,
     })
 
     expect(wrapper.exists()).toBe(true)
@@ -58,51 +72,61 @@ describe('NotificationList', () => {
         notifications: [mockNotifications[0]],
         duration: 2000,
       },
+      attachTo: document.body,
     })
 
     expect(wrapper.exists()).toBe(true)
   })
 
   it('has fixed positioning', () => {
-    const wrapper = mount(NotificationList, {
+    mount(NotificationList, {
       props: { notifications: mockNotifications },
+      attachTo: document.body,
     })
 
-    expect(wrapper.find('.fixed').exists()).toBe(true)
+    expect(document.body.querySelector('.fixed')).not.toBeNull()
   })
 
   it('positions in top right', () => {
-    const wrapper = mount(NotificationList, {
+    mount(NotificationList, {
       props: { notifications: mockNotifications },
+      attachTo: document.body,
     })
 
-    expect(wrapper.find('.top-5').exists()).toBe(true)
-    expect(wrapper.find('.right-5').exists()).toBe(true)
+    const container = document.body.querySelector('.fixed')
+    expect(container?.classList.contains('top-5')).toBe(true)
+    expect(container?.classList.contains('right-5')).toBe(true)
   })
 
   it('has high z-index', () => {
-    const wrapper = mount(NotificationList, {
+    mount(NotificationList, {
       props: { notifications: mockNotifications },
+      attachTo: document.body,
     })
 
-    expect(wrapper.find('.z-50').exists()).toBe(true)
+    const container = document.body.querySelector('.fixed')
+    expect(container?.classList.contains('z-50')).toBe(true)
   })
 
   it('has vertical flex layout with gap', () => {
-    const wrapper = mount(NotificationList, {
+    mount(NotificationList, {
       props: { notifications: mockNotifications },
+      attachTo: document.body,
     })
 
-    expect(wrapper.find('.flex-col').exists()).toBe(true)
-    expect(wrapper.find('.gap-3').exists()).toBe(true)
+    const container = document.body.querySelector('.fixed')
+    expect(container?.classList.contains('flex-col')).toBe(true)
+    expect(container?.classList.contains('gap-3')).toBe(true)
   })
 
   it('renders NotificationComponent for each notification', () => {
-    const wrapper = mount(NotificationList, {
+    mount(NotificationList, {
       props: { notifications: mockNotifications },
+      attachTo: document.body,
     })
 
-    const components = wrapper.findAllComponents({ name: 'NotificationComponent' })
-    expect(components.length).toBe(3)
+    // Check for notification components in teleported content
+    const notifications = document.body.querySelectorAll('.max-w-md')
+    expect(notifications.length).toBe(3)
   })
 })

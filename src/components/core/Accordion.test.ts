@@ -109,7 +109,7 @@ describe('AccordionItem', () => {
 
   it('shows chevron icon', () => {
     const wrapper = createAccordionWithItem()
-    expect(wrapper.find('.w-5').exists()).toBe(true)
+    expect(wrapper.find('.size-5').exists()).toBe(true)
   })
 
   it('renders with icon', () => {

@@ -90,9 +90,9 @@ export const BrandColors: Story = {
         <div class="mt-6 p-4 border rounded-lg">
           <h3 class="font-medium mb-2">Preview</h3>
           <div class="flex gap-2">
-            <div class="w-20 h-20 rounded" :style="{ backgroundColor: primaryColor }"></div>
-            <div class="w-20 h-20 rounded" :style="{ backgroundColor: secondaryColor }"></div>
-            <div class="w-20 h-20 rounded" :style="{ backgroundColor: accentColor }"></div>
+            <div class="size-20 rounded" :style="{ backgroundColor: primaryColor }"></div>
+            <div class="size-20 rounded" :style="{ backgroundColor: secondaryColor }"></div>
+            <div class="size-20 rounded" :style="{ backgroundColor: accentColor }"></div>
           </div>
         </div>
       </div>

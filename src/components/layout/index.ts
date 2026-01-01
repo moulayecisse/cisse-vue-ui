@@ -1,5 +1,7 @@
 export { default as AuthLayout } from './AuthLayout.vue'
 export { default as BaseLayout } from './BaseLayout.vue'
 export { default as PageLayout } from './PageLayout.vue'
+export { default as PageHero } from './PageHero.vue'
 export type { AuthFeature } from './AuthLayout.vue'
 export type { PageBreadcrumb } from './PageLayout.vue'
+export type { PageHeroStat } from './PageHero.vue'

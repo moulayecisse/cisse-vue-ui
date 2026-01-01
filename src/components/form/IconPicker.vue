@@ -151,8 +151,8 @@ function closePicker(): void {
         v-if="modelValue"
         class="flex items-center gap-2 flex-1"
       >
-        <div class="flex h-8 w-8 items-center justify-center rounded bg-gray-100 dark:bg-gray-800">
-          <Icon :icon="modelValue" class="h-5 w-5 text-gray-700 dark:text-gray-300" />
+        <div class="flex size-8 items-center justify-center rounded bg-gray-100 dark:bg-gray-800">
+          <Icon :icon="modelValue" class="size-5 text-gray-700 dark:text-gray-300" />
         </div>
         <span class="text-gray-700 dark:text-gray-300 font-mono text-xs truncate">{{ modelValue }}</span>
       </div>
@@ -165,9 +165,9 @@ function closePicker(): void {
         class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
         @click.stop="clearSelection"
       >
-        <Icon icon="lucide:x" class="h-4 w-4" />
+        <Icon icon="lucide:x" class="size-4" />
       </button>
-      <Icon icon="lucide:chevron-down" class="h-4 w-4 text-gray-400" />
+      <Icon icon="lucide:chevron-down" class="size-4 text-gray-400" />
     </button>
 
     <!-- Help/Error text -->
@@ -193,7 +193,7 @@ function closePicker(): void {
           <div class="relative mb-4">
             <Icon
               icon="lucide:search"
-              class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+              class="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-gray-400"
             />
             <input
               v-model="searchQuery"
@@ -206,7 +206,7 @@ function closePicker(): void {
               v-if="isLoading"
               class="absolute right-3 top-1/2 -translate-y-1/2"
             >
-              <Icon icon="lucide:loader-2" class="h-4 w-4 animate-spin text-gray-400" />
+              <Icon icon="lucide:loader-2" class="size-4 animate-spin text-gray-400" />
             </div>
           </div>
 
@@ -226,7 +226,7 @@ function closePicker(): void {
                 v-for="icon in displayedIcons"
                 :key="icon"
                 type="button"
-                class="flex h-9 w-9 items-center justify-center rounded transition-colors"
+                class="flex size-9 items-center justify-center rounded transition-colors"
                 :class="[
                   modelValue === icon
                     ? 'bg-primary text-white'
@@ -235,7 +235,7 @@ function closePicker(): void {
                 :title="icon"
                 @click="selectIcon(icon)"
               >
-                <Icon :icon="icon" class="h-5 w-5" />
+                <Icon :icon="icon" class="size-5" />
               </button>
             </div>
           </div>

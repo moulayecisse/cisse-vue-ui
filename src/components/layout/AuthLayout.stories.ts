@@ -201,7 +201,7 @@ export const WithCustomSlots: Story = {
       <AuthLayout v-bind="args">
         <template #branding-logo>
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center text-white text-xl font-bold">
+            <div class="size-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center text-white text-xl font-bold">
               A
             </div>
             <span class="text-2xl font-bold text-white">Acme Corp</span>
@@ -218,9 +218,9 @@ export const WithCustomSlots: Story = {
         <template #branding-content>
           <div class="mt-8 flex items-center gap-4">
             <div class="flex -space-x-2">
-              <div class="w-8 h-8 rounded-full bg-white/20 border-2 border-white/30"></div>
-              <div class="w-8 h-8 rounded-full bg-white/20 border-2 border-white/30"></div>
-              <div class="w-8 h-8 rounded-full bg-white/20 border-2 border-white/30"></div>
+              <div class="size-8 rounded-full bg-white/20 border-2 border-white/30"></div>
+              <div class="size-8 rounded-full bg-white/20 border-2 border-white/30"></div>
+              <div class="size-8 rounded-full bg-white/20 border-2 border-white/30"></div>
             </div>
             <span class="text-white/80 text-sm">Join 10,000+ businesses</span>
           </div>

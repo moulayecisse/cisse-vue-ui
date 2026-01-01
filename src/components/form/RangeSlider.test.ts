@@ -10,7 +10,7 @@ describe('RangeSlider', () => {
 
   it('renders two handles', () => {
     const wrapper = mount(RangeSlider)
-    const handles = wrapper.findAll('.w-5.h-5')
+    const handles = wrapper.findAll('.size-5')
     expect(handles.length).toBe(2)
   })
 
@@ -73,7 +73,7 @@ describe('RangeSlider', () => {
     const wrapper = mount(RangeSlider, {
       props: { modelValue: [20, 80], min: 0, max: 100 },
     })
-    const handles = wrapper.findAll('.w-5.h-5')
+    const handles = wrapper.findAll('.size-5')
     expect(handles[0].attributes('style')).toContain('left: 20%')
   })
 
@@ -81,7 +81,7 @@ describe('RangeSlider', () => {
     const wrapper = mount(RangeSlider, {
       props: { modelValue: [20, 80], min: 0, max: 100 },
     })
-    const handles = wrapper.findAll('.w-5.h-5')
+    const handles = wrapper.findAll('.size-5')
     expect(handles[1].attributes('style')).toContain('left: 80%')
   })
 

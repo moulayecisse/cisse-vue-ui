@@ -73,7 +73,7 @@ describe('Breadcrumb', () => {
       props: { items: mockItems },
     })
     const firstItem = wrapper.findAll('li')[0]
-    expect(firstItem.find('.w-4').exists()).toBe(true)
+    expect(firstItem.find('.size-4').exists()).toBe(true)
   })
 
   it('hides home icon when showHomeIcon is false', () => {
@@ -82,7 +82,7 @@ describe('Breadcrumb', () => {
     })
     const firstItem = wrapper.findAll('li')[0]
     // Only separator icons should exist, not home icon
-    const icons = firstItem.findAll('.w-4')
+    const icons = firstItem.findAll('.size-4')
     expect(icons.length).toBe(0)
   })
 

@@ -60,7 +60,7 @@ describe('SearchInput', () => {
     const wrapper = mount(SearchInput)
 
     // Icon exists in the component
-    expect(wrapper.find('.h-5').exists()).toBe(true)
+    expect(wrapper.find('.size-5').exists()).toBe(true)
   })
 
   it('has relative container', () => {

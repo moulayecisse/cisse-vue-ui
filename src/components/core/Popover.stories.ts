@@ -130,12 +130,12 @@ export const UserCard: Story = {
       <div class="flex items-center justify-center p-20">
         <Popover hover width="sm">
           <template #trigger>
-            <div class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-primary text-white font-medium">
+            <div class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-primary text-white font-medium">
               JD
             </div>
           </template>
           <div class="text-center">
-            <div class="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white text-xl font-medium">
+            <div class="mx-auto mb-2 flex size-16 items-center justify-center rounded-full bg-primary text-white text-xl font-medium">
               JD
             </div>
             <h3 class="font-semibold text-gray-900 dark:text-white">John Doe</h3>

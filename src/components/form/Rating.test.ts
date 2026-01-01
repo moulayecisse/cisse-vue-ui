@@ -97,19 +97,19 @@ describe('Rating', () => {
       const wrapper = mount(Rating, {
         props: { size: 'sm' },
       })
-      expect(wrapper.find('.w-4').exists()).toBe(true)
+      expect(wrapper.find('.size-4').exists()).toBe(true)
     })
 
     it('applies md size by default', () => {
       const wrapper = mount(Rating)
-      expect(wrapper.find('.w-6').exists()).toBe(true)
+      expect(wrapper.find('.size-6').exists()).toBe(true)
     })
 
     it('applies lg size', () => {
       const wrapper = mount(Rating, {
         props: { size: 'lg' },
       })
-      expect(wrapper.find('.w-8').exists()).toBe(true)
+      expect(wrapper.find('.size-8').exists()).toBe(true)
     })
   })
 

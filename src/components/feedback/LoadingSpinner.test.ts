@@ -33,16 +33,14 @@ describe('LoadingSpinner', () => {
       })
 
       const spinner = wrapper.find('[class*="animate-spin"]')
-      expect(spinner.classes()).toContain('h-8')
-      expect(spinner.classes()).toContain('w-8')
+      expect(spinner.classes()).toContain('size-8')
     })
 
     it('applies md size by default', () => {
       const wrapper = mount(LoadingSpinner)
 
       const spinner = wrapper.find('[class*="animate-spin"]')
-      expect(spinner.classes()).toContain('h-12')
-      expect(spinner.classes()).toContain('w-12')
+      expect(spinner.classes()).toContain('size-12')
     })
 
     it('applies lg size', () => {
@@ -51,8 +49,7 @@ describe('LoadingSpinner', () => {
       })
 
       const spinner = wrapper.find('[class*="animate-spin"]')
-      expect(spinner.classes()).toContain('h-16')
-      expect(spinner.classes()).toContain('w-16')
+      expect(spinner.classes()).toContain('size-16')
     })
   })
 

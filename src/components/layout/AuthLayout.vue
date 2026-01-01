@@ -127,9 +127,9 @@ const gradientClasses = computed(() => {
           v-if="showDecorations"
           class="absolute inset-0 overflow-hidden pointer-events-none"
         >
-          <div class="absolute -top-20 -left-20 w-80 h-80 bg-white/5 rounded-full blur-3xl" />
-          <div class="absolute top-1/3 right-10 w-60 h-60 bg-white/5 rounded-full blur-3xl" />
-          <div class="absolute bottom-20 left-1/4 w-72 h-72 bg-white/5 rounded-full blur-3xl" />
+          <div class="absolute -top-20 -left-20 size-80 bg-white/5 rounded-full blur-3xl" />
+          <div class="absolute top-1/3 right-10 size-60 bg-white/5 rounded-full blur-3xl" />
+          <div class="absolute bottom-20 left-1/4 size-72 bg-white/5 rounded-full blur-3xl" />
         </div>
 
         <!-- Dot pattern -->
@@ -141,9 +141,9 @@ const gradientClasses = computed(() => {
 
         <!-- Floating decorative shapes -->
         <template v-if="showDecorations">
-          <div class="absolute top-20 right-20 w-16 h-16 border-2 border-white/20 rounded-2xl rotate-12 pointer-events-none" />
-          <div class="absolute bottom-32 left-16 w-12 h-12 border-2 border-white/20 rounded-full pointer-events-none" />
-          <div class="absolute top-1/2 left-10 w-8 h-8 bg-white/10 rounded-lg rotate-45 pointer-events-none" />
+          <div class="absolute top-20 right-20 size-16 border-2 border-white/20 rounded-2xl rotate-12 pointer-events-none" />
+          <div class="absolute bottom-32 left-16 size-12 border-2 border-white/20 rounded-full pointer-events-none" />
+          <div class="absolute top-1/2 left-10 size-8 bg-white/10 rounded-lg rotate-45 pointer-events-none" />
         </template>
 
         <!-- Content -->
@@ -153,10 +153,10 @@ const gradientClasses = computed(() => {
             <div class="flex items-center gap-3 mb-12">
               <slot name="branding-logo">
                 <template v-if="appName || appIcon">
-                  <div class="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                  <div class="size-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                     <Icon
                       :icon="appIcon"
-                      class="w-8 h-8 text-white"
+                      class="size-8 text-white"
                     />
                   </div>
                   <span
@@ -219,10 +219,10 @@ const gradientClasses = computed(() => {
                   :key="index"
                   class="flex items-center gap-3 text-white/90"
                 >
-                  <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center shrink-0">
+                  <div class="size-10 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center shrink-0">
                     <Icon
                       :icon="feature.icon"
-                      class="w-5 h-5"
+                      class="size-5"
                     />
                   </div>
                   <span>{{ feature.text }}</span>
@@ -251,10 +251,10 @@ const gradientClasses = computed(() => {
           >
             <slot name="mobile-logo">
               <template v-if="appName || appIcon">
-                <div class="w-12 h-12 bg-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-200 dark:shadow-primary-900/30">
+                <div class="size-12 bg-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-200 dark:shadow-primary-900/30">
                   <Icon
                     :icon="appIcon"
-                    class="w-6 h-6 text-white"
+                    class="size-6 text-white"
                   />
                 </div>
                 <span

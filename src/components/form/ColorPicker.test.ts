@@ -23,7 +23,7 @@ describe('ColorPicker', () => {
     const wrapper = mount(ColorPicker, {
       props: { modelValue: '#ff0000' },
     })
-    const swatch = wrapper.find('.w-6.h-6')
+    const swatch = wrapper.find('.size-6')
     expect(swatch.attributes('style')).toContain('background-color')
     expect(swatch.attributes('style')).toContain('ff0000')
   })
@@ -81,7 +81,7 @@ describe('ColorPicker', () => {
     await wrapper.find('button').trigger('click')
 
     // Should show check icon on red swatch
-    const checkIcon = wrapper.find('.grid button .w-4')
+    const checkIcon = wrapper.find('.grid button .size-4')
     expect(checkIcon.exists()).toBe(true)
   })
 
