@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import PhoneInput, { formatPhoneWithPattern, getPhoneDigits } from './PhoneInput.vue'
+import PhoneInput, { formatPhoneWithPattern, getPhoneDigits, getMaxDigitsFromPattern } from './PhoneInput.vue'
 
 describe('PhoneInput', () => {
   it('renders a tel input', () => {
@@ -11,13 +11,13 @@ describe('PhoneInput', () => {
   it('binds v-model correctly', async () => {
     const wrapper = mount(PhoneInput, {
       props: {
-        modelValue: '612345678',
+        modelValue: '0612345678',
         'onUpdate:modelValue': (val: string) => wrapper.setProps({ modelValue: val }),
       },
     })
 
-    // Display shows formatted value (French format: X XX XX XX XX)
-    expect((wrapper.find('input[type="tel"]').element as HTMLInputElement).value).toBe('6 12 34 56 78')
+    // Display shows formatted value (French format: XX XX XX XX XX)
+    expect((wrapper.find('input[type="tel"]').element as HTMLInputElement).value).toBe('06 12 34 56 78')
 
     await wrapper.find('input[type="tel"]').setValue('698765432')
     // Model stores raw digits
@@ -128,10 +128,10 @@ describe('PhoneInput', () => {
 
   it('exposes fullNumber computed', () => {
     const wrapper = mount(PhoneInput, {
-      props: { modelValue: '612345678' },
+      props: { modelValue: '0612345678' },
     })
 
-    expect(wrapper.vm.fullNumber).toBe('+33612345678')
+    expect(wrapper.vm.fullNumber).toBe('+330612345678')
   })
 
   it('exposes selectedCountry', () => {
@@ -159,14 +159,14 @@ describe('PhoneInput', () => {
   it('formats phone number according to country pattern', async () => {
     const wrapper = mount(PhoneInput, {
       props: {
-        modelValue: '612345678',
+        modelValue: '0612345678',
         defaultCountry: 'FR',
       },
     })
 
-    // French format: X XX XX XX XX
+    // French format: XX XX XX XX XX
     const input = wrapper.find('input[type="tel"]').element as HTMLInputElement
-    expect(input.value).toBe('6 12 34 56 78')
+    expect(input.value).toBe('06 12 34 56 78')
   })
 
   it('formats US phone number correctly', async () => {
@@ -226,11 +226,73 @@ describe('PhoneInput', () => {
     // Should detect France and clear the dial code from display
     expect(wrapper.text()).toContain('🇫🇷')
   })
+
+  it('limits input to max digits based on country format', async () => {
+    const wrapper = mount(PhoneInput, {
+      props: {
+        modelValue: '',
+        defaultCountry: 'FR', // French format: # ## ## ## ## = 10 digits
+        'onUpdate:modelValue': (val: string) => wrapper.setProps({ modelValue: val }),
+      },
+    })
+
+    const input = wrapper.find('input[type="tel"]')
+
+    // Try to enter more than 10 digits
+    await input.setValue('0612345678999')
+    // Should be limited to 10 digits
+    expect(wrapper.props('modelValue')).toBe('0612345678')
+  })
+
+  it('limits pasted number to max digits', async () => {
+    const wrapper = mount(PhoneInput, {
+      props: {
+        modelValue: '',
+        defaultCountry: 'FR',
+        'onUpdate:modelValue': (val: string) => wrapper.setProps({ modelValue: val }),
+      },
+    })
+
+    const input = wrapper.find('input[type="tel"]')
+
+    // Paste a number with dial code that exceeds max
+    await input.trigger('paste', {
+      clipboardData: {
+        getData: () => '+33612345678999',
+      },
+    })
+
+    // Should be limited to 10 digits (French format)
+    expect(wrapper.props('modelValue')).toBe('6123456789')
+  })
+
+  it('adjusts max digits when country changes', async () => {
+    const wrapper = mount(PhoneInput, {
+      props: {
+        modelValue: '1234567890', // 10 digits
+        defaultCountry: 'FR',
+        'onUpdate:modelValue': (val: string) => wrapper.setProps({ modelValue: val }),
+      },
+    })
+
+    // French format allows 10 digits
+    expect(wrapper.props('modelValue')).toBe('1234567890')
+
+    // Switch to Mali (8 digits: ## ## ## ##)
+    await wrapper.find('button').trigger('click')
+    const maliItem = wrapper.findAll('li').find((li) => li.text().includes('Mali'))
+    await maliItem?.trigger('click')
+
+    // Enter a new number - should be limited to 8 digits
+    const input = wrapper.find('input[type="tel"]')
+    await input.setValue('1234567890')
+    expect(wrapper.props('modelValue')).toBe('12345678')
+  })
 })
 
 describe('formatPhoneWithPattern', () => {
   it('formats phone number with French pattern', () => {
-    expect(formatPhoneWithPattern('612345678', '# ## ## ## ##')).toBe('6 12 34 56 78')
+    expect(formatPhoneWithPattern('0612345678', '## ## ## ## ##')).toBe('06 12 34 56 78')
   })
 
   it('formats phone number with US pattern', () => {
@@ -238,7 +300,7 @@ describe('formatPhoneWithPattern', () => {
   })
 
   it('handles partial input', () => {
-    expect(formatPhoneWithPattern('612', '# ## ## ## ##')).toBe('6 12')
+    expect(formatPhoneWithPattern('061', '## ## ## ## ##')).toBe('06 1')
   })
 
   it('returns raw value if no pattern', () => {
@@ -248,7 +310,29 @@ describe('formatPhoneWithPattern', () => {
 
 describe('getPhoneDigits', () => {
   it('extracts digits from formatted phone', () => {
-    expect(getPhoneDigits('6 12 34 56 78')).toBe('612345678')
+    expect(getPhoneDigits('06 12 34 56 78')).toBe('0612345678')
     expect(getPhoneDigits('(555) 123-4567')).toBe('5551234567')
+  })
+})
+
+describe('getMaxDigitsFromPattern', () => {
+  it('counts hash characters in French pattern', () => {
+    expect(getMaxDigitsFromPattern('## ## ## ## ##')).toBe(10)
+  })
+
+  it('counts hash characters in US pattern', () => {
+    expect(getMaxDigitsFromPattern('(###) ###-####')).toBe(10)
+  })
+
+  it('counts hash characters in Mali pattern', () => {
+    expect(getMaxDigitsFromPattern('## ## ## ##')).toBe(8)
+  })
+
+  it('returns undefined for no pattern', () => {
+    expect(getMaxDigitsFromPattern(undefined)).toBeUndefined()
+  })
+
+  it('returns 0 for pattern with no hashes', () => {
+    expect(getMaxDigitsFromPattern('no digits')).toBe(0)
   })
 })

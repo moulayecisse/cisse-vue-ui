@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
 
 export interface PageHeroStat {
@@ -7,7 +8,9 @@ export interface PageHeroStat {
   icon?: string
 }
 
-withDefaults(
+export type PageHeroColorScheme = 'primary' | 'cyan' | 'violet' | 'emerald' | 'rose' | 'amber' | 'blue' | 'teal'
+
+const props = withDefaults(
   defineProps<{
     /** Main title */
     title: string
@@ -27,17 +30,59 @@ withDefaults(
     gradientDirection?: 'br' | 'r' | 'b'
     /** Decorative icons (shown faded in background) */
     decorativeIcons?: string[]
+    /** Color scheme for gradient and accents */
+    colorScheme?: PageHeroColorScheme
   }>(),
   {
     showBlobs: true,
     showWave: true,
     gradientDirection: 'br',
+    colorScheme: 'primary',
   }
 )
+
+// Color scheme mappings
+const colorClasses = computed(() => {
+  const schemes: Record<PageHeroColorScheme, { gradient: string; subtitle: string }> = {
+    primary: {
+      gradient: 'from-primary-600 via-primary-500 to-primary-400',
+      subtitle: 'text-primary-100',
+    },
+    cyan: {
+      gradient: 'from-cyan-600 via-cyan-500 to-teal-500',
+      subtitle: 'text-cyan-100',
+    },
+    violet: {
+      gradient: 'from-violet-600 via-violet-500 to-purple-500',
+      subtitle: 'text-violet-100',
+    },
+    emerald: {
+      gradient: 'from-emerald-600 via-emerald-500 to-teal-500',
+      subtitle: 'text-emerald-100',
+    },
+    rose: {
+      gradient: 'from-rose-600 via-rose-500 to-pink-500',
+      subtitle: 'text-rose-100',
+    },
+    amber: {
+      gradient: 'from-amber-600 via-amber-500 to-orange-500',
+      subtitle: 'text-amber-100',
+    },
+    blue: {
+      gradient: 'from-blue-600 via-blue-500 to-indigo-500',
+      subtitle: 'text-blue-100',
+    },
+    teal: {
+      gradient: 'from-teal-600 via-teal-500 to-cyan-500',
+      subtitle: 'text-teal-100',
+    },
+  }
+  return schemes[props.colorScheme]
+})
 </script>
 
 <template>
-  <div class="relative overflow-hidden bg-linear-to-br from-primary-600 via-primary-500 to-primary-400">
+  <div class="relative overflow-hidden bg-linear-to-br" :class="colorClasses.gradient">
     <!-- Animated background blobs -->
     <div v-if="showBlobs" class="absolute inset-0 overflow-hidden pointer-events-none">
       <div
@@ -85,7 +130,7 @@ withDefaults(
         </h1>
 
         <!-- Subtitle -->
-        <p v-if="subtitle || $slots.subtitle" class="text-primary-100 text-sm sm:text-base">
+        <p v-if="subtitle || $slots.subtitle" class="text-sm sm:text-base" :class="colorClasses.subtitle">
           <slot name="subtitle">{{ subtitle }}</slot>
         </p>
       </div>
@@ -117,7 +162,7 @@ withDefaults(
                 <Icon :icon="stat.icon" class="w-5 h-5 text-white" />
               </div>
               <div class="text-2xl sm:text-3xl font-bold text-white">{{ stat.value }}</div>
-              <div class="text-xs sm:text-sm text-primary-100">{{ stat.label }}</div>
+              <div class="text-xs sm:text-sm" :class="colorClasses.subtitle">{{ stat.label }}</div>
             </div>
           </div>
         </slot>

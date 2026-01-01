@@ -9,7 +9,7 @@ export interface PhoneCountry {
 }
 
 export const defaultCountries: PhoneCountry[] = [
-  { code: 'FR', name: 'France', dialCode: '+33', flag: '🇫🇷', format: '# ## ## ## ##' },
+  { code: 'FR', name: 'France', dialCode: '+33', flag: '🇫🇷', format: '## ## ## ## ##' },
   { code: 'US', name: 'United States', dialCode: '+1', flag: '🇺🇸', format: '(###) ###-####' },
   { code: 'GB', name: 'United Kingdom', dialCode: '+44', flag: '🇬🇧', format: '#### ######' },
   { code: 'DE', name: 'Germany', dialCode: '+49', flag: '🇩🇪', format: '### #######' },
@@ -50,6 +50,12 @@ export function formatPhoneWithPattern(value: string, pattern?: string): string 
 /** Get raw digits from formatted phone number */
 export function getPhoneDigits(value: string): string {
   return value.replace(/\D/g, '')
+}
+
+/** Get max digits allowed from a format pattern */
+export function getMaxDigitsFromPattern(pattern?: string): number | undefined {
+  if (!pattern) return undefined
+  return (pattern.match(/#/g) || []).length
 }
 </script>
 
@@ -123,6 +129,8 @@ const fullNumber = computed(() => {
   return `${selectedCountry.value.dialCode}${modelValue.value}`
 })
 
+const maxDigits = computed(() => getMaxDigitsFromPattern(selectedCountry.value.format))
+
 const displayValue = computed(() => {
   // If user is typing a dial code, show what they typed
   if (rawDialCodeInput.value) {
@@ -162,6 +170,12 @@ function parsePhoneWithDialCode(value: string): { digits: string; country?: Phon
   return { digits: getPhoneDigits(value) }
 }
 
+/** Limit digits to max allowed by pattern */
+function limitDigits(digits: string, max?: number): string {
+  if (max === undefined) return digits
+  return digits.slice(0, max)
+}
+
 function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
   const inputValue = target.value
@@ -173,7 +187,8 @@ function handleInput(event: Event) {
     if (country) {
       // Found a country match - update country and use just the digits
       selectedCountry.value = country
-      modelValue.value = digits
+      const countryMax = getMaxDigitsFromPattern(country.format)
+      modelValue.value = limitDigits(digits, countryMax)
       rawDialCodeInput.value = '' // Clear - switch to formatted display
     } else {
       // Still typing dial code - keep showing what they typed
@@ -181,9 +196,10 @@ function handleInput(event: Event) {
       modelValue.value = ''
     }
   } else {
-    // Regular digit entry
+    // Regular digit entry - limit to max digits for current country
     rawDialCodeInput.value = ''
-    modelValue.value = getPhoneDigits(inputValue)
+    const digits = getPhoneDigits(inputValue)
+    modelValue.value = limitDigits(digits, maxDigits.value)
   }
 }
 
@@ -197,7 +213,8 @@ function handlePaste(event: ClipboardEvent) {
   if (country) {
     event.preventDefault()
     selectedCountry.value = country
-    modelValue.value = digits
+    const countryMax = getMaxDigitsFromPattern(country.format)
+    modelValue.value = limitDigits(digits, countryMax)
   }
   // If no country detected, let the normal input handling take over
 }
