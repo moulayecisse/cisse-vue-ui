@@ -181,6 +181,51 @@ describe('PhoneInput', () => {
     const input = wrapper.find('input[type="tel"]').element as HTMLInputElement
     expect(input.value).toBe('(555) 123-4567')
   })
+
+  it('detects country when typing dial code', async () => {
+    const wrapper = mount(PhoneInput, {
+      props: {
+        modelValue: '',
+        defaultCountry: 'FR',
+        'onUpdate:modelValue': (val: string) => wrapper.setProps({ modelValue: val }),
+      },
+    })
+
+    const input = wrapper.find('input[type="tel"]')
+
+    // Type partial dial code that doesn't match any country yet
+    await input.setValue('+2')
+    // Still typing - shows raw input, no country matched yet
+    expect((input.element as HTMLInputElement).value).toBe('+2')
+
+    // Type Mali dial code
+    await input.setValue('+223')
+    // Should detect Mali
+    expect(wrapper.text()).toContain('🇲🇱')
+
+    // Type full US number with dial code
+    await input.setValue('+15551234567')
+    // Should detect US and format the number
+    expect(wrapper.text()).toContain('🇺🇸')
+    expect(wrapper.props('modelValue')).toBe('5551234567')
+  })
+
+  it('allows typing dial code without losing input', async () => {
+    const wrapper = mount(PhoneInput, {
+      props: {
+        modelValue: '',
+        defaultCountry: 'FR',
+        'onUpdate:modelValue': (val: string) => wrapper.setProps({ modelValue: val }),
+      },
+    })
+
+    const input = wrapper.find('input[type="tel"]')
+
+    // Type partial dial code
+    await input.setValue('+33')
+    // Should detect France and clear the dial code from display
+    expect(wrapper.text()).toContain('🇫🇷')
+  })
 })
 
 describe('formatPhoneWithPattern', () => {

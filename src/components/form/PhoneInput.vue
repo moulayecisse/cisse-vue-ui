@@ -104,6 +104,8 @@ const selectedCountry = ref<PhoneCountry>(
 const showDropdown = ref(false)
 const searchQuery = ref('')
 const dropdownRef = ref<HTMLDivElement | null>(null)
+/** Track raw input when user is typing a dial code */
+const rawDialCodeInput = ref('')
 
 const filteredCountries = computed(() => {
   if (!searchQuery.value) return props.countries
@@ -122,6 +124,10 @@ const fullNumber = computed(() => {
 })
 
 const displayValue = computed(() => {
+  // If user is typing a dial code, show what they typed
+  if (rawDialCodeInput.value) {
+    return rawDialCodeInput.value
+  }
   const formatted = formatPhoneWithPattern(modelValue.value, selectedCountry.value.format)
   if (props.showDialCode && modelValue.value) {
     return `${selectedCountry.value.dialCode} ${formatted}`
@@ -160,14 +166,25 @@ function handleInput(event: Event) {
   const target = event.target as HTMLInputElement
   const inputValue = target.value
 
-  // Check if pasted with dial code
-  const { digits, country } = parsePhoneWithDialCode(inputValue)
+  // Check if user is typing a dial code (starts with + or 00)
+  if (inputValue.startsWith('+') || inputValue.startsWith('00')) {
+    const { digits, country } = parsePhoneWithDialCode(inputValue)
 
-  if (country) {
-    selectedCountry.value = country
+    if (country) {
+      // Found a country match - update country and use just the digits
+      selectedCountry.value = country
+      modelValue.value = digits
+      rawDialCodeInput.value = '' // Clear - switch to formatted display
+    } else {
+      // Still typing dial code - keep showing what they typed
+      rawDialCodeInput.value = inputValue
+      modelValue.value = ''
+    }
+  } else {
+    // Regular digit entry
+    rawDialCodeInput.value = ''
+    modelValue.value = getPhoneDigits(inputValue)
   }
-
-  modelValue.value = digits
 }
 
 function handlePaste(event: ClipboardEvent) {
