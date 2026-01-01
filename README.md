@@ -158,6 +158,7 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 
 | Component | Description |
 |-----------|-------------|
+| `AuthLayout` | Split-panel authentication layout with branding and form sections |
 | `BaseLayout` | App shell with sidebar, header, main content area, and route-aware menu |
 | `PageLayout` | Page wrapper with breadcrumbs |
 
@@ -710,6 +711,92 @@ const menuItem = {
   <MenuItem :menu-item="menuItem" :active="true" />
 </template>
 ```
+
+### AuthLayout
+
+Split-panel layout for authentication pages (login, register, password reset).
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { AuthLayout, type AuthFeature } from 'cisse-vue-ui'
+
+const email = ref('')
+const password = ref('')
+
+const features: AuthFeature[] = [
+  { icon: 'lucide:shield', text: 'Secure authentication' },
+  { icon: 'lucide:zap', text: 'Fast login' },
+  { icon: 'lucide:users', text: 'Team collaboration' },
+]
+
+function handleSubmit() {
+  // Handle login
+}
+</script>
+
+<template>
+  <AuthLayout
+    app-name="My App"
+    app-icon="lucide:box"
+    headline="Welcome to"
+    sub-headline="My Application"
+    description="Sign in to access your account."
+    :features="features"
+    form-title="Sign In"
+    form-subtitle="Enter your credentials"
+    home-link="/"
+  >
+    <form @submit.prevent="handleSubmit" class="space-y-4">
+      <input v-model="email" type="email" placeholder="Email" class="..." />
+      <input v-model="password" type="password" placeholder="Password" class="..." />
+      <button type="submit">Sign In</button>
+    </form>
+
+    <template #form-footer>
+      <p class="text-center mt-6">
+        Don't have an account? <a href="/register">Sign up</a>
+      </p>
+    </template>
+  </AuthLayout>
+</template>
+```
+
+#### AuthLayout Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `appName` | `string` | `''` | Application name displayed in logo |
+| `appIcon` | `string` | `'lucide:box'` | Iconify icon for app logo |
+| `headline` | `string` | `''` | First line of headline |
+| `subHeadline` | `string` | `''` | Second line with decorative underline |
+| `description` | `string` | `''` | Description paragraph |
+| `features` | `AuthFeature[]` | `[]` | List of features with icon and text |
+| `gradientFrom` | `string` | `'from-primary-700'` | Tailwind gradient start class |
+| `gradientVia` | `string` | `''` | Tailwind gradient middle class |
+| `gradientTo` | `string` | `'to-primary-800'` | Tailwind gradient end class |
+| `showDecorations` | `boolean` | `true` | Show floating decorative shapes |
+| `showPattern` | `boolean` | `true` | Show dot pattern overlay |
+| `underlineColor` | `string` | `'rgba(165, 180, 252, 0.5)'` | Sub-headline underline color |
+| `formTitle` | `string` | `''` | Form panel title |
+| `formSubtitle` | `string` | `''` | Form panel subtitle |
+| `homeLink` | `string` | `'/'` | Mobile logo link URL |
+| `brandingAnimation` | `string` | `''` | CSS class for branding animation |
+| `formAnimation` | `string` | `''` | CSS class for form panel animation |
+
+#### AuthLayout Slots
+
+| Slot | Description |
+|------|-------------|
+| `default` | Form content (inside the white card) |
+| `branding-panel` | Complete override of the branding panel |
+| `branding-logo` | Custom logo in branding panel |
+| `branding-headline` | Custom headline content |
+| `branding-features` | Custom features list |
+| `branding-content` | Additional content after features |
+| `mobile-logo` | Custom mobile logo |
+| `form-header` | Content above the form card |
+| `form-footer` | Content below the form card |
 
 ### BaseLayout
 

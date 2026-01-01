@@ -17,6 +17,10 @@ const meta: Meta<typeof BaseLayout> = {
     showDarkToggle: { control: 'boolean' },
     userName: { control: 'text' },
     userAvatar: { control: 'text' },
+    menuPosition: {
+      control: 'select',
+      options: ['top', 'center', 'bottom'],
+    },
   },
   args: {
     appName: 'My App',
@@ -161,6 +165,68 @@ export const CustomBranding: Story = {
           <CardComponent title="Welcome to Acme">
             <div class="p-5">
               <p class="text-gray-600 dark:text-gray-400">Custom branded layout.</p>
+            </div>
+          </CardComponent>
+        </PageLayout>
+      </BaseLayout>
+    `,
+  }),
+}
+
+export const MenuPositionCenter: Story = {
+  args: {
+    menuItems,
+    currentPath: '/dashboard',
+    menuPosition: 'center',
+  },
+  render: (args) => ({
+    components: { BaseLayout, PageLayout, CardComponent },
+    setup: () => {
+      const sidebarOpen = ref(true)
+      const dark = ref(false)
+      return { args, sidebarOpen, dark }
+    },
+    template: `
+      <BaseLayout
+        v-bind="args"
+        v-model:sidebar-open="sidebarOpen"
+        v-model:dark="dark"
+      >
+        <PageLayout title="Dashboard" description="Menu is vertically centered in sidebar">
+          <CardComponent title="Center Menu Position">
+            <div class="p-5">
+              <p class="text-gray-600 dark:text-gray-400">The menu items are vertically centered in the sidebar.</p>
+            </div>
+          </CardComponent>
+        </PageLayout>
+      </BaseLayout>
+    `,
+  }),
+}
+
+export const MenuPositionBottom: Story = {
+  args: {
+    menuItems,
+    currentPath: '/dashboard',
+    menuPosition: 'bottom',
+  },
+  render: (args) => ({
+    components: { BaseLayout, PageLayout, CardComponent },
+    setup: () => {
+      const sidebarOpen = ref(true)
+      const dark = ref(false)
+      return { args, sidebarOpen, dark }
+    },
+    template: `
+      <BaseLayout
+        v-bind="args"
+        v-model:sidebar-open="sidebarOpen"
+        v-model:dark="dark"
+      >
+        <PageLayout title="Dashboard" description="Menu is aligned to the bottom of sidebar">
+          <CardComponent title="Bottom Menu Position">
+            <div class="p-5">
+              <p class="text-gray-600 dark:text-gray-400">The menu items are aligned to the bottom of the sidebar.</p>
             </div>
           </CardComponent>
         </PageLayout>
