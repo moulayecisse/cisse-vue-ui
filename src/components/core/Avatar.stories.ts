@@ -18,6 +18,17 @@ const meta: Meta<typeof Avatar> = {
       control: 'select',
       options: ['full', 'lg', 'md'],
     },
+    color: {
+      control: 'select',
+      options: [
+        undefined, 'gray', 'red', 'orange', 'amber', 'yellow', 'lime', 'green',
+        'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple',
+        'fuchsia', 'pink', 'rose',
+      ],
+    },
+    autoColor: {
+      control: 'boolean',
+    },
     src: { control: 'text' },
     alt: { control: 'text' },
     name: { control: 'text' },
@@ -25,6 +36,7 @@ const meta: Meta<typeof Avatar> = {
   args: {
     size: 'md',
     rounded: 'full',
+    autoColor: false,
   },
 }
 
@@ -115,5 +127,87 @@ export const ImageWithStatus: Story = {
     components: { Avatar },
     setup: () => ({ args }),
     template: '<Avatar v-bind="args" />',
+  }),
+}
+
+export const ManualColor: Story = {
+  args: {
+    name: 'John Doe',
+    color: 'blue',
+  },
+  render: (args) => ({
+    components: { Avatar },
+    setup: () => ({ args }),
+    template: '<Avatar v-bind="args" />',
+  }),
+}
+
+export const AutoColorFromName: Story = {
+  name: 'Auto Color (WhatsApp style)',
+  render: () => ({
+    components: { Avatar },
+    template: `
+      <div class="flex flex-wrap items-center gap-4">
+        <Avatar name="Alice Martin" autoColor />
+        <Avatar name="Bob Smith" autoColor />
+        <Avatar name="Charlie Brown" autoColor />
+        <Avatar name="Diana Ross" autoColor />
+        <Avatar name="Edward King" autoColor />
+        <Avatar name="Fiona Green" autoColor />
+        <Avatar name="George White" autoColor />
+        <Avatar name="Hannah Black" autoColor />
+      </div>
+    `,
+  }),
+}
+
+export const AllColors: Story = {
+  render: () => ({
+    components: { Avatar },
+    template: `
+      <div class="flex flex-wrap items-center gap-3">
+        <Avatar name="G" color="gray" />
+        <Avatar name="R" color="red" />
+        <Avatar name="O" color="orange" />
+        <Avatar name="A" color="amber" />
+        <Avatar name="Y" color="yellow" />
+        <Avatar name="L" color="lime" />
+        <Avatar name="G" color="green" />
+        <Avatar name="E" color="emerald" />
+        <Avatar name="T" color="teal" />
+        <Avatar name="C" color="cyan" />
+        <Avatar name="S" color="sky" />
+        <Avatar name="B" color="blue" />
+        <Avatar name="I" color="indigo" />
+        <Avatar name="V" color="violet" />
+        <Avatar name="P" color="purple" />
+        <Avatar name="F" color="fuchsia" />
+        <Avatar name="P" color="pink" />
+        <Avatar name="R" color="rose" />
+      </div>
+    `,
+  }),
+}
+
+export const ColorPriority: Story = {
+  name: 'Color Priority (manual > autoColor)',
+  render: () => ({
+    components: { Avatar },
+    template: `
+      <div class="flex items-center gap-4">
+        <div class="text-center">
+          <Avatar name="Alice" autoColor />
+          <p class="text-xs text-gray-500 mt-1">autoColor</p>
+        </div>
+        <div class="text-center">
+          <Avatar name="Alice" color="pink" />
+          <p class="text-xs text-gray-500 mt-1">color="pink"</p>
+        </div>
+        <div class="text-center">
+          <Avatar name="Alice" autoColor color="pink" />
+          <p class="text-xs text-gray-500 mt-1">both (color wins)</p>
+        </div>
+      </div>
+    `,
   }),
 }
