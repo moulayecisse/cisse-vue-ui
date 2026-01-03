@@ -10,7 +10,7 @@ const languageOptions = [
   { value: 'soninke', label: 'Soninké' },
 ]
 
-const meta = {
+const meta: Meta<typeof CheckboxGroup> = {
   title: 'Form/CheckboxGroup',
   component: CheckboxGroup,
   tags: ['autodocs'],
@@ -28,10 +28,10 @@ const meta = {
     },
     inline: { control: 'boolean' },
   },
-} satisfies Meta<typeof CheckboxGroup>
+}
 
 export default meta
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof CheckboxGroup>
 
 export const Default: Story = {
   args: {

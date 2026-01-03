@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import TextArea from './TextArea.vue'
 
-const meta = {
+const meta: Meta<typeof TextArea> = {
   title: 'Form/TextArea',
   component: TextArea,
   tags: ['autodocs'],
@@ -22,10 +22,10 @@ const meta = {
       options: ['none', 'vertical', 'horizontal', 'both'],
     },
   },
-} satisfies Meta<typeof TextArea>
+}
 
 export default meta
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof TextArea>
 
 export const Default: Story = {
   args: {
