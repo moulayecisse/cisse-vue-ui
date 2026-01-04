@@ -24,6 +24,8 @@ export interface MenuItemProps {
   icon: string
   link: string
   notification?: boolean
+  /** Child menu items for nested/submenu support */
+  children?: MenuItemProps[]
 }
 
 export interface PaginationProps {

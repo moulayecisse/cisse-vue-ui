@@ -40,6 +40,41 @@ const menuItems = [
   { label: 'Settings', icon: 'lucide:settings', link: '/settings' },
 ]
 
+const nestedMenuItems = [
+  { label: 'Dashboard', icon: 'lucide:layout-dashboard', link: '/dashboard' },
+  {
+    label: 'Users',
+    icon: 'lucide:users',
+    link: '/users',
+    children: [
+      { label: 'All Users', icon: 'lucide:list', link: '/users/all' },
+      { label: 'Add User', icon: 'lucide:user-plus', link: '/users/add' },
+      { label: 'Roles', icon: 'lucide:shield', link: '/users/roles' },
+    ],
+  },
+  {
+    label: 'Products',
+    icon: 'lucide:package',
+    link: '/products',
+    children: [
+      { label: 'Inventory', icon: 'lucide:warehouse', link: '/products/inventory' },
+      { label: 'Categories', icon: 'lucide:tags', link: '/products/categories' },
+      { label: 'Add Product', icon: 'lucide:plus', link: '/products/add' },
+    ],
+  },
+  { label: 'Orders', icon: 'lucide:shopping-cart', link: '/orders' },
+  {
+    label: 'Settings',
+    icon: 'lucide:settings',
+    link: '/settings',
+    children: [
+      { label: 'General', icon: 'lucide:sliders', link: '/settings/general' },
+      { label: 'Security', icon: 'lucide:lock', link: '/settings/security' },
+      { label: 'Notifications', icon: 'lucide:bell', link: '/settings/notifications' },
+    ],
+  },
+]
+
 const userMenuItems = [
   { label: 'Profile', icon: 'lucide:user', link: '/profile' },
   { label: 'Settings', icon: 'lucide:settings', link: '/settings' },
@@ -227,6 +262,42 @@ export const MenuPositionBottom: Story = {
           <CardComponent title="Bottom Menu Position">
             <div class="p-5">
               <p class="text-gray-600 dark:text-gray-400">The menu items are aligned to the bottom of the sidebar.</p>
+            </div>
+          </CardComponent>
+        </PageLayout>
+      </BaseLayout>
+    `,
+  }),
+}
+
+export const WithNestedMenu: Story = {
+  args: {
+    menuItems: nestedMenuItems,
+    currentPath: '/users/all',
+    userName: 'John Doe',
+    userAvatar: 'JD',
+    userMenuItems,
+  },
+  render: (args) => ({
+    components: { BaseLayout, PageLayout, CardComponent },
+    setup: () => {
+      const sidebarOpen = ref(true)
+      const dark = ref(false)
+      return { args, sidebarOpen, dark }
+    },
+    template: `
+      <BaseLayout
+        v-bind="args"
+        v-model:sidebar-open="sidebarOpen"
+        v-model:dark="dark"
+      >
+        <PageLayout title="All Users" description="Click on menu items with arrows to expand submenus">
+          <CardComponent title="Nested Menu Navigation">
+            <div class="p-5">
+              <p class="text-gray-600 dark:text-gray-400">
+                This layout demonstrates nested menu items. Click on Users, Products, or Settings
+                to expand their submenus. The parent item is highlighted when any child is active.
+              </p>
             </div>
           </CardComponent>
         </PageLayout>
