@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, resolveComponent, ref, useSlots } from 'vue'
 import { Icon } from '@iconify/vue'
+import { useDropdown } from '@/composables/useDropdown'
 import type { MenuItemProps } from '@/types'
 
 const props = withDefaults(
@@ -25,6 +26,19 @@ const props = withDefaults(
 
 const slots = useSlots()
 const submenuOpen = ref(false)
+
+// Flyout popover for compacted mode
+const triggerRef = ref<HTMLElement>()
+const flyoutRef = ref<HTMLElement>()
+const { isOpen: flyoutOpen, dropdownStyle, open: openFlyout, close: closeFlyout } = useDropdown(
+  triggerRef,
+  flyoutRef,
+  {
+    teleport: true,
+    gap: 8,
+    placement: 'right-start',
+  },
+)
 
 const hasSlotContent = computed(() => !!slots.submenu)
 
@@ -108,12 +122,52 @@ const paddingLeft = computed(() => {
   const indentPerLevel = 16 // 16px per nesting level
   return `${basePadding + props.depth * indentPerLevel}px`
 })
+
+// Helper functions for flyout child items
+const childLinkComponent = (child: MenuItemProps) => {
+  if (child.children && child.children.length > 0) {
+    return 'button'
+  }
+  try {
+    const RouterLink = resolveComponent('RouterLink')
+    if (typeof RouterLink !== 'string') {
+      return RouterLink
+    }
+  } catch {
+    // RouterLink not available
+  }
+  return 'a'
+}
+
+const childLinkProps = (child: MenuItemProps) => {
+  if (child.children && child.children.length > 0) {
+    return { type: 'button' as const }
+  }
+  const component = childLinkComponent(child)
+  if (component === 'a') {
+    return { href: child.link }
+  }
+  return { to: child.link }
+}
+
+const isChildRouteActive = (child: MenuItemProps) => {
+  const path = props.currentPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/')
+  if (child.link === '/') {
+    return path === '/'
+  }
+  return path === child.link || path.startsWith(child.link + '/')
+}
 </script>
 
 <template>
-  <div class="w-full">
+  <div
+    class="w-full"
+    @mouseenter="!expanded && hasSubmenu && openFlyout()"
+    @mouseleave="!expanded && hasSubmenu && closeFlyout()"
+  >
     <component
       :is="linkComponent"
+      ref="triggerRef"
       v-bind="linkProps"
       :class="expanded ? 'flex-row' : 'flex-col'"
       :style="expanded ? { paddingLeft } : undefined"
@@ -171,7 +225,7 @@ const paddingLeft = computed(() => {
       />
     </component>
 
-    <!-- Submenu content -->
+    <!-- Submenu content (expanded mode - inline) -->
     <Transition
       enter-active-class="transition-all duration-300 ease-out"
       enter-from-class="opacity-0 max-h-0"
@@ -203,5 +257,62 @@ const paddingLeft = computed(() => {
         />
       </div>
     </Transition>
+
+    <!-- Flyout submenu (compacted mode - popover) -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition duration-150 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition duration-100 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div
+          v-if="hasSubmenu && flyoutOpen && !expanded"
+          ref="flyoutRef"
+          :style="dropdownStyle"
+          class="z-9999 min-w-48 rounded-lg border border-gray-200 bg-white py-2 shadow-lg dark:border-gray-700 dark:bg-gray-800"
+          @mouseenter="openFlyout()"
+          @mouseleave="closeFlyout()"
+        >
+          <!-- Label header -->
+          <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase dark:text-gray-400">
+            {{ menuItem.label }}
+          </div>
+
+          <!-- Slot for custom submenu content -->
+          <slot
+            name="submenu"
+            :depth="0"
+            :expanded="true"
+            :current-path="currentPath"
+          />
+
+          <!-- Default children from prop -->
+          <template v-if="menuItem.children">
+            <component
+              :is="childLinkComponent(child)"
+              v-for="(child, index) in menuItem.children"
+              :key="index"
+              v-bind="childLinkProps(child)"
+              :class="[
+                'flex items-center gap-3 px-4 py-2 text-sm transition-colors',
+                isChildRouteActive(child)
+                  ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400'
+                  : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700',
+              ]"
+              @click="closeFlyout()"
+            >
+              <Icon
+                :icon="child.icon"
+                class="size-4"
+              />
+              <span>{{ child.label }}</span>
+            </component>
+          </template>
+        </div>
+      </Transition>
+    </Teleport>
   </div>
 </template>

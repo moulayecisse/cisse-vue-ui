@@ -363,3 +363,61 @@ export const MixedSlotAndChildren: Story = {
     `,
   }),
 }
+
+export const CollapsedWithSubmenu: Story = {
+  render: () => ({
+    components: { MenuItem },
+    setup: () => {
+      const menuItems = [
+        { label: 'Dashboard', icon: 'lucide:layout-dashboard', link: '/' },
+        {
+          label: 'Users',
+          icon: 'lucide:users',
+          link: '/users',
+          children: [
+            { label: 'All Users', icon: 'lucide:list', link: '/users/all' },
+            { label: 'Add User', icon: 'lucide:user-plus', link: '/users/add' },
+            { label: 'Roles', icon: 'lucide:shield', link: '/users/roles' },
+          ],
+        },
+        {
+          label: 'Products',
+          icon: 'lucide:package',
+          link: '/products',
+          children: [
+            { label: 'Inventory', icon: 'lucide:warehouse', link: '/products/inventory' },
+            { label: 'Categories', icon: 'lucide:tags', link: '/products/categories' },
+          ],
+        },
+        { label: 'Reports', icon: 'lucide:bar-chart-2', link: '/reports' },
+        {
+          label: 'Settings',
+          icon: 'lucide:settings',
+          link: '/settings',
+          children: [
+            { label: 'General', icon: 'lucide:sliders', link: '/settings/general' },
+            { label: 'Security', icon: 'lucide:lock', link: '/settings/security' },
+            { label: 'Notifications', icon: 'lucide:bell', link: '/settings/notifications' },
+          ],
+        },
+      ]
+      return { menuItems }
+    },
+    template: `
+      <div class="space-y-4">
+        <p class="text-white/70 text-xs mb-4">Hover over items with submenus to see flyout</p>
+        <MenuItem
+          v-for="item in menuItems"
+          :key="item.link"
+          :menu-item="item"
+          :expanded="false"
+        />
+      </div>
+    `,
+  }),
+  decorators: [
+    () => ({
+      template: '<div class="bg-primary p-4 rounded-lg w-20"><story /></div>',
+    }),
+  ],
+}

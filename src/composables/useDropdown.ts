@@ -1,10 +1,26 @@
 import { ref, computed, watch, onUnmounted, nextTick, type Ref, type ComputedRef } from 'vue'
 
+export type DropdownPlacement =
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+
 export interface UseDropdownOptions {
   /** Whether teleport is enabled (affects position calculation) */
   teleport?: boolean
-  /** Alignment for position calculation */
+  /** Alignment for position calculation (deprecated, use placement instead) */
   align?: 'left' | 'right'
+  /** Placement of the dropdown relative to the trigger */
+  placement?: DropdownPlacement
   /** Gap between trigger and dropdown in pixels */
   gap?: number
   /** Callback when dropdown opens */
@@ -52,7 +68,7 @@ export function useDropdown(
   dropdownRef: Ref<HTMLElement | null | undefined>,
   options: UseDropdownOptions = {}
 ): UseDropdownReturn {
-  const { teleport = true, align = 'left', gap = 8, onOpen, onClose } = options
+  const { teleport = true, align = 'left', placement = 'bottom-start', gap = 8, onOpen, onClose } = options
 
   const isOpen = ref(false)
   const highlightedIndex = ref(-1)
@@ -61,10 +77,67 @@ export function useDropdown(
   const updatePosition = () => {
     if (!triggerRef.value || !teleport) return
     const rect = triggerRef.value.getBoundingClientRect()
+
+    // Calculate position based on placement
+    const [side, alignment = 'start'] = placement.split('-') as [string, string?]
+
+    let top = 0
+    let left = 0
+    let right = 0
+
+    // Vertical positioning
+    switch (side) {
+      case 'bottom':
+        top = rect.bottom + window.scrollY + gap
+        break
+      case 'top':
+        top = rect.top + window.scrollY - gap
+        break
+      case 'left':
+      case 'right':
+        // Vertical alignment for horizontal placements
+        if (alignment === 'start') {
+          top = rect.top + window.scrollY
+        } else if (alignment === 'end') {
+          top = rect.bottom + window.scrollY
+        } else {
+          // center
+          top = rect.top + window.scrollY + rect.height / 2
+        }
+        break
+    }
+
+    // Horizontal positioning
+    switch (side) {
+      case 'left':
+        right = window.innerWidth - rect.left + gap
+        left = 0
+        break
+      case 'right':
+        left = rect.right + window.scrollX + gap
+        right = 0
+        break
+      case 'top':
+      case 'bottom':
+        // Horizontal alignment for vertical placements
+        if (alignment === 'start' || align === 'left') {
+          left = rect.left + window.scrollX
+          right = 0
+        } else if (alignment === 'end' || align === 'right') {
+          right = window.innerWidth - rect.right - window.scrollX
+          left = 0
+        } else {
+          // center
+          left = rect.left + window.scrollX + rect.width / 2
+          right = 0
+        }
+        break
+    }
+
     dropdownPosition.value = {
-      top: rect.bottom + window.scrollY + gap,
-      left: rect.left + window.scrollX,
-      right: window.innerWidth - rect.right - window.scrollX,
+      top,
+      left,
+      right,
       width: rect.width,
     }
   }
@@ -150,13 +223,30 @@ export function useDropdown(
 
   const dropdownStyle = computed(() => {
     if (!teleport) return {} as Record<string, string>
-    return {
+
+    const [side] = placement.split('-')
+    const isHorizontal = side === 'left' || side === 'right'
+
+    const style: Record<string, string> = {
       position: 'absolute',
       top: `${dropdownPosition.value.top}px`,
-      left: align === 'right' ? 'auto' : `${dropdownPosition.value.left}px`,
-      right: align === 'right' ? `${dropdownPosition.value.right}px` : 'auto',
-      width: `${dropdownPosition.value.width}px`,
-    } as Record<string, string>
+    }
+
+    // For horizontal placements, don't set width
+    if (isHorizontal) {
+      if (side === 'left') {
+        style.right = `${dropdownPosition.value.right}px`
+      } else {
+        style.left = `${dropdownPosition.value.left}px`
+      }
+    } else {
+      // Vertical placements (bottom/top)
+      style.left = dropdownPosition.value.right ? 'auto' : `${dropdownPosition.value.left}px`
+      style.right = dropdownPosition.value.right ? `${dropdownPosition.value.right}px` : 'auto'
+      style.width = `${dropdownPosition.value.width}px`
+    }
+
+    return style
   })
 
   // Event listener management
