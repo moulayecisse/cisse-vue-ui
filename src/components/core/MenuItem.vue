@@ -24,7 +24,7 @@ const props = withDefaults(
   },
 )
 
-const slots = useSlots()
+const slots = useSlots() as { submenu?: () => unknown }
 const submenuOpen = ref(false)
 
 // Flyout popover for compacted mode
