@@ -165,3 +165,31 @@ export const EmailRecipients: Story = {
     `,
   }),
 }
+
+export const States: Story = {
+  render: () => ({
+    components: { TagsInput },
+    setup: () => {
+      const empty = ref<string[]>([])
+      const withTags = ref(['Vue.js', 'TypeScript', 'Tailwind'])
+      const disabled = ref(['readonly', 'tags'])
+      return { empty, withTags, disabled }
+    },
+    template: `
+      <div class="space-y-4 max-w-md">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Empty</label>
+          <TagsInput v-model="empty" placeholder="Add a tag..." />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">With Tags</label>
+          <TagsInput v-model="withTags" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Disabled</label>
+          <TagsInput v-model="disabled" disabled />
+        </div>
+      </div>
+    `,
+  }),
+}

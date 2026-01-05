@@ -170,3 +170,69 @@ export const CustomNoResultsText: Story = {
     `,
   }),
 }
+
+export const States: Story = {
+  render: () => ({
+    components: { FormSelect },
+    setup: () => {
+      const normal = ref(null)
+      const withValue = ref('banana')
+      const disabled = ref('apple')
+      const options = [
+        { value: 'apple', label: 'Apple' },
+        { value: 'banana', label: 'Banana' },
+        { value: 'cherry', label: 'Cherry' },
+      ]
+      return { normal, withValue, disabled, options }
+    },
+    template: `
+      <div class="space-y-4 max-w-md">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Normal</label>
+          <FormSelect v-model="normal" :options="options" placeholder="Select an option..." />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">With Value</label>
+          <FormSelect v-model="withValue" :options="options" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Disabled</label>
+          <FormSelect v-model="disabled" :options="options" disabled />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { FormSelect },
+    setup: () => {
+      const small = ref(null)
+      const medium = ref(null)
+      const large = ref(null)
+      const options = [
+        { value: 'apple', label: 'Apple' },
+        { value: 'banana', label: 'Banana' },
+        { value: 'cherry', label: 'Cherry' },
+      ]
+      return { small, medium, large, options }
+    },
+    template: `
+      <div class="space-y-4 max-w-md">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Small</label>
+          <FormSelect v-model="small" :options="options" size="sm" placeholder="Select..." />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Medium (default)</label>
+          <FormSelect v-model="medium" :options="options" size="md" placeholder="Select..." />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Large</label>
+          <FormSelect v-model="large" :options="options" size="lg" placeholder="Select..." />
+        </div>
+      </div>
+    `,
+  }),
+}

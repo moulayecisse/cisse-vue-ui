@@ -24,7 +24,7 @@ describe('URLInput', () => {
 
   it('shows link icon', () => {
     const wrapper = mount(URLInput)
-    expect(wrapper.find('.size-5').exists()).toBe(true)
+    expect(wrapper.find('.size-4').exists()).toBe(true)
   })
 
   it('shows external link button for valid URL after blur', async () => {

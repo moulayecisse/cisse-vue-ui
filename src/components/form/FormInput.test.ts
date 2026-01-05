@@ -132,7 +132,7 @@ describe('FormInput', () => {
     const input = wrapper.find('input')
 
     expect(input.classes()).toContain('w-full')
-    expect(input.classes()).toContain('rounded-xl')
+    expect(input.classes()).toContain('rounded-md')
     expect(input.classes()).toContain('border')
   })
 

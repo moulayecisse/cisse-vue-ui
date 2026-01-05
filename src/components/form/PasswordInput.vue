@@ -107,12 +107,12 @@ function toggleVisibility() {
         <button
           type="button"
           :disabled="disabled"
-          class="p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           @click="toggleVisibility"
         >
           <Icon
             :icon="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
-            class="size-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            class="size-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           />
         </button>
       </template>

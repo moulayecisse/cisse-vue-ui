@@ -60,7 +60,7 @@ describe('SearchInput', () => {
     const wrapper = mount(SearchInput)
 
     // Icon exists in the component
-    expect(wrapper.find('.size-5').exists()).toBe(true)
+    expect(wrapper.find('.size-4').exists()).toBe(true)
   })
 
   it('has relative container', () => {
@@ -78,7 +78,7 @@ describe('SearchInput', () => {
   it('has rounded corners', () => {
     const wrapper = mount(SearchInput)
 
-    expect(wrapper.find('input').classes()).toContain('rounded-xl')
+    expect(wrapper.find('input').classes()).toContain('rounded-md')
   })
 
   it('has border', () => {

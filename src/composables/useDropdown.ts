@@ -224,8 +224,9 @@ export function useDropdown(
   const dropdownStyle = computed(() => {
     if (!teleport) return {} as Record<string, string>
 
-    const [side] = placement.split('-')
+    const [side, alignment] = placement.split('-')
     const isHorizontal = side === 'left' || side === 'right'
+    const isRightAligned = align === 'right' || alignment === 'end'
 
     const style: Record<string, string> = {
       position: 'absolute',
@@ -241,8 +242,8 @@ export function useDropdown(
       }
     } else {
       // Vertical placements (bottom/top)
-      style.left = dropdownPosition.value.right ? 'auto' : `${dropdownPosition.value.left}px`
-      style.right = dropdownPosition.value.right ? `${dropdownPosition.value.right}px` : 'auto'
+      style.left = isRightAligned ? 'auto' : `${dropdownPosition.value.left}px`
+      style.right = isRightAligned ? `${dropdownPosition.value.right}px` : 'auto'
       style.width = `${dropdownPosition.value.width}px`
     }
 

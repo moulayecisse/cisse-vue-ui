@@ -24,7 +24,7 @@ describe('EmailInput', () => {
 
   it('shows mail icon', () => {
     const wrapper = mount(EmailInput)
-    expect(wrapper.find('.size-5').exists()).toBe(true)
+    expect(wrapper.find('.size-4').exists()).toBe(true)
   })
 
   it('applies placeholder', () => {

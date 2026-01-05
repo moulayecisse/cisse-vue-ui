@@ -193,3 +193,59 @@ export const DifferentLocales: Story = {
     `,
   }),
 }
+
+export const States: Story = {
+  render: () => ({
+    components: { DatePicker },
+    setup: () => {
+      const normal = ref<Date | null>(null)
+      const withValue = ref<Date | null>(new Date())
+      const disabled = ref<Date | null>(new Date())
+      return { normal, withValue, disabled }
+    },
+    template: `
+      <div class="space-y-4 max-w-md">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Normal</label>
+          <DatePicker v-model="normal" placeholder="Select date..." />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">With Value</label>
+          <DatePicker v-model="withValue" />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Disabled</label>
+          <DatePicker v-model="disabled" disabled />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { DatePicker },
+    setup: () => {
+      const small = ref<Date | null>(null)
+      const medium = ref<Date | null>(null)
+      const large = ref<Date | null>(null)
+      return { small, medium, large }
+    },
+    template: `
+      <div class="space-y-4 max-w-md">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Small</label>
+          <DatePicker v-model="small" size="sm" placeholder="Select date..." />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Medium (default)</label>
+          <DatePicker v-model="medium" size="md" placeholder="Select date..." />
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Large</label>
+          <DatePicker v-model="large" size="lg" placeholder="Select date..." />
+        </div>
+      </div>
+    `,
+  }),
+}

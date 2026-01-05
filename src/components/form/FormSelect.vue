@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { computed, ref, watch, nextTick } from 'vue'
+import { computed, ref, watch, nextTick, toRef } from 'vue'
 import { Icon } from '@iconify/vue'
 import type { SelectProps, SelectOption } from '@/types'
 import { useDropdown } from '@/composables/useDropdown'
 import { useId } from '@/composables/useId'
+import { useInputStyles, type InputSize } from '@/composables/useInputStyles'
 
 const props = withDefaults(
   defineProps<
@@ -16,12 +17,15 @@ const props = withDefaults(
       noResultsText?: string
       /** Custom class for the trigger button */
       triggerClass?: string
+      /** Input size */
+      size?: InputSize
     }
   >(),
   {
     teleport: true,
     searchable: false,
     noResultsText: 'No results found',
+    size: 'md',
   },
 )
 
@@ -126,18 +130,19 @@ watch(searchQuery, () => {
   highlightedIndex.value = 0
 })
 
-const triggerClasses = computed(() => {
-  const base = 'flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm text-left transition'
-  const state = props.disabled
-    ? 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-500 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-500'
-    : isOpen.value
-      ? 'border-primary ring-2 ring-primary/20 bg-white dark:bg-gray-900'
-      : 'border-gray-300 bg-white hover:border-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-gray-600'
-  const text = selectedOption.value
-    ? 'text-gray-800 dark:text-gray-200'
-    : 'text-gray-400 dark:text-gray-500'
-  return [base, state, text, props.triggerClass]
+const hasValue = computed(() => !!selectedOption.value)
+
+const { triggerClass } = useInputStyles({
+  disabled: computed(() => props.disabled),
+  focused: isOpen,
+  hasValue,
+  size: toRef(props, 'size'),
 })
+
+const triggerClasses = computed(() => [
+  ...triggerClass.value,
+  props.triggerClass,
+])
 </script>
 
 <template>

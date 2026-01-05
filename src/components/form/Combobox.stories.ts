@@ -262,3 +262,64 @@ export const InForm: Story = {
     `,
   }),
 }
+
+export const States: Story = {
+  render: () => ({
+    components: { Combobox },
+    setup() {
+      const normal = ref<string | null>(null)
+      const withValue = ref<string>('fr')
+      const multipleValue = ref<string[]>(['js', 'ts'])
+      const disabled = ref<string>('uk')
+      return { normal, withValue, multipleValue, disabled, countries, programmingLanguages }
+    },
+    template: `
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Normal</label>
+          <Combobox v-model="normal" :options="countries" placeholder="Select country..." />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">With Value</label>
+          <Combobox v-model="withValue" :options="countries" clearable />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Multiple</label>
+          <Combobox v-model="multipleValue" :options="programmingLanguages" multiple clearable />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Disabled</label>
+          <Combobox v-model="disabled" :options="countries" disabled />
+        </div>
+      </div>
+    `,
+  }),
+}
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { Combobox },
+    setup() {
+      const small = ref<string | null>(null)
+      const medium = ref<string | null>(null)
+      const large = ref<string | null>(null)
+      return { small, medium, large, countries }
+    },
+    template: `
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Small</label>
+          <Combobox v-model="small" :options="countries" size="sm" placeholder="Select country..." />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Medium (default)</label>
+          <Combobox v-model="medium" :options="countries" size="md" placeholder="Select country..." />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Large</label>
+          <Combobox v-model="large" :options="countries" size="lg" placeholder="Select country..." />
+        </div>
+      </div>
+    `,
+  }),
+}

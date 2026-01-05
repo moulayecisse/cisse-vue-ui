@@ -24,7 +24,7 @@ describe('PasswordInput', () => {
 
   it('shows lock icon', () => {
     const wrapper = mount(PasswordInput)
-    expect(wrapper.find('.size-5').exists()).toBe(true)
+    expect(wrapper.find('.size-4').exists()).toBe(true)
   })
 
   it('toggles password visibility on button click', async () => {

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, computed, watch, nextTick, toRef } from 'vue'
 import { Icon } from '@iconify/vue'
 import { onClickOutside } from '@vueuse/core'
 import { useId } from '@/composables/useId'
+import { useInputStyles, type InputSize } from '@/composables/useInputStyles'
 
 export interface ComboboxOption {
   value: string | number
@@ -34,6 +35,8 @@ const props = withDefaults(
     id?: string
     /** Teleport target (e.g., 'body', '#app'). Set to false to disable teleport. */
     teleport?: string | false
+    /** Input size */
+    size?: InputSize
   }>(),
   {
     placeholder: 'Select...',
@@ -43,6 +46,7 @@ const props = withDefaults(
     clearable: false,
     noResultsText: 'No results found',
     teleport: false,
+    size: 'md',
   },
 )
 
@@ -134,6 +138,15 @@ watch(isOpen, (open) => {
     search.value = ''
   }
 })
+
+const hasValue = computed(() => selectedOptions.value.length > 0)
+
+const { triggerClass } = useInputStyles({
+  disabled: computed(() => props.disabled),
+  focused: isOpen,
+  hasValue,
+  size: toRef(props, 'size'),
+})
 </script>
 
 <template>
@@ -147,15 +160,7 @@ watch(isOpen, (open) => {
       :aria-expanded="isOpen"
       :aria-haspopup="'listbox'"
       :aria-controls="listboxId"
-      :class="[
-        'flex min-h-[42px] w-full cursor-pointer items-center rounded-lg border bg-white px-3 py-2 transition-colors',
-        'dark:bg-gray-900',
-        disabled
-          ? 'cursor-not-allowed border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800'
-          : isOpen
-            ? 'border-primary ring-2 ring-primary/20'
-            : 'border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500',
-      ]"
+      :class="['cursor-pointer', ...triggerClass]"
       @click="openDropdown"
     >
       <!-- Selected value or placeholder -->

@@ -21,7 +21,7 @@ describe('InputWrapper', () => {
       },
     })
 
-    expect(wrapper.find('.size-5').exists()).toBe(true)
+    expect(wrapper.find('.size-4').exists()).toBe(true)
   })
 
   it('renders right icon when iconRight prop is provided', () => {
@@ -32,7 +32,7 @@ describe('InputWrapper', () => {
       },
     })
 
-    const icons = wrapper.findAll('.size-5')
+    const icons = wrapper.findAll('.size-4')
     expect(icons.length).toBe(1)
   })
 
@@ -47,7 +47,7 @@ describe('InputWrapper', () => {
       },
     })
 
-    const icons = wrapper.findAll('.size-5')
+    const icons = wrapper.findAll('.size-4')
     expect(icons.length).toBe(2)
   })
 
@@ -85,7 +85,7 @@ describe('InputWrapper', () => {
 
     const input = wrapper.find('[data-testid="input"]')
     expect(input.classes()).toContain('pl-10')
-    expect(input.classes()).toContain('rounded-xl')
+    expect(input.classes()).toContain('rounded-md')
     expect(input.classes()).toContain('border')
   })
 
@@ -99,8 +99,7 @@ describe('InputWrapper', () => {
     })
 
     const input = wrapper.find('[data-testid="input"]')
-    expect(input.classes()).toContain('pl-4')
-    expect(input.classes()).toContain('pr-4')
+    expect(input.classes()).toContain('px-3')
   })
 
   it('adjusts padding when right content is present', () => {
@@ -128,7 +127,7 @@ describe('InputWrapper', () => {
     })
 
     const input = wrapper.find('[data-testid="input"]')
-    expect(input.classes()).toContain('py-2')
+    expect(input.classes()).toContain('py-1.5')
     expect(input.classes()).toContain('text-xs')
   })
 
@@ -142,7 +141,7 @@ describe('InputWrapper', () => {
     })
 
     const input = wrapper.find('[data-testid="input"]')
-    expect(input.classes()).toContain('py-3')
+    expect(input.classes()).toContain('py-2')
     expect(input.classes()).toContain('text-sm')
   })
 
@@ -157,7 +156,7 @@ describe('InputWrapper', () => {
     })
 
     const input = wrapper.find('[data-testid="input"]')
-    expect(input.classes()).toContain('py-4')
+    expect(input.classes()).toContain('py-3')
     expect(input.classes()).toContain('text-base')
   })
 

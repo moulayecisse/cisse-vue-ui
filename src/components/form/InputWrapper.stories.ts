@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { Icon } from '@iconify/vue'
 import InputWrapper from './InputWrapper.vue'
 
 const meta: Meta<typeof InputWrapper> = {
@@ -16,6 +15,7 @@ const meta: Meta<typeof InputWrapper> = {
     },
     invalid: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    focused: { control: 'boolean' },
     wrapperClass: { control: 'text' },
   },
   args: {
@@ -99,26 +99,17 @@ export const WithBothIcons: Story = {
 export const WithClearButton: Story = {
   args: {
     icon: 'lucide:search',
+    iconRight: 'lucide:x',
   },
   render: (args) => ({
-    components: { InputWrapper, Icon },
+    components: { InputWrapper },
     setup: () => {
       const value = ref('Some text to clear')
-      const clear = () => { value.value = '' }
-      return { args, value, clear }
+      return { args, value }
     },
     template: `
       <InputWrapper v-bind="args" v-slot="{ inputClass }">
         <input v-model="value" :class="inputClass" placeholder="Search..." />
-        <template #actions>
-          <button
-            v-if="value"
-            @click="clear"
-            class="p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors"
-          >
-            <Icon icon="lucide:x" class="size-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-          </button>
-        </template>
       </InputWrapper>
     `,
   }),
@@ -127,35 +118,22 @@ export const WithClearButton: Story = {
 export const PasswordToggle: Story = {
   args: {
     icon: 'lucide:lock',
+    iconRight: 'lucide:eye',
   },
   render: (args) => ({
-    components: { InputWrapper, Icon },
+    components: { InputWrapper },
     setup: () => {
       const password = ref('mysecretpassword')
-      const showPassword = ref(false)
-      const toggle = () => { showPassword.value = !showPassword.value }
-      return { args, password, showPassword, toggle }
+      return { args, password }
     },
     template: `
       <InputWrapper v-bind="args" v-slot="{ inputClass }">
         <input
           v-model="password"
-          :type="showPassword ? 'text' : 'password'"
+          type="password"
           :class="inputClass"
           placeholder="Enter password..."
         />
-        <template #actions>
-          <button
-            @click="toggle"
-            class="p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-600 transition-colors"
-            type="button"
-          >
-            <Icon
-              :icon="showPassword ? 'lucide:eye-off' : 'lucide:eye'"
-              class="size-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-            />
-          </button>
-        </template>
       </InputWrapper>
     `,
   }),
@@ -219,18 +197,13 @@ export const InvalidState: Story = {
 
 export const CustomIconSlot: Story = {
   render: () => ({
-    components: { InputWrapper, Icon },
+    components: { InputWrapper },
     setup: () => {
       const value = ref('')
       return { value }
     },
     template: `
-      <InputWrapper v-slot="{ inputClass }">
-        <template #icon>
-          <div class="flex items-center gap-1">
-            <Icon icon="lucide:dollar-sign" class="size-4 text-emerald-500" />
-          </div>
-        </template>
+      <InputWrapper icon="lucide:dollar-sign" v-slot="{ inputClass }">
         <input v-model="value" :class="inputClass" placeholder="0.00" type="number" step="0.01" />
       </InputWrapper>
     `,
@@ -262,26 +235,20 @@ export const WithTextarea: Story = {
 
 export const AllVariants: Story = {
   render: () => ({
-    components: { InputWrapper, Icon },
+    components: { InputWrapper },
     setup: () => {
       const search = ref('')
       const email = ref('user@example.com')
       const password = ref('secret')
-      const showPassword = ref(false)
       const amount = ref('1234.56')
-      return { search, email, password, showPassword, amount }
+      return { search, email, password, amount }
     },
     template: `
       <div class="space-y-4 max-w-md">
         <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Search with clear</label>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Search</label>
           <InputWrapper icon="lucide:search" v-slot="{ inputClass }">
             <input v-model="search" :class="inputClass" placeholder="Search..." />
-            <template #actions>
-              <button v-if="search" @click="search = ''" class="p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-600">
-                <Icon icon="lucide:x" class="size-4 text-gray-400" />
-              </button>
-            </template>
           </InputWrapper>
         </div>
 
@@ -293,24 +260,58 @@ export const AllVariants: Story = {
         </div>
 
         <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Password with toggle</label>
-          <InputWrapper icon="lucide:lock" v-slot="{ inputClass }">
-            <input v-model="password" :type="showPassword ? 'text' : 'password'" :class="inputClass" />
-            <template #actions>
-              <button @click="showPassword = !showPassword" class="p-1 rounded hover:bg-gray-100 dark:hover:bg-slate-600">
-                <Icon :icon="showPassword ? 'lucide:eye-off' : 'lucide:eye'" class="size-5 text-gray-400" />
-              </button>
-            </template>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+          <InputWrapper icon="lucide:lock" iconRight="lucide:eye" v-slot="{ inputClass }">
+            <input v-model="password" type="password" :class="inputClass" />
           </InputWrapper>
         </div>
 
         <div>
           <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Currency input</label>
-          <InputWrapper v-slot="{ inputClass }">
-            <template #icon>
-              <Icon icon="lucide:dollar-sign" class="size-5 text-emerald-500" />
-            </template>
+          <InputWrapper icon="lucide:dollar-sign" v-slot="{ inputClass }">
             <input v-model="amount" :class="inputClass" type="text" />
+          </InputWrapper>
+        </div>
+      </div>
+    `,
+  }),
+}
+
+export const States: Story = {
+  render: () => ({
+    components: { InputWrapper },
+    setup: () => {
+      const normal = ref('Normal input')
+      const focused = ref('Focused input')
+      const invalid = ref('Invalid input')
+      const disabled = ref('Disabled input')
+      return { normal, focused, invalid, disabled }
+    },
+    template: `
+      <div class="space-y-4 max-w-md">
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Normal</label>
+          <InputWrapper icon="lucide:type" v-slot="{ inputClass }">
+            <input v-model="normal" :class="inputClass" />
+          </InputWrapper>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Focused (controlled)</label>
+          <InputWrapper icon="lucide:type" :focused="true" v-slot="{ inputClass }">
+            <input v-model="focused" :class="inputClass" />
+          </InputWrapper>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Invalid</label>
+          <InputWrapper icon="lucide:type" :invalid="true" v-slot="{ inputClass }">
+            <input v-model="invalid" :class="inputClass" />
+          </InputWrapper>
+          <p class="mt-1 text-sm text-red-500">This field has an error</p>
+        </div>
+        <div>
+          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Disabled</label>
+          <InputWrapper icon="lucide:type" :disabled="true" v-slot="{ inputClass }">
+            <input v-model="disabled" :class="inputClass" disabled />
           </InputWrapper>
         </div>
       </div>

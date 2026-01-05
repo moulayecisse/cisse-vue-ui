@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, toRef } from 'vue'
 import { Icon } from '@iconify/vue'
 import { useDropdown } from '@/composables/useDropdown'
 import { useId } from '@/composables/useId'
+import { useInputStyles, type InputSize } from '@/composables/useInputStyles'
 
 const props = withDefaults(
   defineProps<{
@@ -22,6 +23,8 @@ const props = withDefaults(
     teleport?: boolean
     /** Custom ID for accessibility */
     id?: string
+    /** Input size */
+    size?: InputSize
   }>(),
   {
     placeholder: 'Select date',
@@ -29,6 +32,7 @@ const props = withDefaults(
     locale: 'en-US',
     disabled: false,
     teleport: true,
+    size: 'md',
   },
 )
 
@@ -170,6 +174,15 @@ const getDateLabel = (date: Date): string => {
   })
   return formatter.format(date)
 }
+
+const hasValue = computed(() => !!modelValue.value)
+
+const { triggerClass } = useInputStyles({
+  disabled: computed(() => props.disabled),
+  focused: isOpen,
+  hasValue,
+  size: toRef(props, 'size'),
+})
 </script>
 
 <template>
@@ -182,15 +195,7 @@ const getDateLabel = (date: Date): string => {
       :aria-expanded="isOpen"
       :aria-haspopup="'dialog'"
       :aria-controls="calendarId"
-      :class="[
-        'flex w-full items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm text-left transition',
-        disabled
-          ? 'cursor-not-allowed border-gray-200 bg-gray-50 text-gray-500 dark:border-gray-800 dark:bg-gray-950'
-          : isOpen
-            ? 'border-primary ring-2 ring-primary/20 bg-white dark:bg-gray-900'
-            : 'border-gray-300 bg-white hover:border-gray-400 dark:border-gray-700 dark:bg-gray-900',
-        modelValue ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500',
-      ]"
+      :class="triggerClass"
       @click="toggle"
     >
       <span class="flex-1 truncate">{{ displayValue || placeholder }}</span>

@@ -3,16 +3,16 @@ defineOptions({
   inheritAttrs: false,
 })
 
-import { ref, computed } from 'vue'
+import { ref, computed, toRef } from 'vue'
 import { Icon } from '@iconify/vue'
-import type { InputWrapperSize } from './InputWrapper.vue'
+import { useInputStyles, type InputSize } from '@/composables/useInputStyles'
 
 const props = withDefaults(
   defineProps<{
     /** Placeholder text */
     placeholder?: string
     /** Input size */
-    size?: InputWrapperSize
+    size?: InputSize
     /** Disabled state */
     disabled?: boolean
     /** Maximum number of tags */
@@ -43,12 +43,12 @@ const canAddMore = computed(() => {
   return true
 })
 
+const { wrapperClass } = useInputStyles({
+  disabled: toRef(props, 'disabled'),
+  size: toRef(props, 'size'),
+})
+
 const sizeClasses = computed(() => ({
-  wrapper: {
-    sm: 'min-h-9 py-1.5 px-2 gap-1',
-    md: 'min-h-11 py-2 px-3 gap-1.5',
-    lg: 'min-h-13 py-2.5 px-4 gap-2',
-  }[props.size],
   tag: {
     sm: 'text-xs px-2 py-0.5',
     md: 'text-sm px-2.5 py-1',
@@ -105,14 +105,7 @@ defineExpose({ focus: focusInput })
 
 <template>
   <div
-    :class="[
-      'flex flex-wrap items-center rounded-xl border transition-all cursor-text',
-      'bg-gray-50 dark:bg-slate-700',
-      'border-gray-200 dark:border-slate-600',
-      'focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-500 focus-within:bg-white dark:focus-within:bg-slate-600',
-      disabled && 'opacity-50 cursor-not-allowed',
-      sizeClasses.wrapper,
-    ]"
+    :class="wrapperClass"
     @click="focusInput"
   >
     <!-- Tags -->
@@ -155,7 +148,8 @@ defineExpose({ focus: focusInput })
       :required="required && modelValue.length === 0"
       :class="[
         'flex-1 min-w-20 bg-transparent border-none focus:outline-none',
-        'text-gray-900 dark:text-white placeholder-gray-400',
+        'text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500',
+        disabled && 'text-gray-500 dark:text-gray-500',
         sizeClasses.input,
       ]"
       v-bind="$attrs"

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
+import { computed, useSlots, toRef } from 'vue'
 import { Icon } from '@iconify/vue'
+import { useInputStyles, type InputSize } from '@/composables/useInputStyles'
 
-export type InputWrapperSize = 'sm' | 'md' | 'lg'
+export type InputWrapperSize = InputSize
 
 const props = withDefaults(
   defineProps<{
@@ -16,6 +17,8 @@ const props = withDefaults(
     invalid?: boolean
     /** Disabled state */
     disabled?: boolean
+    /** Focused state (for external control) */
+    focused?: boolean
     /** Custom wrapper classes */
     wrapperClass?: string
   }>(),
@@ -24,31 +27,19 @@ const props = withDefaults(
   }
 )
 
-const slots = useSlots()
+const slots = useSlots() as { icon?: () => unknown; actions?: () => unknown }
 
-const hasLeftIcon = computed(() => props.icon || slots.icon)
-const hasRightContent = computed(() => props.iconRight || slots.actions)
+const hasLeftIcon = computed(() => !!props.icon || !!slots.icon)
+const hasRightContent = computed(() => !!props.iconRight || !!slots.actions)
 
-const inputClass = computed(() => [
-  // Base styles
-  'block w-full rounded-xl border text-sm transition-all',
-  'border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400',
-  'focus:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-hidden',
-  'disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed',
-  // Dark mode
-  'dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-gray-500',
-  'dark:focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:bg-slate-600',
-  'dark:disabled:bg-slate-800 dark:disabled:text-gray-500',
-  // Padding based on icons/actions
-  hasLeftIcon.value ? 'pl-10' : 'pl-4',
-  hasRightContent.value ? 'pr-10' : 'pr-4',
-  // Size
-  props.size === 'sm' && 'py-2 text-xs',
-  props.size === 'md' && 'py-3 text-sm',
-  props.size === 'lg' && 'py-4 text-base',
-  // Invalid state
-  props.invalid && 'border-red-500 focus:border-red-500 focus:ring-red-500 dark:border-red-500',
-])
+const { inputClass, iconClass } = useInputStyles({
+  disabled: toRef(props, 'disabled'),
+  invalid: toRef(props, 'invalid'),
+  focused: toRef(props, 'focused'),
+  size: toRef(props, 'size'),
+  hasLeftIcon,
+  hasRightIcon: hasRightContent,
+})
 
 defineExpose({ inputClass })
 </script>
@@ -61,7 +52,7 @@ defineExpose({ inputClass })
       class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
     >
       <slot name="icon">
-        <Icon v-if="icon" :icon="icon" class="size-5" />
+        <Icon v-if="icon" :icon="icon" :class="iconClass" />
       </slot>
     </div>
 
@@ -77,7 +68,7 @@ defineExpose({ inputClass })
         <Icon
           v-if="iconRight"
           :icon="iconRight"
-          class="size-5 text-gray-400 pointer-events-none"
+          :class="[iconClass, 'pointer-events-none']"
         />
       </slot>
     </div>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, toRef } from 'vue'
 import FormLabel from './FormLabel.vue'
 import FormHelp from './FormHelp.vue'
+import { useInputStyles, type InputSize } from '@/composables/useInputStyles'
 
 interface Props {
   modelValue?: string
@@ -16,6 +17,8 @@ interface Props {
   maxLength?: number
   showCount?: boolean
   resize?: 'none' | 'vertical' | 'horizontal' | 'both'
+  /** Input size */
+  size?: InputSize
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,6 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
   rows: 3,
   resize: 'vertical',
   showCount: false,
+  size: 'md',
 })
 
 const emit = defineEmits<{
@@ -30,6 +34,12 @@ const emit = defineEmits<{
 }>()
 
 const charCount = computed(() => props.modelValue?.length ?? 0)
+
+const { inputClass } = useInputStyles({
+  disabled: toRef(props, 'disabled'),
+  invalid: computed(() => !!props.error),
+  size: toRef(props, 'size'),
+})
 
 const resizeClass = computed(() => {
   switch (props.resize) {
@@ -67,16 +77,9 @@ function handleInput(event: Event) {
       :rows="rows"
       :maxlength="maxLength"
       :class="[
-        'w-full px-4 py-3 rounded-xl border transition-all duration-200',
-        'focus:outline-none focus:ring-2 focus:ring-offset-0',
+        inputClass,
         resizeClass,
         label || $slots.label ? 'mt-2' : '',
-        error
-          ? 'border-red-300 dark:border-red-500 focus:border-red-500 focus:ring-red-500/20'
-          : 'border-gray-200 dark:border-slate-600 focus:border-primary-500 focus:ring-primary-500/20',
-        disabled
-          ? 'bg-gray-50 dark:bg-slate-800 text-gray-400 cursor-not-allowed'
-          : 'bg-white dark:bg-slate-700 text-gray-900 dark:text-white',
       ]"
       @input="handleInput"
     />
