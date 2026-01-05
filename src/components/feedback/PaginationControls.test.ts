@@ -2,6 +2,14 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import PaginationControls from './PaginationControls.vue'
 
+// Helper to get navigation buttons (first and last buttons are prev/next)
+const getPrevButton = (wrapper: ReturnType<typeof mount>) => wrapper.findAll('button').at(0)!
+const getNextButton = (wrapper: ReturnType<typeof mount>) => wrapper.findAll('button').at(-1)!
+const getPageButtons = (wrapper: ReturnType<typeof mount>) => {
+  const buttons = wrapper.findAll('button')
+  return buttons.slice(1, -1) // exclude first (prev) and last (next)
+}
+
 describe('PaginationControls', () => {
   it('renders when totalPages > 1', () => {
     const wrapper = mount(PaginationControls, {
@@ -57,8 +65,7 @@ describe('PaginationControls', () => {
       },
     })
 
-    const nextButton = wrapper.findAll('button')[1]
-    await nextButton.trigger('click')
+    await getNextButton(wrapper).trigger('click')
 
     expect(wrapper.emitted('update:page')).toBeTruthy()
     expect(wrapper.emitted('update:page')![0]).toEqual([3])
@@ -72,8 +79,7 @@ describe('PaginationControls', () => {
       },
     })
 
-    const prevButton = wrapper.findAll('button')[0]
-    await prevButton.trigger('click')
+    await getPrevButton(wrapper).trigger('click')
 
     expect(wrapper.emitted('update:page')).toBeTruthy()
     expect(wrapper.emitted('update:page')![0]).toEqual([2])
@@ -87,8 +93,7 @@ describe('PaginationControls', () => {
       },
     })
 
-    const prevButton = wrapper.findAll('button')[0]
-    expect(prevButton.attributes('disabled')).toBeDefined()
+    expect(getPrevButton(wrapper).attributes('disabled')).toBeDefined()
   })
 
   it('disables next button on last page', () => {
@@ -99,8 +104,7 @@ describe('PaginationControls', () => {
       },
     })
 
-    const nextButton = wrapper.findAll('button')[1]
-    expect(nextButton.attributes('disabled')).toBeDefined()
+    expect(getNextButton(wrapper).attributes('disabled')).toBeDefined()
   })
 
   it('does not emit when clicking disabled previous', async () => {
@@ -111,8 +115,7 @@ describe('PaginationControls', () => {
       },
     })
 
-    const prevButton = wrapper.findAll('button')[0]
-    await prevButton.trigger('click')
+    await getPrevButton(wrapper).trigger('click')
 
     expect(wrapper.emitted('update:page')).toBeFalsy()
   })
@@ -125,8 +128,7 @@ describe('PaginationControls', () => {
       },
     })
 
-    const nextButton = wrapper.findAll('button')[1]
-    await nextButton.trigger('click')
+    await getNextButton(wrapper).trigger('click')
 
     expect(wrapper.emitted('update:page')).toBeFalsy()
   })
@@ -140,9 +142,8 @@ describe('PaginationControls', () => {
       },
     })
 
-    const buttons = wrapper.findAll('button')
-    expect(buttons[0].attributes('disabled')).toBeDefined()
-    expect(buttons[1].attributes('disabled')).toBeDefined()
+    expect(getPrevButton(wrapper).attributes('disabled')).toBeDefined()
+    expect(getNextButton(wrapper).attributes('disabled')).toBeDefined()
   })
 
   describe('page size', () => {
@@ -246,5 +247,132 @@ describe('PaginationControls', () => {
 
     expect(wrapper.text()).toContain('Précédent')
     expect(wrapper.text()).toContain('Suivant')
+  })
+
+  describe('page numbers', () => {
+    it('shows page number buttons by default', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 1,
+          totalPages: 5,
+        },
+      })
+
+      const pageButtons = getPageButtons(wrapper)
+      expect(pageButtons.length).toBe(5)
+      expect(pageButtons.map(b => b.text())).toEqual(['1', '2', '3', '4', '5'])
+    })
+
+    it('hides page numbers when showPageNumbers is false', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 1,
+          totalPages: 5,
+          showPageNumbers: false,
+        },
+      })
+
+      const pageButtons = getPageButtons(wrapper)
+      expect(pageButtons.length).toBe(0)
+    })
+
+    it('highlights current page', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 3,
+          totalPages: 5,
+        },
+      })
+
+      const pageButtons = getPageButtons(wrapper)
+      const currentPageBtn = pageButtons[2] // Page 3 is index 2
+      expect(currentPageBtn.classes()).toContain('bg-primary-600')
+    })
+
+    it('emits update:page when page number clicked', async () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 1,
+          totalPages: 5,
+        },
+      })
+
+      const pageButtons = getPageButtons(wrapper)
+      await pageButtons[2].trigger('click') // Click page 3
+
+      expect(wrapper.emitted('update:page')).toBeTruthy()
+      expect(wrapper.emitted('update:page')![0]).toEqual([3])
+    })
+
+    it('shows ellipsis for many pages', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 50,
+          totalPages: 100,
+        },
+      })
+
+      expect(wrapper.text()).toContain('…')
+    })
+
+    it('shows first and last page with ellipsis when in middle', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 50,
+          totalPages: 100,
+          maxVisiblePages: 7,
+        },
+      })
+
+      // Should show: 1 ... 49 50 51 ... 100
+      expect(wrapper.text()).toContain('1')
+      expect(wrapper.text()).toContain('100')
+      expect(wrapper.text()).toContain('50')
+    })
+
+    it('respects maxVisiblePages prop', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 1,
+          totalPages: 20,
+          maxVisiblePages: 5,
+        },
+      })
+
+      const pageButtons = getPageButtons(wrapper)
+      // Should show limited pages: 1, 2, 3, ..., 20
+      expect(pageButtons.length).toBeLessThanOrEqual(5)
+    })
+
+    it('shows more pages at start when near beginning', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 2,
+          totalPages: 20,
+          maxVisiblePages: 7,
+        },
+      })
+
+      // Should show: 1 2 3 4 5 ... 20
+      expect(wrapper.text()).toContain('1')
+      expect(wrapper.text()).toContain('2')
+      expect(wrapper.text()).toContain('3')
+      expect(wrapper.text()).toContain('20')
+    })
+
+    it('shows more pages at end when near last page', () => {
+      const wrapper = mount(PaginationControls, {
+        props: {
+          currentPage: 19,
+          totalPages: 20,
+          maxVisiblePages: 7,
+        },
+      })
+
+      // Should show: 1 ... 16 17 18 19 20
+      expect(wrapper.text()).toContain('1')
+      expect(wrapper.text()).toContain('19')
+      expect(wrapper.text()).toContain('20')
+    })
   })
 })

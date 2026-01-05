@@ -11,6 +11,8 @@ const meta: Meta<typeof PaginationControls> = {
     totalPages: { control: 'number' },
     pageSize: { control: 'number' },
     showPageSize: { control: 'boolean' },
+    showPageNumbers: { control: 'boolean' },
+    maxVisiblePages: { control: 'number' },
     loading: { control: 'boolean' },
   },
 }
@@ -176,6 +178,124 @@ export const InTable: Story = {
           @update:page="currentPage = $event"
           @update:page-size="pageSize = $event"
         />
+      </div>
+    `,
+  }),
+}
+
+export const ManyPages: Story = {
+  render: () => ({
+    components: { PaginationControls },
+    setup: () => {
+      const currentPage = ref(50)
+      const pageSize = ref(10)
+      return { currentPage, pageSize }
+    },
+    template: `
+      <PaginationControls
+        :current-page="currentPage"
+        :total-pages="100"
+        :page-size="pageSize"
+        @update:page="currentPage = $event"
+        @update:page-size="pageSize = $event"
+      />
+    `,
+  }),
+}
+
+export const ManyPagesAtStart: Story = {
+  render: () => ({
+    components: { PaginationControls },
+    setup: () => {
+      const currentPage = ref(1)
+      const pageSize = ref(10)
+      return { currentPage, pageSize }
+    },
+    template: `
+      <PaginationControls
+        :current-page="currentPage"
+        :total-pages="100"
+        :page-size="pageSize"
+        @update:page="currentPage = $event"
+        @update:page-size="pageSize = $event"
+      />
+    `,
+  }),
+}
+
+export const ManyPagesAtEnd: Story = {
+  render: () => ({
+    components: { PaginationControls },
+    setup: () => {
+      const currentPage = ref(100)
+      const pageSize = ref(10)
+      return { currentPage, pageSize }
+    },
+    template: `
+      <PaginationControls
+        :current-page="currentPage"
+        :total-pages="100"
+        :page-size="pageSize"
+        @update:page="currentPage = $event"
+        @update:page-size="pageSize = $event"
+      />
+    `,
+  }),
+}
+
+export const WithoutPageNumbers: Story = {
+  render: () => ({
+    components: { PaginationControls },
+    setup: () => {
+      const currentPage = ref(5)
+      const pageSize = ref(10)
+      return { currentPage, pageSize }
+    },
+    template: `
+      <PaginationControls
+        :current-page="currentPage"
+        :total-pages="20"
+        :page-size="pageSize"
+        :show-page-numbers="false"
+        @update:page="currentPage = $event"
+        @update:page-size="pageSize = $event"
+      />
+    `,
+  }),
+}
+
+export const CustomMaxVisiblePages: Story = {
+  render: () => ({
+    components: { PaginationControls },
+    setup: () => {
+      const currentPage = ref(25)
+      const pageSize = ref(10)
+      return { currentPage, pageSize }
+    },
+    template: `
+      <div class="space-y-4">
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">maxVisiblePages: 5</p>
+          <PaginationControls
+            :current-page="currentPage"
+            :total-pages="50"
+            :page-size="pageSize"
+            :max-visible-pages="5"
+            @update:page="currentPage = $event"
+            @update:page-size="pageSize = $event"
+          />
+        </div>
+        <div>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">maxVisiblePages: 9</p>
+          <PaginationControls
+            :current-page="currentPage"
+            :total-pages="50"
+            :page-size="pageSize"
+            :max-visible-pages="9"
+            @update:page="currentPage = $event"
+            @update:page-size="pageSize = $event"
+          />
+        </div>
       </div>
     `,
   }),
