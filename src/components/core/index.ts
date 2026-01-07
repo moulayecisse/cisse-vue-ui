@@ -59,11 +59,23 @@ export { default as Accordion } from './Accordion.vue'
 export { default as AccordionItem } from './AccordionItem.vue'
 export { default as Timeline } from './Timeline.vue'
 export { default as DarkModeToggle } from './DarkModeToggle.vue'
-export { default as StatsCard } from './StatsCard.vue'
-export { default as StatsGrid } from './StatsGrid.vue'
+export { default as StatItem } from './StatItem.vue'
+export { default as Stats } from './Stats.vue'
+// Backwards compatibility: StatsCard is now an alias for StatItem
+export { default as StatsCard } from './StatItem.vue'
+// Backwards compatibility: StatsGrid is now an alias for Stats
+export { default as StatsGrid } from './Stats.vue'
 export { default as FilterTabs } from './FilterTabs.vue'
 export type { ButtonVariant, ButtonSize } from './Button.vue'
-export type { StatItem } from './StatsCard.vue'
+export type {
+  StatItemData,
+  StatItemSize,
+  StatItemIconPosition,
+  StatItemVariant,
+  StatItemColor,
+  StatItemTrend,
+} from './StatItem.vue'
+export type { StatsColumns } from './Stats.vue'
 export type { FilterTab } from './FilterTabs.vue'
 export type { DrawerPosition, DrawerSize } from './Drawer.vue'
 export type { BreadcrumbItem } from './Breadcrumb.vue'
