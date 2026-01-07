@@ -162,4 +162,146 @@ describe('StatItem', () => {
 
     expect(wrapper.find('.extra-content').exists()).toBe(true)
   })
+
+  // Tests for new props
+
+  it('renders with prefix', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Revenue', value: '1,234', prefix: '$' },
+    })
+
+    expect(wrapper.text()).toContain('$')
+    expect(wrapper.text()).toContain('1,234')
+  })
+
+  it('renders with suffix', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, suffix: 'active' },
+    })
+
+    expect(wrapper.text()).toContain('100')
+    expect(wrapper.text()).toContain('active')
+  })
+
+  it('renders description when provided', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, description: 'Total registered users' },
+    })
+
+    expect(wrapper.text()).toContain('Total registered users')
+  })
+
+  it('renders with xs size', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, size: 'xs' },
+    })
+
+    expect(wrapper.find('.text-lg').exists()).toBe(true)
+  })
+
+  it('renders with xl size', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, size: 'xl' },
+    })
+
+    expect(wrapper.find('.text-4xl').exists()).toBe(true)
+  })
+
+  it('renders icon at bottom', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, icon: 'heroicons:users', iconPosition: 'bottom' },
+    })
+
+    expect(wrapper.find('.flex-col-reverse').exists()).toBe(true)
+  })
+
+  it('renders with labelFirst', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Label First', value: 100, labelFirst: true },
+    })
+
+    // Label should appear in the DOM before value
+    const text = wrapper.text()
+    expect(text.indexOf('Label First')).toBeLessThan(text.indexOf('100'))
+  })
+
+  it('inverts trend colors', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Churn', value: 100, change: 5, invertTrendColors: true },
+    })
+
+    // With inverted colors, positive change should show red
+    expect(wrapper.find('.text-red-500').exists()).toBe(true)
+  })
+
+  it('hides trend icon', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, change: 10, hideTrendIcon: true },
+    })
+
+    expect(wrapper.text()).toContain('+10%')
+    // The trend icon should not be rendered
+    const trendContainer = wrapper.find('.text-emerald-500')
+    expect(trendContainer.findComponent({ name: 'Icon' }).exists()).toBe(false)
+  })
+
+  it('renders with solid variant', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, variant: 'solid', color: 'primary' },
+    })
+
+    expect(wrapper.find('.bg-primary-500').exists()).toBe(true)
+  })
+
+  it('renders with round icon', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, icon: 'heroicons:users', iconRounded: 'full' },
+    })
+
+    expect(wrapper.find('.rounded-full').exists()).toBe(true)
+  })
+
+  it('hides icon background', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, icon: 'heroicons:users', hideIconBg: true },
+    })
+
+    expect(wrapper.find('.bg-primary-100').exists()).toBe(false)
+  })
+
+  it('renders loading state', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, loading: true },
+    })
+
+    expect(wrapper.findComponent({ name: 'Skeleton' }).exists()).toBe(true)
+  })
+
+  it('applies custom card class', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, cardClass: 'my-custom-class' },
+    })
+
+    expect(wrapper.find('.my-custom-class').exists()).toBe(true)
+  })
+
+  it('renders description slot content', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100 },
+      slots: {
+        description: '<span class="custom-desc">Custom description</span>',
+      },
+    })
+
+    expect(wrapper.find('.custom-desc').exists()).toBe(true)
+  })
+
+  it('passes accent prop to CardWrapper', () => {
+    const wrapper = mount(StatItem, {
+      props: { label: 'Users', value: 100, accent: 'primary' },
+    })
+
+    const cardWrapper = wrapper.findComponent({ name: 'CardWrapper' })
+    expect(cardWrapper.props('accent')).toBe('primary')
+  })
 })

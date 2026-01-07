@@ -74,8 +74,9 @@ export type {
   StatItemVariant,
   StatItemColor,
   StatItemTrend,
+  StatItemIconRounded,
 } from './StatItem.vue'
-export type { StatsColumns } from './Stats.vue'
+export type { StatsColumns, StatsGap } from './Stats.vue'
 export type { FilterTab } from './FilterTabs.vue'
 export type { DrawerPosition, DrawerSize } from './Drawer.vue'
 export type { BreadcrumbItem } from './Breadcrumb.vue'

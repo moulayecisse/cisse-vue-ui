@@ -128,4 +128,142 @@ describe('Stats', () => {
     expect(items[0].props('color')).toBe('success')
     expect(items[1].props('color')).toBe('warning')
   })
+
+  // Tests for new props
+
+  it('passes loading to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, loading: true },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('loading')).toBe(true)
+  })
+
+  it('passes compact to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, compact: true },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('compact')).toBe(true)
+  })
+
+  it('passes labelFirst to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, labelFirst: true },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('labelFirst')).toBe(true)
+  })
+
+  it('passes iconRounded to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, iconRounded: 'full' },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('iconRounded')).toBe('full')
+  })
+
+  it('passes hideIconBg to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, hideIconBg: true },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('hideIconBg')).toBe(true)
+  })
+
+  it('passes invertTrendColors to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, invertTrendColors: true },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('invertTrendColors')).toBe(true)
+  })
+
+  it('passes shadow to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, shadow: 'lg' },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('shadow')).toBe('lg')
+  })
+
+  it('passes accent to StatItem components', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, accent: 'primary' },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('accent')).toBe('primary')
+  })
+
+  it('applies gridClass', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, gridClass: 'my-grid-class' },
+    })
+
+    expect(wrapper.classes()).toContain('my-grid-class')
+  })
+
+  it('emits item-click when stat is clicked', async () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, clickable: true },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    await items[0].vm.$emit('click', new MouseEvent('click'))
+
+    expect(wrapper.emitted('item-click')).toBeTruthy()
+    expect(wrapper.emitted('item-click')![0][0]).toBe(0)
+    expect(wrapper.emitted('item-click')![0][1]).toEqual(sampleStats[0])
+  })
+
+  it('applies xs gap', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, gap: 'xs' },
+    })
+
+    expect(wrapper.find('.gap-1').exists()).toBe(true)
+  })
+
+  it('applies no gap', () => {
+    const wrapper = mount(Stats, {
+      props: { stats: sampleStats, gap: 'none' },
+    })
+
+    expect(wrapper.find('.gap-0').exists()).toBe(true)
+  })
+
+  it('passes description from stat data', () => {
+    const statsWithDesc = [
+      { label: 'Users', value: '1,234', description: 'Total users' },
+    ]
+
+    const wrapper = mount(Stats, {
+      props: { stats: statsWithDesc },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('description')).toBe('Total users')
+  })
+
+  it('passes prefix and suffix from stat data', () => {
+    const statsWithPrefixSuffix = [
+      { label: 'Revenue', value: '1,234', prefix: '$', suffix: 'USD' },
+    ]
+
+    const wrapper = mount(Stats, {
+      props: { stats: statsWithPrefixSuffix },
+    })
+
+    const items = wrapper.findAllComponents(StatItem)
+    expect(items[0].props('prefix')).toBe('$')
+    expect(items[0].props('suffix')).toBe('USD')
+  })
 })
