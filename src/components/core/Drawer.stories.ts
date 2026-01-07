@@ -38,6 +38,16 @@ export const Default: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button @click="isOpen = true">Open Drawer</Button>
+<Drawer v-model="isOpen" title="Drawer Title">
+  <p>This is the drawer content. You can put anything here.</p>
+</Drawer>`,
+      },
+    },
+  },
 }
 
 export const LeftPosition: Story = {
@@ -56,6 +66,15 @@ export const LeftPosition: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Drawer v-model="isOpen" position="left" title="Left Drawer">
+  <p>This drawer slides in from the left.</p>
+</Drawer>`,
+      },
+    },
+  },
 }
 
 export const TopPosition: Story = {
@@ -125,6 +144,23 @@ export const WithFooter: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Drawer v-model="isOpen" title="Edit Profile">
+  <div class="space-y-4">
+    <!-- Form fields -->
+  </div>
+  <template #footer>
+    <div class="flex gap-2 justify-end">
+      <Button variant="secondary" @click="isOpen = false">Cancel</Button>
+      <Button @click="isOpen = false">Save Changes</Button>
+    </div>
+  </template>
+</Drawer>`,
+      },
+    },
+  },
 }
 
 export const LargeSize: Story = {

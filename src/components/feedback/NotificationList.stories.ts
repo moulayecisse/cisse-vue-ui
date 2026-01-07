@@ -36,6 +36,16 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<NotificationList v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationList
+  :notifications="notifications"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const SingleNotification: Story = {
@@ -49,6 +59,18 @@ export const SingleNotification: Story = {
     setup: () => ({ args }),
     template: '<NotificationList v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationList
+  :notifications="[
+    { id: '1', type: 'success', title: 'Welcome!', message: 'You have successfully logged in.' }
+  ]"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const MixedTypes: Story = {
@@ -65,6 +87,21 @@ export const MixedTypes: Story = {
     setup: () => ({ args }),
     template: '<NotificationList v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationList
+  :notifications="[
+    { id: '1', type: 'success', title: 'Saved', message: 'Document saved successfully.' },
+    { id: '2', type: 'error', title: 'Upload Failed', message: 'Could not upload file.' },
+    { id: '3', type: 'info', title: 'Tip', message: 'Press Ctrl+S to save.' },
+    { id: '4', type: 'warning', title: 'Unsaved Changes', message: 'You have unsaved changes.' }
+  ]"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithAutoDismiss: Story = {
@@ -83,6 +120,18 @@ export const WithAutoDismiss: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationList
+  :notifications="notifications"
+  :auto-dismiss="true"
+  :duration="3000"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const Interactive: Story = {
@@ -126,6 +175,34 @@ export const Interactive: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+
+const notifications = ref([])
+
+const addNotification = (type) => {
+  notifications.value.push({
+    id: String(Date.now()),
+    type,
+    title: 'Title',
+    message: 'Notification message'
+  })
+}
+
+const handleDismiss = (id) => {
+  notifications.value = notifications.value.filter(n => n.id !== id)
+}
+</script>
+
+<template>
+  <NotificationList :notifications="notifications" @dismiss="handleDismiss" />
+</template>`,
+      },
+    },
+  },
 }
 
 export const Empty: Story = {
@@ -142,4 +219,11 @@ export const Empty: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationList :notifications="[]" />`,
+      },
+    },
+  },
 }

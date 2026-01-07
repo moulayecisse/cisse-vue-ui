@@ -33,6 +33,13 @@ export const Default: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" placeholder="Search..." />`,
+      },
+    },
+  },
 }
 
 export const WithValue: Story = {
@@ -48,6 +55,13 @@ export const WithValue: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" />`,
+      },
+    },
+  },
 }
 
 export const CustomPlaceholder: Story = {
@@ -66,6 +80,13 @@ export const CustomPlaceholder: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" placeholder="Search users..." />`,
+      },
+    },
+  },
 }
 
 export const CustomIcon: Story = {
@@ -85,6 +106,13 @@ export const CustomIcon: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" placeholder="Filter..." icon="lucide:filter" />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -104,6 +132,13 @@ export const Disabled: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" placeholder="Search disabled..." disabled />`,
+      },
+    },
+  },
 }
 
 export const InHeader: Story = {
@@ -122,6 +157,13 @@ export const InHeader: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" placeholder="Search users..." />`,
+      },
+    },
+  },
 }
 
 export const WithFiltering: Story = {
@@ -163,6 +205,13 @@ export const WithFiltering: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" placeholder="Filter fruits..." />`,
+      },
+    },
+  },
 }
 
 export const DifferentWidths: Story = {
@@ -193,4 +242,11 @@ export const DifferentWidths: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<SearchInput v-model="search" placeholder="Search..." />`,
+      },
+    },
+  },
 }

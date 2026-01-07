@@ -33,6 +33,13 @@ export const Text: Story = {
     setup: () => ({ args }),
     template: '<Skeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Skeleton variant="text" />`,
+      },
+    },
+  },
 }
 
 export const MultipleLines: Story = {
@@ -45,6 +52,13 @@ export const MultipleLines: Story = {
     setup: () => ({ args }),
     template: '<Skeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Skeleton variant="text" :lines="3" />`,
+      },
+    },
+  },
 }
 
 export const Circular: Story = {
@@ -58,6 +72,13 @@ export const Circular: Story = {
     setup: () => ({ args }),
     template: '<Skeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Skeleton variant="circular" width="4rem" height="4rem" />`,
+      },
+    },
+  },
 }
 
 export const Rectangular: Story = {
@@ -71,6 +92,13 @@ export const Rectangular: Story = {
     setup: () => ({ args }),
     template: '<Skeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Skeleton variant="rectangular" width="100%" height="200px" />`,
+      },
+    },
+  },
 }
 
 export const Rounded: Story = {
@@ -84,6 +112,13 @@ export const Rounded: Story = {
     setup: () => ({ args }),
     template: '<Skeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Skeleton variant="rounded" width="100%" height="120px" />`,
+      },
+    },
+  },
 }
 
 export const CardSkeleton: Story = {
@@ -103,6 +138,21 @@ export const CardSkeleton: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div class="rounded-lg border p-4">
+  <Skeleton variant="rounded" height="160px" class="mb-4" />
+  <Skeleton variant="text" width="70%" class="mb-2" />
+  <Skeleton variant="text" :lines="2" />
+  <div class="mt-4 flex items-center gap-3">
+    <Skeleton variant="circular" width="2.5rem" height="2.5rem" />
+    <Skeleton variant="text" width="60%" />
+  </div>
+</div>`,
+      },
+    },
+  },
 }
 
 export const ListSkeleton: Story = {
@@ -121,6 +171,20 @@ export const ListSkeleton: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div v-for="i in 3" :key="i" class="flex items-center gap-4 p-4">
+  <Skeleton variant="circular" width="3rem" height="3rem" />
+  <div class="flex-1">
+    <Skeleton variant="text" width="40%" class="mb-2" />
+    <Skeleton variant="text" width="70%" />
+  </div>
+  <Skeleton variant="rounded" width="5rem" height="2rem" />
+</div>`,
+      },
+    },
+  },
 }
 
 export const TableSkeleton: Story = {
@@ -147,6 +211,27 @@ export const TableSkeleton: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<!-- Table skeleton -->
+<div class="rounded-lg border">
+  <div class="border-b bg-gray-50 px-4 py-3">
+    <div class="flex gap-4">
+      <Skeleton variant="text" width="20%" />
+      <Skeleton variant="text" width="30%" />
+    </div>
+  </div>
+  <div v-for="i in 5" :key="i" class="border-b px-4 py-3">
+    <div class="flex gap-4">
+      <Skeleton variant="text" width="20%" />
+      <Skeleton variant="text" width="30%" />
+    </div>
+  </div>
+</div>`,
+      },
+    },
+  },
 }
 
 export const ProfileSkeleton: Story = {
@@ -163,6 +248,20 @@ export const ProfileSkeleton: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div class="flex items-start gap-6">
+  <Skeleton variant="circular" width="6rem" height="6rem" />
+  <div class="flex-1">
+    <Skeleton variant="text" width="40%" height="1.5rem" class="mb-2" />
+    <Skeleton variant="text" width="60%" class="mb-4" />
+    <Skeleton variant="text" :lines="3" />
+  </div>
+</div>`,
+      },
+    },
+  },
 }
 
 export const NoAnimation: Story = {
@@ -176,4 +275,11 @@ export const NoAnimation: Story = {
     setup: () => ({ args }),
     template: '<Skeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Skeleton variant="text" :lines="3" :animate="false" />`,
+      },
+    },
+  },
 }

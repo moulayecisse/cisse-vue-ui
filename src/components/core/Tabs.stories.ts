@@ -48,6 +48,23 @@ export const Underline: Story = {
       </Tabs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs :tabs="tabs" variant="underline" v-model="activeTab">
+  <TabPanel value="account">
+    <p>Account settings content goes here.</p>
+  </TabPanel>
+  <TabPanel value="password">
+    <p>Password settings content goes here.</p>
+  </TabPanel>
+  <TabPanel value="notifications">
+    <p>Notification preferences content goes here.</p>
+  </TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }
 
 export const Pills: Story = {
@@ -72,6 +89,23 @@ export const Pills: Story = {
       </Tabs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs :tabs="tabs" variant="pills">
+  <TabPanel value="account">
+    <p>Account settings content.</p>
+  </TabPanel>
+  <TabPanel value="password">
+    <p>Password settings content.</p>
+  </TabPanel>
+  <TabPanel value="notifications">
+    <p>Notification preferences content.</p>
+  </TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }
 
 export const Boxed: Story = {
@@ -96,6 +130,23 @@ export const Boxed: Story = {
       </Tabs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs :tabs="tabs" variant="boxed">
+  <TabPanel value="account">
+    <p>Account settings content.</p>
+  </TabPanel>
+  <TabPanel value="password">
+    <p>Password settings content.</p>
+  </TabPanel>
+  <TabPanel value="notifications">
+    <p>Notification preferences content.</p>
+  </TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }
 
 export const WithDisabledTab: Story = {
@@ -124,6 +175,27 @@ export const WithDisabledTab: Story = {
       </Tabs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs :tabs="[
+  { key: 'active', label: 'Active Tab' },
+  { key: 'disabled', label: 'Disabled Tab', disabled: true },
+  { key: 'another', label: 'Another Tab' },
+]" variant="underline">
+  <TabPanel value="active">
+    <p>Active tab content.</p>
+  </TabPanel>
+  <TabPanel value="disabled">
+    <p>This tab is disabled.</p>
+  </TabPanel>
+  <TabPanel value="another">
+    <p>Another tab content.</p>
+  </TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }
 
 export const AllVariants: Story = {
@@ -155,4 +227,24 @@ export const AllVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<!-- Underline variant -->
+<Tabs :tabs="tabs" variant="underline">
+  <TabPanel value="account"><p>Content</p></TabPanel>
+</Tabs>
+
+<!-- Pills variant -->
+<Tabs :tabs="tabs" variant="pills">
+  <TabPanel value="account"><p>Content</p></TabPanel>
+</Tabs>
+
+<!-- Boxed variant -->
+<Tabs :tabs="tabs" variant="boxed">
+  <TabPanel value="account"><p>Content</p></TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }

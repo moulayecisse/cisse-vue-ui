@@ -26,6 +26,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<CardSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardSkeleton />`,
+      },
+    },
+  },
 }
 
 export const WithAvatar: Story = {
@@ -37,6 +44,13 @@ export const WithAvatar: Story = {
     setup: () => ({ args }),
     template: '<CardSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardSkeleton show-avatar />`,
+      },
+    },
+  },
 }
 
 export const WithActions: Story = {
@@ -48,6 +62,13 @@ export const WithActions: Story = {
     setup: () => ({ args }),
     template: '<CardSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardSkeleton show-actions />`,
+      },
+    },
+  },
 }
 
 export const Full: Story = {
@@ -61,6 +82,13 @@ export const Full: Story = {
     setup: () => ({ args }),
     template: '<CardSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardSkeleton show-avatar :lines="4" show-actions />`,
+      },
+    },
+  },
 }
 
 export const SingleLine: Story = {
@@ -72,6 +100,13 @@ export const SingleLine: Story = {
     setup: () => ({ args }),
     template: '<CardSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardSkeleton :lines="1" />`,
+      },
+    },
+  },
 }
 
 export const Grid: Story = {
@@ -90,4 +125,15 @@ export const Grid: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <CardSkeleton show-avatar show-actions />
+  <CardSkeleton show-avatar show-actions />
+  <CardSkeleton show-avatar show-actions />
+</div>`,
+      },
+    },
+  },
 }

@@ -31,7 +31,7 @@ describe('ResponsiveList', () => {
     expect(wrapper.find('div').exists()).toBe(true)
   })
 
-  it('renders TableComponent in desktop view', () => {
+  it('renders DataTable in desktop view', () => {
     const wrapper = mount(ResponsiveList, {
       props: {
         items: mockItems,
@@ -39,8 +39,8 @@ describe('ResponsiveList', () => {
       },
     })
 
-    // Desktop view shows TableComponent inside CardComponent
-    expect(wrapper.findComponent({ name: 'TableComponent' }).exists()).toBe(true)
+    // Desktop view shows DataTable inside CardComponent
+    expect(wrapper.findComponent({ name: 'DataTable' }).exists()).toBe(true)
   })
 
   it('passes items to table', () => {
@@ -118,7 +118,7 @@ describe('ResponsiveList', () => {
         },
       })
 
-      const table = wrapper.findComponent({ name: 'TableComponent' })
+      const table = wrapper.findComponent({ name: 'DataTable' })
       await table.vm.$emit('select', '1')
 
       expect(wrapper.emitted('select')).toBeTruthy()
@@ -134,7 +134,7 @@ describe('ResponsiveList', () => {
         },
       })
 
-      const table = wrapper.findComponent({ name: 'TableComponent' })
+      const table = wrapper.findComponent({ name: 'DataTable' })
       await table.vm.$emit('selectAll')
 
       expect(wrapper.emitted('selectAll')).toBeTruthy()

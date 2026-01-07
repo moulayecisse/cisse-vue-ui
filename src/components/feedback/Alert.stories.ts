@@ -33,6 +33,15 @@ export const Info: Story = {
     setup: () => ({ args }),
     template: '<Alert v-bind="args">This is an informational message.</Alert>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert variant="info" title="Information">
+  This is an informational message.
+</Alert>`,
+      },
+    },
+  },
 }
 
 export const Success: Story = {
@@ -45,6 +54,15 @@ export const Success: Story = {
     setup: () => ({ args }),
     template: '<Alert v-bind="args">Your changes have been saved successfully.</Alert>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert variant="success" title="Success">
+  Your changes have been saved successfully.
+</Alert>`,
+      },
+    },
+  },
 }
 
 export const Warning: Story = {
@@ -57,6 +75,15 @@ export const Warning: Story = {
     setup: () => ({ args }),
     template: '<Alert v-bind="args">Please review your information before proceeding.</Alert>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert variant="warning" title="Warning">
+  Please review your information before proceeding.
+</Alert>`,
+      },
+    },
+  },
 }
 
 export const Error: Story = {
@@ -69,6 +96,15 @@ export const Error: Story = {
     setup: () => ({ args }),
     template: '<Alert v-bind="args">An error occurred while processing your request.</Alert>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert variant="error" title="Error">
+  An error occurred while processing your request.
+</Alert>`,
+      },
+    },
+  },
 }
 
 export const AllVariants: Story = {
@@ -91,6 +127,27 @@ export const AllVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert variant="info" title="Information">
+  This is an informational alert.
+</Alert>
+
+<Alert variant="success" title="Success">
+  Operation completed successfully.
+</Alert>
+
+<Alert variant="warning" title="Warning">
+  Please be careful with this action.
+</Alert>
+
+<Alert variant="error" title="Error">
+  Something went wrong.
+</Alert>`,
+      },
+    },
+  },
 }
 
 export const Dismissible: Story = {
@@ -122,6 +179,21 @@ export const Dismissible: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert
+  v-if="visible"
+  variant="info"
+  title="Dismissible Alert"
+  dismissible
+  @dismiss="visible = false"
+>
+  Click the X button to dismiss this alert.
+</Alert>`,
+      },
+    },
+  },
 }
 
 export const WithoutTitle: Story = {
@@ -133,6 +205,15 @@ export const WithoutTitle: Story = {
     setup: () => ({ args }),
     template: '<Alert v-bind="args">A simple alert without a title.</Alert>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert variant="info">
+  A simple alert without a title.
+</Alert>`,
+      },
+    },
+  },
 }
 
 export const CustomIcon: Story = {
@@ -146,4 +227,13 @@ export const CustomIcon: Story = {
     setup: () => ({ args }),
     template: '<Alert v-bind="args">Alert with a custom bell icon.</Alert>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Alert variant="info" title="Custom Icon" icon="lucide:bell">
+  Alert with a custom bell icon.
+</Alert>`,
+      },
+    },
+  },
 }

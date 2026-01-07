@@ -80,6 +80,38 @@ export const Default: Story = {
       </AuthLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AuthLayout
+  app-name="My App"
+  app-icon="lucide:box"
+  headline="Welcome to"
+  sub-headline="My Application"
+  description="Sign in to access your account and manage your resources."
+  :features="[
+    { icon: 'lucide:users', text: 'User management' },
+    { icon: 'lucide:shield', text: 'Secure authentication' },
+    { icon: 'lucide:zap', text: 'Fast performance' },
+  ]"
+  form-title="Sign In"
+  form-subtitle="Enter your credentials to continue"
+>
+  <form class="space-y-4">
+    <div>
+      <label>Email</label>
+      <input type="email" placeholder="you@example.com" />
+    </div>
+    <div>
+      <label>Password</label>
+      <input type="password" placeholder="Enter password" />
+    </div>
+    <button type="submit">Sign In</button>
+  </form>
+</AuthLayout>`,
+      },
+    },
+  },
 }
 
 export const WithCustomGradient: Story = {
@@ -151,6 +183,40 @@ export const WithCustomGradient: Story = {
       </AuthLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AuthLayout
+  app-name="Brand"
+  app-icon="lucide:star"
+  headline="Join the"
+  sub-headline="Community"
+  description="Create an account and start exploring."
+  gradient-from="from-purple-700"
+  gradient-via="via-indigo-600"
+  gradient-to="to-blue-800"
+  underline-color="rgba(196, 181, 253, 0.5)"
+  form-title="Create Account"
+  form-subtitle="Get started in minutes"
+  :features="[
+    { icon: 'lucide:rocket', text: 'Quick setup' },
+    { icon: 'lucide:heart', text: 'Community support' },
+    { icon: 'lucide:gift', text: 'Free tier available' },
+  ]"
+>
+  <form class="space-y-4">
+    <div class="grid grid-cols-2 gap-4">
+      <input type="text" placeholder="First Name" />
+      <input type="text" placeholder="Last Name" />
+    </div>
+    <input type="email" placeholder="Email" />
+    <input type="password" placeholder="Password" />
+    <button type="submit">Create Account</button>
+  </form>
+</AuthLayout>`,
+      },
+    },
+  },
 }
 
 export const MinimalBranding: Story = {
@@ -187,6 +253,25 @@ export const MinimalBranding: Story = {
       </AuthLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AuthLayout
+  app-name="App"
+  app-icon="lucide:circle"
+  form-title="Login"
+  :show-decorations="false"
+  :show-pattern="false"
+>
+  <form class="space-y-4">
+    <input type="email" placeholder="Email" />
+    <input type="password" placeholder="Password" />
+    <button type="submit">Continue</button>
+  </form>
+</AuthLayout>`,
+      },
+    },
+  },
 }
 
 export const WithCustomSlots: Story = {
@@ -254,6 +339,45 @@ export const WithCustomSlots: Story = {
       </AuthLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AuthLayout form-title="Welcome Back" form-subtitle="Sign in to your account">
+  <template #branding-logo>
+    <div class="flex items-center gap-3">
+      <div class="size-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl">A</div>
+      <span class="text-2xl font-bold text-white">Acme Corp</span>
+    </div>
+  </template>
+
+  <template #branding-headline>
+    <h1 class="text-4xl font-bold text-white mb-6">
+      Manage your<br />
+      <span class="text-yellow-300">business smarter</span>
+    </h1>
+  </template>
+
+  <template #branding-content>
+    <div class="mt-8 flex items-center gap-4">
+      <span class="text-white/80 text-sm">Join 10,000+ businesses</span>
+    </div>
+  </template>
+
+  <form class="space-y-4">
+    <input type="email" placeholder="Email" />
+    <input type="password" placeholder="Password" />
+    <button type="submit">Sign In</button>
+  </form>
+
+  <template #form-footer>
+    <p class="text-center text-sm">
+      Don't have an account? <a href="#">Sign up</a>
+    </p>
+  </template>
+</AuthLayout>`,
+      },
+    },
+  },
 }
 
 export const FormOnlyNobranding: Story = {
@@ -288,4 +412,23 @@ export const FormOnlyNobranding: Story = {
       </AuthLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AuthLayout
+  form-title="Reset Password"
+  form-subtitle="Enter your email to receive a reset link"
+>
+  <form class="space-y-4">
+    <div>
+      <label>Email address</label>
+      <input type="email" placeholder="you@example.com" />
+    </div>
+    <button type="submit">Send Reset Link</button>
+    <a href="#">Back to login</a>
+  </form>
+</AuthLayout>`,
+      },
+    },
+  },
 }

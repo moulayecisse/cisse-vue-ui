@@ -26,6 +26,17 @@ export const Default: Story = {
       </CardComponent>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent>
+  <div class="p-5">
+    <p>This is a basic card with some content inside.</p>
+  </div>
+</CardComponent>`,
+      },
+    },
+  },
 }
 
 export const WithTitle: Story = {
@@ -43,6 +54,17 @@ export const WithTitle: Story = {
       </CardComponent>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent title="Card Title">
+  <div class="p-5">
+    <p>Card content goes here.</p>
+  </div>
+</CardComponent>`,
+      },
+    },
+  },
 }
 
 export const WithTitleAndDescription: Story = {
@@ -61,6 +83,17 @@ export const WithTitleAndDescription: Story = {
       </CardComponent>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent title="Card Title" description="A brief description of what this card contains">
+  <div class="p-5">
+    <p>Card content goes here.</p>
+  </div>
+</CardComponent>`,
+      },
+    },
+  },
 }
 
 export const WithActions: Story = {
@@ -83,6 +116,21 @@ export const WithActions: Story = {
       </CardComponent>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent title="User Settings" description="Manage your account preferences">
+  <template #actions>
+    <Button size="sm" variant="outline">Cancel</Button>
+    <Button size="sm">Save</Button>
+  </template>
+  <div class="p-5">
+    <p>Configure your settings here.</p>
+  </div>
+</CardComponent>`,
+      },
+    },
+  },
 }
 
 export const CustomSlots: Story = {
@@ -105,6 +153,26 @@ export const CustomSlots: Story = {
       </CardComponent>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent>
+  <template #title>
+    <span class="text-primary">Custom Title Slot</span>
+  </template>
+  <template #description>
+    <span class="italic">Custom description with styling</span>
+  </template>
+  <template #actions>
+    <Button size="sm" icon="lucide:edit">Edit</Button>
+  </template>
+  <div class="p-5">
+    <p>Card with custom slot content.</p>
+  </div>
+</CardComponent>`,
+      },
+    },
+  },
 }
 
 export const Loading: Story = {
@@ -112,6 +180,13 @@ export const Loading: Story = {
     components: { CardComponent },
     template: '<CardComponent loading />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent loading />`,
+      },
+    },
+  },
 }
 
 export const LoadingWithAvatar: Story = {
@@ -119,6 +194,13 @@ export const LoadingWithAvatar: Story = {
     components: { CardComponent },
     template: '<CardComponent loading loading-avatar />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent loading loading-avatar />`,
+      },
+    },
+  },
 }
 
 export const LoadingWithActions: Story = {
@@ -126,4 +208,11 @@ export const LoadingWithActions: Story = {
     components: { CardComponent },
     template: '<CardComponent loading loading-avatar loading-actions :loading-lines="4" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CardComponent loading loading-avatar loading-actions :loading-lines="4" />`,
+      },
+    },
+  },
 }

@@ -26,6 +26,13 @@ export const Default: Story = {
     },
     template: '<Checkbox v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox v-model="checked" />`,
+      },
+    },
+  },
 }
 
 export const Checked: Story = {
@@ -37,6 +44,13 @@ export const Checked: Story = {
     },
     template: '<Checkbox v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox v-model="checked" />`,
+      },
+    },
+  },
 }
 
 export const WithLabel: Story = {
@@ -51,6 +65,13 @@ export const WithLabel: Story = {
     },
     template: '<Checkbox v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox v-model="accepted" label="Accept terms and conditions" />`,
+      },
+    },
+  },
 }
 
 export const WithDescription: Story = {
@@ -66,6 +87,17 @@ export const WithDescription: Story = {
     },
     template: '<Checkbox v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox
+  v-model="subscribed"
+  label="Subscribe to newsletter"
+  description="Get the latest news and updates"
+/>`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -81,6 +113,13 @@ export const Disabled: Story = {
     },
     template: '<Checkbox v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox v-model="checked" label="Disabled checkbox" disabled />`,
+      },
+    },
+  },
 }
 
 export const Indeterminate: Story = {
@@ -96,6 +135,13 @@ export const Indeterminate: Story = {
     },
     template: '<Checkbox v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox v-model="selectAll" label="Select all" indeterminate />`,
+      },
+    },
+  },
 }
 
 export const CheckboxGroup: Story = {
@@ -118,6 +164,15 @@ export const CheckboxGroup: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox v-model="options.technology" label="Technology" />
+<Checkbox v-model="options.design" label="Design" />
+<Checkbox v-model="options.business" label="Business" />`,
+      },
+    },
+  },
 }
 
 export const FormExample: Story = {
@@ -151,4 +206,24 @@ export const FormExample: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Checkbox
+  v-model="terms"
+  label="I agree to the terms of service"
+  description="You must agree to continue"
+/>
+<Checkbox
+  v-model="privacy"
+  label="I have read the privacy policy"
+/>
+<Checkbox
+  v-model="marketing"
+  label="Send me marketing communications"
+  description="Optional - you can unsubscribe at any time"
+/>`,
+      },
+    },
+  },
 }

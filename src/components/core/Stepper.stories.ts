@@ -37,6 +37,13 @@ export const Horizontal: Story = {
     setup: () => ({ args }),
     template: '<Stepper v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stepper :steps="steps" v-model="currentStep" />`,
+      },
+    },
+  },
 }
 
 export const Vertical: Story = {
@@ -50,6 +57,13 @@ export const Vertical: Story = {
     setup: () => ({ args }),
     template: '<Stepper v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stepper :steps="steps" v-model="currentStep" orientation="vertical" />`,
+      },
+    },
+  },
 }
 
 export const FirstStep: Story = {
@@ -91,6 +105,18 @@ export const WithIcons: Story = {
     setup: () => ({ args }),
     template: '<Stepper v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stepper :steps="[
+  { key: 'cart', title: 'Cart', description: 'Review your items', icon: 'lucide:shopping-cart' },
+  { key: 'shipping', title: 'Shipping', description: 'Enter address', icon: 'lucide:truck' },
+  { key: 'payment', title: 'Payment', description: 'Payment method', icon: 'lucide:credit-card' },
+  { key: 'confirm', title: 'Confirm', description: 'Place order', icon: 'lucide:check-circle' },
+]" v-model="currentStep" />`,
+      },
+    },
+  },
 }
 
 export const Interactive: Story = {
@@ -128,6 +154,17 @@ export const Interactive: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Stepper :steps="steps" v-model="currentStep" />
+<div class="flex justify-center gap-4">
+  <Button variant="outline" @click="prev" :disabled="isFirst">Previous</Button>
+  <Button @click="next" :disabled="isLast">Next</Button>
+</div>`,
+      },
+    },
+  },
 }
 
 export const ManySteps: Story = {

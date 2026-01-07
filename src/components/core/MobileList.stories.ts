@@ -45,6 +45,18 @@ export const Default: Story = {
       </MobileList>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList :items="items" key-field="id">
+  <template #content="{ item }">
+    <div class="font-medium">{{ item.name }}</div>
+    <div class="text-sm text-gray-500">{{ item.email }}</div>
+  </template>
+</MobileList>`,
+      },
+    },
+  },
 }
 
 export const WithAvatar: Story = {
@@ -66,6 +78,21 @@ export const WithAvatar: Story = {
       </MobileList>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList :items="items" key-field="id">
+  <template #avatar="{ item }">
+    <Avatar :name="item.name" size="md" />
+  </template>
+  <template #content="{ item }">
+    <div class="font-medium">{{ item.name }}</div>
+    <div class="text-sm text-gray-500">{{ item.email }}</div>
+  </template>
+</MobileList>`,
+      },
+    },
+  },
 }
 
 export const WithActions: Story = {
@@ -90,6 +117,24 @@ export const WithActions: Story = {
       </MobileList>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList :items="items" key-field="id">
+  <template #avatar="{ item }">
+    <Avatar :name="item.name" size="md" />
+  </template>
+  <template #content="{ item }">
+    <div class="font-medium">{{ item.name }}</div>
+    <div class="text-sm text-gray-500">{{ item.role }}</div>
+  </template>
+  <template #actions="{ item }">
+    <Button size="sm" variant="ghost" icon="heroicons:pencil" />
+  </template>
+</MobileList>`,
+      },
+    },
+  },
 }
 
 export const Selectable: Story = {
@@ -136,6 +181,28 @@ export const Selectable: Story = {
       </MobileList>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList
+  :items="items"
+  key-field="id"
+  selectable
+  :selected-items="selectedItems"
+  @select="handleSelect"
+  @select-all="handleSelectAll"
+>
+  <template #avatar="{ item }">
+    <Avatar :name="item.name" size="md" />
+  </template>
+  <template #content="{ item }">
+    <div class="font-medium">{{ item.name }}</div>
+    <div class="text-sm text-gray-500">{{ item.email }}</div>
+  </template>
+</MobileList>`,
+      },
+    },
+  },
 }
 
 export const WithStatusBadge: Story = {
@@ -160,6 +227,24 @@ export const WithStatusBadge: Story = {
       </MobileList>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList :items="items" key-field="id">
+  <template #avatar="{ item }">
+    <Avatar :name="item.name" size="md" />
+  </template>
+  <template #content="{ item }">
+    <div class="flex items-center gap-2">
+      <span class="font-medium">{{ item.name }}</span>
+      <StatusBadge :status="item.status" />
+    </div>
+    <div class="text-sm text-gray-500">{{ item.role }}</div>
+  </template>
+</MobileList>`,
+      },
+    },
+  },
 }
 
 export const Empty: Story = {
@@ -182,6 +267,22 @@ export const Empty: Story = {
       </MobileList>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList :items="[]" key-field="id">
+  <template #content="{ item }">
+    <div>{{ item.name }}</div>
+  </template>
+  <template #empty>
+    <div class="text-center py-8 text-gray-500">
+      No items to display
+    </div>
+  </template>
+</MobileList>`,
+      },
+    },
+  },
 }
 
 export const Loading: Story = {
@@ -194,6 +295,13 @@ export const Loading: Story = {
     setup: () => ({ args }),
     template: '<MobileList v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList :items="[]" loading />`,
+      },
+    },
+  },
 }
 
 export const LoadingCustomItems: Story = {
@@ -207,4 +315,11 @@ export const LoadingCustomItems: Story = {
     setup: () => ({ args }),
     template: '<MobileList v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MobileList :items="[]" loading :loading-items="3" />`,
+      },
+    },
+  },
 }

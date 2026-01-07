@@ -26,6 +26,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<NumberType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NumberType :value="1234567.89" />`,
+      },
+    },
+  },
 }
 
 export const Integer: Story = {
@@ -37,6 +44,13 @@ export const Integer: Story = {
     setup: () => ({ args }),
     template: '<NumberType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NumberType :value="1000000" />`,
+      },
+    },
+  },
 }
 
 export const FrenchLocale: Story = {
@@ -49,6 +63,13 @@ export const FrenchLocale: Story = {
     setup: () => ({ args }),
     template: '<NumberType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NumberType :value="1234567.89" locale="fr-FR" />`,
+      },
+    },
+  },
 }
 
 export const GermanLocale: Story = {
@@ -61,6 +82,13 @@ export const GermanLocale: Story = {
     setup: () => ({ args }),
     template: '<NumberType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NumberType :value="1234567.89" locale="de-DE" />`,
+      },
+    },
+  },
 }
 
 export const NullValue: Story = {
@@ -72,6 +100,13 @@ export const NullValue: Story = {
     setup: () => ({ args }),
     template: '<NumberType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NumberType :value="null" />`,
+      },
+    },
+  },
 }
 
 export const AllLocales: Story = {
@@ -101,4 +136,14 @@ export const AllLocales: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NumberType :value="1234567.89" locale="en-US" />
+<NumberType :value="1234567.89" locale="fr-FR" />
+<NumberType :value="1234567.89" locale="de-DE" />
+<NumberType :value="1234567.89" locale="ja-JP" />`,
+      },
+    },
+  },
 }

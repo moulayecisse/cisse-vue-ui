@@ -34,6 +34,17 @@ export const Default: Story = {
       </PageLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageLayout title="Page Title" description="A brief description of what this page contains.">
+  <CardComponent title="Content">
+    <p>Page content goes here.</p>
+  </CardComponent>
+</PageLayout>`,
+      },
+    },
+  },
 }
 
 export const WithBreadcrumbs: Story = {
@@ -59,6 +70,25 @@ export const WithBreadcrumbs: Story = {
       </PageLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageLayout
+  title="User Details"
+  description="View and manage user information."
+  :breadcrumbs="[
+    { label: 'Home', link: '/' },
+    { label: 'Users', link: '/users' },
+    { label: 'John Doe', link: '/users/1' },
+  ]"
+>
+  <CardComponent title="User Information">
+    <p>User details would be displayed here.</p>
+  </CardComponent>
+</PageLayout>`,
+      },
+    },
+  },
 }
 
 export const WithActions: Story = {
@@ -87,6 +117,29 @@ export const WithActions: Story = {
       </PageLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageLayout
+  title="Products"
+  description="Manage your product catalog."
+  :breadcrumbs="[
+    { label: 'Dashboard', link: '/' },
+    { label: 'Products', link: '/products' },
+  ]"
+>
+  <template #actions>
+    <Button variant="outline" icon="lucide:download">Export</Button>
+    <Button icon="lucide:plus">Add Product</Button>
+  </template>
+
+  <CardComponent>
+    <p>Product list would be displayed here.</p>
+  </CardComponent>
+</PageLayout>`,
+      },
+    },
+  },
 }
 
 export const TitleOnly: Story = {
@@ -106,6 +159,17 @@ export const TitleOnly: Story = {
       </PageLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageLayout title="Settings">
+  <CardComponent title="General Settings">
+    <p>Settings content here.</p>
+  </CardComponent>
+</PageLayout>`,
+      },
+    },
+  },
 }
 
 export const Dashboard: Story = {
@@ -141,4 +205,26 @@ export const Dashboard: Story = {
       </PageLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageLayout title="Dashboard" description="Welcome back! Here's what's happening today.">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <CardComponent title="Total Users">
+      <p class="text-3xl font-bold">1,234</p>
+      <p class="text-sm text-green-600">+12% from last month</p>
+    </CardComponent>
+    <CardComponent title="Revenue">
+      <p class="text-3xl font-bold">$45,678</p>
+      <p class="text-sm text-green-600">+8% from last month</p>
+    </CardComponent>
+    <CardComponent title="Orders">
+      <p class="text-3xl font-bold">567</p>
+      <p class="text-sm text-red-600">-3% from last month</p>
+    </CardComponent>
+  </div>
+</PageLayout>`,
+      },
+    },
+  },
 }

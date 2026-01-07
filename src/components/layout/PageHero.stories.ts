@@ -29,6 +29,18 @@ export const Default: Story = {
     badge: 'Dashboard',
     badgeIcon: 'heroicons:home',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageHero
+  title="Page Title"
+  subtitle="A brief description of what this page contains."
+  badge="Dashboard"
+  badge-icon="heroicons:home"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithStats: Story = {
@@ -43,6 +55,23 @@ export const WithStats: Story = {
       { label: 'Completed', value: 12, icon: 'heroicons:check-badge' },
       { label: 'Cancelled', value: 2, icon: 'heroicons:x-circle' },
     ] as PageHeroStat[],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageHero
+  title="My Appointments"
+  subtitle="View and manage all your medical appointments"
+  badge="Appointments"
+  badge-icon="heroicons:calendar-days"
+  :stats="[
+    { label: 'Upcoming', value: 5, icon: 'heroicons:clock' },
+    { label: 'Completed', value: 12, icon: 'heroicons:check-badge' },
+    { label: 'Cancelled', value: 2, icon: 'heroicons:x-circle' },
+  ]"
+/>`,
+      },
+    },
   },
 }
 
@@ -60,6 +89,24 @@ export const FourStats: Story = {
       { label: 'Growth', value: '+12%', icon: 'heroicons:arrow-trending-up' },
     ] as PageHeroStat[],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageHero
+  title="Dashboard Overview"
+  subtitle="Your platform statistics at a glance"
+  badge="Analytics"
+  badge-icon="heroicons:chart-bar"
+  :stats="[
+    { label: 'Users', value: '1,234', icon: 'heroicons:users' },
+    { label: 'Revenue', value: '$45K', icon: 'heroicons:banknotes' },
+    { label: 'Orders', value: 567, icon: 'heroicons:shopping-cart' },
+    { label: 'Growth', value: '+12%', icon: 'heroicons:arrow-trending-up' },
+  ]"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithDecorativeIcons: Story = {
@@ -70,6 +117,19 @@ export const WithDecorativeIcons: Story = {
     badgeIcon: 'heroicons:heart',
     decorativeIcons: ['heroicons:document-text', 'heroicons:clipboard-document-list'],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageHero
+  title="Medical Records"
+  subtitle="Access your complete medical history"
+  badge="Health"
+  badge-icon="heroicons:heart"
+  :decorative-icons="['heroicons:document-text', 'heroicons:clipboard-document-list']"
+/>`,
+      },
+    },
+  },
 }
 
 export const MinimalNoBlobs: Story = {
@@ -78,6 +138,18 @@ export const MinimalNoBlobs: Story = {
     subtitle: 'Configure your preferences',
     showBlobs: false,
     showWave: false,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageHero
+  title="Settings"
+  subtitle="Configure your preferences"
+  :show-blobs="false"
+  :show-wave="false"
+/>`,
+      },
+    },
   },
 }
 
@@ -90,5 +162,19 @@ export const NoBadge: Story = {
       { label: 'Messages', value: 3, icon: 'heroicons:envelope' },
       { label: 'Notifications', value: 7, icon: 'heroicons:bell' },
     ] as PageHeroStat[],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<PageHero
+  title="Welcome Back!"
+  subtitle="Here is what is happening with your account today."
+  :stats="[
+    { label: 'Messages', value: 3, icon: 'heroicons:envelope' },
+    { label: 'Notifications', value: 7, icon: 'heroicons:bell' },
+  ]"
+/>`,
+      },
+    },
   },
 }

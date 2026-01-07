@@ -37,6 +37,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<ToastContainer v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer :toasts="toasts" @close="handleClose" />`,
+      },
+    },
+  },
 }
 
 export const TopLeft: Story = {
@@ -49,6 +56,13 @@ export const TopLeft: Story = {
     setup: () => ({ args }),
     template: '<ToastContainer v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer :toasts="toasts" position="top-left" @close="handleClose" />`,
+      },
+    },
+  },
 }
 
 export const BottomRight: Story = {
@@ -61,6 +75,13 @@ export const BottomRight: Story = {
     setup: () => ({ args }),
     template: '<ToastContainer v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer :toasts="toasts" position="bottom-right" @close="handleClose" />`,
+      },
+    },
+  },
 }
 
 export const BottomLeft: Story = {
@@ -73,6 +94,13 @@ export const BottomLeft: Story = {
     setup: () => ({ args }),
     template: '<ToastContainer v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer :toasts="toasts" position="bottom-left" @close="handleClose" />`,
+      },
+    },
+  },
 }
 
 export const TopCenter: Story = {
@@ -85,6 +113,13 @@ export const TopCenter: Story = {
     setup: () => ({ args }),
     template: '<ToastContainer v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer :toasts="toasts" position="top-center" @close="handleClose" />`,
+      },
+    },
+  },
 }
 
 export const BottomCenter: Story = {
@@ -97,6 +132,13 @@ export const BottomCenter: Story = {
     setup: () => ({ args }),
     template: '<ToastContainer v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer :toasts="toasts" position="bottom-center" @close="handleClose" />`,
+      },
+    },
+  },
 }
 
 export const WithTopOffset: Story = {
@@ -118,6 +160,18 @@ export const WithTopOffset: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer
+  :toasts="toasts"
+  position="top-right"
+  top-offset="80px"
+  @close="handleClose"
+/>`,
+      },
+    },
+  },
 }
 
 export const AllTypes: Story = {
@@ -134,6 +188,21 @@ export const AllTypes: Story = {
     setup: () => ({ args }),
     template: '<ToastContainer v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer
+  :toasts="[
+    { id: '1', message: 'Operation completed', type: 'success', title: 'Success' },
+    { id: '2', message: 'New update available', type: 'info', title: 'Info' },
+    { id: '3', message: 'Check your input', type: 'warning', title: 'Warning' },
+    { id: '4', message: 'Something went wrong', type: 'error', title: 'Error' }
+  ]"
+  @close="handleClose"
+/>`,
+      },
+    },
+  },
 }
 
 export const Interactive: Story = {
@@ -176,6 +245,35 @@ export const Interactive: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+
+const toasts = ref([])
+
+const addToast = (type) => {
+  toasts.value.push({
+    id: String(Date.now()),
+    type,
+    title: 'Title',
+    message: 'Toast message',
+    duration: 5000
+  })
+}
+
+const handleClose = (id) => {
+  toasts.value = toasts.value.filter(t => t.id !== id)
+}
+</script>
+
+<template>
+  <ToastContainer :toasts="toasts" @close="handleClose" />
+</template>`,
+      },
+    },
+  },
 }
 
 export const WithDuration: Story = {
@@ -195,4 +293,17 @@ export const WithDuration: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ToastContainer
+  :toasts="[
+    { id: '1', message: 'Disappears in 2 seconds', type: 'info', duration: 2000 },
+    { id: '2', message: 'Disappears in 5 seconds', type: 'success', duration: 5000 }
+  ]"
+  @close="handleClose"
+/>`,
+      },
+    },
+  },
 }

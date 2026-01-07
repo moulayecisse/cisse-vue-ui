@@ -95,7 +95,17 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 | `Button` | Button with variants (primary, secondary, outline, ghost, danger, success), sizes, icons, loading state |
 | `CardComponent` | Card container with header, content, and footer slots |
 | `CardWrapper` | Advanced card with shadow/border/padding variants, image positions, clickable/selected states, loading skeleton |
-| `TableComponent` | Data table with sorting, selection, actions, and custom column rendering |
+| `DataTable` | Full-featured data table with sorting, selection, pagination, error states, striped/bordered/compact options |
+| `Table` | Atomic table wrapper with context provider for styling (striped, bordered, hover, compact, stickyHeader) |
+| `Colgroup` / `Col` | Column grouping and column styling |
+| `Thead` / `Tbody` / `Tfoot` | Table section wrappers (support multiple sections) |
+| `Tr` | Table row with selected, clickable, disabled states |
+| `Th` | Header cell with sortable, colspan/rowspan, scope, alignment, and sticky column support |
+| `Td` | Data cell with colspan/rowspan, alignment, main column styling, truncate, and custom classes |
+| `TableHeader` | Composed header row with sort and select-all functionality |
+| `TableRow` | Composed data row with selection and type rendering |
+| `TableFooter` | Composed footer row for summary/pagination |
+| `TableComponent` | Alias for DataTable (backwards compatibility) |
 | `MobileList` | Mobile-optimized card-based list with selection support |
 | `ResponsiveList` | Combines MobileList (mobile) and TableComponent (desktop) with automatic breakpoint switching |
 | `Tabs` | Tab navigation with variants (underline, pills, boxed) |
@@ -194,6 +204,111 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 | `DateType` | Formatted date display |
 | `BooleanType` | Boolean value display (check/cross icons) |
 | `BadgeType` | Badge value display with colors |
+
+## Atomic Table Usage
+
+Build custom tables with granular control using atomic components:
+
+```vue
+<script setup lang="ts">
+import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, Colgroup, Col } from 'cisse-vue-ui'
+
+const data = [
+  { id: 1, name: 'John Doe', amount: 1250.00 },
+  { id: 2, name: 'Jane Smith', amount: 890.50 },
+]
+const total = data.reduce((sum, row) => sum + row.amount, 0)
+</script>
+
+<template>
+  <Table striped bordered>
+    <Colgroup>
+      <Col width="200px" />
+      <Col width="150px" />
+    </Colgroup>
+    <Thead>
+      <Tr>
+        <Th sortable>Name</Th>
+        <Th align="right">Amount</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr v-for="row in data" :key="row.id" clickable @click="select(row)">
+        <Td main>{{ row.name }}</Td>
+        <Td align="right">{{ row.amount.toFixed(2) }}</Td>
+      </Tr>
+    </Tbody>
+    <Tfoot>
+      <Tr>
+        <Td>Total</Td>
+        <Td align="right">{{ total.toFixed(2) }}</Td>
+      </Tr>
+    </Tfoot>
+  </Table>
+</template>
+```
+
+### Advanced: Colspan, Rowspan & Row Grouping
+
+```vue
+<Table bordered>
+  <Thead>
+    <Tr>
+      <Th rowspan="2">Product</Th>
+      <Th colspan="2" align="center">Sales</Th>
+    </Tr>
+    <Tr>
+      <Th align="right">Q1</Th>
+      <Th align="right">Q2</Th>
+    </Tr>
+  </Thead>
+  <Tbody>
+    <!-- Row grouping with scope="rowgroup" -->
+    <Tr>
+      <Th rowspan="2" scope="rowgroup">Electronics</Th>
+      <Td align="right">$45,000</Td>
+      <Td align="right">$52,000</Td>
+    </Tr>
+    <Tr>
+      <Td align="right">$38,000</Td>
+      <Td align="right">$41,000</Td>
+    </Tr>
+  </Tbody>
+</Table>
+```
+
+All atomic components support `v-bind="$attrs"` for full customization.
+
+Or use the full-featured DataTable for common use cases:
+
+```vue
+<script setup lang="ts">
+import { DataTable } from 'cisse-vue-ui'
+import type { Property } from 'cisse-vue-ui/types'
+
+const properties: Property[] = [
+  { name: 'name', label: 'Name', main: true, sortable: true },
+  { name: 'email', label: 'Email' },
+  { name: 'status', label: 'Active', type: 'boolean' },
+]
+</script>
+
+<template>
+  <DataTable
+    :items="users"
+    :properties="properties"
+    selectable
+    striped
+    bordered
+    @select="handleSelect"
+    @sort="handleSort"
+  >
+    <template #action="{ item }">
+      <Button variant="ghost" size="sm" icon="lucide:edit" />
+    </template>
+  </DataTable>
+</template>
+```
 
 ## Composables
 
@@ -403,6 +518,406 @@ Size variants:
 - `sm`: Smaller text (text-sm), reduced padding (px-2.5 py-1.5)
 - `md`: Default size (text-sm), standard padding (px-3 py-2)
 - `lg`: Larger text (text-base), increased padding (px-4 py-2.5)
+
+## Table Composables
+
+Powerful composables for building advanced data tables:
+
+```typescript
+import {
+  usePagination,
+  useTableKeyboardNavigation,
+  useColumnVisibility,
+  useColumnResize,
+  usePinnedRows,
+  useEditableCell,
+  useVirtualScroll
+} from 'cisse-vue-ui/composables'
+```
+
+### usePagination
+
+Client-side pagination with page size selector support:
+
+```typescript
+import { usePagination } from 'cisse-vue-ui/composables'
+import { ref } from 'vue'
+
+const items = ref([/* your data */])
+
+const {
+  currentPage,      // Current page (1-indexed)
+  pageSize,         // Items per page
+  totalPages,       // Total number of pages
+  paginatedItems,   // Items for current page
+  startIndex,       // First item index (0-indexed)
+  endIndex,         // Last item index (0-indexed)
+  hasNextPage,      // Can go forward?
+  hasPreviousPage,  // Can go back?
+  goToPage,         // Navigate to specific page
+  nextPage,         // Go to next page
+  previousPage,     // Go to previous page
+  setPageSize,      // Change items per page
+} = usePagination(items, {
+  initialPage: 1,
+  initialPageSize: 10,
+  pageSizes: [10, 25, 50, 100]
+})
+```
+
+```vue
+<template>
+  <DataTable
+    :items="items"
+    :properties="properties"
+    paginated
+    :page-size="25"
+    :page-sizes="[10, 25, 50, 100]"
+    @page-change="handlePageChange"
+  />
+</template>
+```
+
+### useTableKeyboardNavigation
+
+Keyboard navigation for accessible tables:
+
+```typescript
+import { useTableKeyboardNavigation } from 'cisse-vue-ui/composables'
+import { ref } from 'vue'
+
+const tableRef = ref<HTMLElement>()
+const items = ref([/* your data */])
+
+const {
+  focusedRowIndex,  // Currently focused row
+  focusedCellIndex, // Currently focused cell
+  handleKeydown,    // Keyboard event handler
+  focusRow,         // Focus specific row
+  focusCell,        // Focus specific cell
+} = useTableKeyboardNavigation({
+  tableRef,
+  items,
+  onSelect: (index) => console.log('Selected row:', index),
+  onActivate: (index) => console.log('Activated row:', index),
+})
+```
+
+```vue
+<template>
+  <Table ref="tableRef" @keydown="handleKeydown">
+    <Tbody>
+      <Tr
+        v-for="(item, index) in items"
+        :key="item.id"
+        :tabindex="focusedRowIndex === index ? 0 : -1"
+        :class="{ 'ring-2 ring-primary-500': focusedRowIndex === index }"
+      >
+        <Td>{{ item.name }}</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+</template>
+```
+
+### useColumnVisibility
+
+Toggle column visibility with persistence:
+
+```typescript
+import { useColumnVisibility, type Column } from 'cisse-vue-ui/composables'
+
+const columns: Column[] = [
+  { key: 'name', label: 'Name', visible: true, required: true },
+  { key: 'email', label: 'Email', visible: true },
+  { key: 'phone', label: 'Phone', visible: false },
+  { key: 'address', label: 'Address', visible: false },
+]
+
+const {
+  visibleColumns,     // Columns with visible: true
+  hiddenColumns,      // Columns with visible: false
+  toggleColumn,       // Toggle single column visibility
+  showColumn,         // Show a column
+  hideColumn,         // Hide a column
+  showAllColumns,     // Show all columns
+  hideAllColumns,     // Hide all except required
+  resetColumns,       // Reset to initial state
+  isColumnVisible,    // Check if column is visible
+} = useColumnVisibility({
+  columns,
+  storageKey: 'my-table-columns' // Optional: persist to localStorage
+})
+```
+
+```vue
+<template>
+  <div class="mb-4 flex gap-2">
+    <Checkbox
+      v-for="col in columns"
+      :key="col.key"
+      :model-value="isColumnVisible(col.key)"
+      :disabled="col.required"
+      :label="col.label"
+      @update:model-value="toggleColumn(col.key)"
+    />
+  </div>
+
+  <Table>
+    <Thead>
+      <Tr>
+        <Th v-for="col in visibleColumns" :key="col.key">{{ col.label }}</Th>
+      </Tr>
+    </Thead>
+    <Tbody>
+      <Tr v-for="item in items" :key="item.id">
+        <Td v-for="col in visibleColumns" :key="col.key">
+          {{ item[col.key] }}
+        </Td>
+      </Tr>
+    </Tbody>
+  </Table>
+</template>
+```
+
+### useColumnResize
+
+Drag-to-resize columns with constraints:
+
+```typescript
+import { useColumnResize } from 'cisse-vue-ui/composables'
+
+const {
+  columnWidths,     // Map of column key to width
+  isResizing,       // Currently resizing?
+  resizingColumn,   // Which column is being resized
+  startResize,      // Begin resize operation
+  getColumnWidth,   // Get width for column
+  setColumnWidth,   // Set width for column
+  resetColumnWidth, // Reset column to default
+  resetAllWidths,   // Reset all columns
+} = useColumnResize({
+  defaultWidth: 150,
+  minWidth: 80,
+  maxWidth: 500,
+  storageKey: 'my-table-widths' // Optional: persist to localStorage
+})
+```
+
+```vue
+<template>
+  <Table>
+    <Thead>
+      <Tr>
+        <Th
+          v-for="col in columns"
+          :key="col.key"
+          :style="{ width: getColumnWidth(col.key) + 'px' }"
+          resizable
+          :resizing="resizingColumn === col.key"
+          @resize-start="(e) => startResize(col.key, e)"
+        >
+          {{ col.label }}
+        </Th>
+      </Tr>
+    </Thead>
+  </Table>
+</template>
+```
+
+### usePinnedRows
+
+Pin rows to top or bottom of table:
+
+```typescript
+import { usePinnedRows } from 'cisse-vue-ui/composables'
+
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+const items = ref<User[]>([/* your data */])
+
+const {
+  pinnedTop,        // Items pinned to top
+  pinnedBottom,     // Items pinned to bottom
+  unpinnedItems,    // Items not pinned
+  isPinned,         // Check if item is pinned
+  getPinPosition,   // Get pin position ('top' | 'bottom' | null)
+  pinToTop,         // Pin item to top
+  pinToBottom,      // Pin item to bottom
+  unpin,            // Unpin item
+  togglePin,        // Toggle pin state
+  clearPinned,      // Clear all pinned items
+} = usePinnedRows<User>({
+  items,
+  keyField: 'id',
+  maxPinned: 5      // Optional: limit pinned rows
+})
+```
+
+```vue
+<template>
+  <Table>
+    <Tbody>
+      <!-- Pinned top rows -->
+      <Tr
+        v-for="item in pinnedTop"
+        :key="item.id"
+        class="bg-yellow-50 dark:bg-yellow-900/20"
+      >
+        <Td>
+          <Button size="sm" @click="unpin(String(item.id))">Unpin</Button>
+        </Td>
+        <Td>{{ item.name }}</Td>
+      </Tr>
+
+      <!-- Regular rows -->
+      <Tr v-for="item in unpinnedItems" :key="item.id">
+        <Td>
+          <Button size="sm" @click="pinToTop(String(item.id), item)">Pin</Button>
+        </Td>
+        <Td>{{ item.name }}</Td>
+      </Tr>
+
+      <!-- Pinned bottom rows -->
+      <Tr
+        v-for="item in pinnedBottom"
+        :key="item.id"
+        class="bg-blue-50 dark:bg-blue-900/20"
+      >
+        <Td>
+          <Button size="sm" @click="unpin(String(item.id))">Unpin</Button>
+        </Td>
+        <Td>{{ item.name }}</Td>
+      </Tr>
+    </Tbody>
+  </Table>
+</template>
+```
+
+### useEditableCell
+
+Inline cell editing with validation:
+
+```typescript
+import { useEditableCell } from 'cisse-vue-ui/composables'
+
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+const {
+  editingCell,      // Current cell being edited { rowKey, field }
+  editingValue,     // Current edit value
+  isEditing,        // Is any cell being edited?
+  isSaving,         // Is save in progress?
+  startEditing,     // Start editing a cell
+  saveEdit,         // Save current edit
+  cancelEdit,       // Cancel current edit
+  getCellValue,     // Get original value for cell
+} = useEditableCell<User>({
+  onSave: async ({ rowKey, field, oldValue, newValue }) => {
+    // Save to backend
+    await api.updateUser(rowKey, { [field]: newValue })
+  },
+  validate: ({ field, newValue }) => {
+    if (field === 'email' && !newValue.includes('@')) {
+      return 'Invalid email address'
+    }
+    return true
+  }
+})
+```
+
+```vue
+<template>
+  <Table>
+    <Tbody>
+      <Tr v-for="item in items" :key="item.id">
+        <Td @dblclick="startEditing(String(item.id), 'name', item.name)">
+          <template v-if="editingCell?.rowKey === String(item.id) && editingCell?.field === 'name'">
+            <input
+              v-model="editingValue"
+              @keydown.enter="saveEdit"
+              @keydown.escape="cancelEdit"
+              @blur="saveEdit"
+              class="border rounded px-2 py-1"
+            />
+          </template>
+          <template v-else>
+            {{ item.name }}
+          </template>
+        </Td>
+      </Tr>
+    </Tbody>
+  </Table>
+</template>
+```
+
+### useVirtualScroll
+
+Virtual scrolling for large datasets:
+
+```typescript
+import { useVirtualScroll } from 'cisse-vue-ui/composables'
+
+const items = ref([/* 10,000+ items */])
+
+const {
+  visibleItems,     // Items to render
+  totalHeight,      // Total scroll height
+  offsetY,          // Top offset for positioning
+  startIndex,       // First visible item index
+  endIndex,         // Last visible item index
+  scrollTop,        // Current scroll position
+  onScroll,         // Scroll event handler
+  scrollToIndex,    // Scroll to specific item
+  containerRef,     // Ref for scroll container
+} = useVirtualScroll({
+  items,
+  rowHeight: 48,         // Height of each row in px
+  containerHeight: 500,  // Visible container height
+  overscan: 5            // Extra rows to render (buffer)
+})
+```
+
+```vue
+<template>
+  <div
+    ref="containerRef"
+    class="overflow-auto"
+    :style="{ height: '500px' }"
+    @scroll="onScroll"
+  >
+    <!-- Spacer for total height -->
+    <div :style="{ height: totalHeight + 'px', position: 'relative' }">
+      <!-- Positioned visible items -->
+      <div :style="{ transform: `translateY(${offsetY}px)` }">
+        <Table>
+          <Tbody>
+            <Tr
+              v-for="(item, index) in visibleItems"
+              :key="item.id"
+              :style="{ height: '48px' }"
+            >
+              <Td>{{ startIndex + index + 1 }}</Td>
+              <Td>{{ item.name }}</Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jump to row -->
+  <Button @click="scrollToIndex(5000)">Jump to row 5000</Button>
+</template>
+```
 
 ## Types
 

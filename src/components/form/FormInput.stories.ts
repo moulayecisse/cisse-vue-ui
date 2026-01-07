@@ -34,6 +34,13 @@ export const Default: Story = {
     },
     template: '<FormInput v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormInput v-model="value" type="text" placeholder="Enter text..." />`,
+      },
+    },
+  },
 }
 
 export const WithValue: Story = {
@@ -45,6 +52,13 @@ export const WithValue: Story = {
     },
     template: '<FormInput v-model="value" placeholder="Enter text..." />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormInput v-model="value" placeholder="Enter text..." />`,
+      },
+    },
+  },
 }
 
 export const Email: Story = {
@@ -60,6 +74,13 @@ export const Email: Story = {
     },
     template: '<FormInput v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormInput v-model="email" type="email" placeholder="Enter email..." />`,
+      },
+    },
+  },
 }
 
 export const Password: Story = {
@@ -75,6 +96,13 @@ export const Password: Story = {
     },
     template: '<FormInput v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormInput v-model="password" type="password" placeholder="Enter password..." />`,
+      },
+    },
+  },
 }
 
 export const Number: Story = {
@@ -90,6 +118,13 @@ export const Number: Story = {
     },
     template: '<FormInput v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormInput v-model="number" type="number" placeholder="0" />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -105,6 +140,13 @@ export const Disabled: Story = {
     },
     template: '<FormInput v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormInput v-model="value" disabled placeholder="Disabled input" />`,
+      },
+    },
+  },
 }
 
 export const AllTypes: Story = {
@@ -138,4 +180,14 @@ export const AllTypes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormInput v-model="text" type="text" placeholder="Enter text..." />
+<FormInput v-model="email" type="email" placeholder="Enter email..." />
+<FormInput v-model="password" type="password" placeholder="Enter password..." />
+<FormInput v-model="number" type="number" placeholder="0" />`,
+      },
+    },
+  },
 }

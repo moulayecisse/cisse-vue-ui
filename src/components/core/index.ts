@@ -9,7 +9,35 @@ export type {
   CardAccent,
   CardImagePosition,
 } from './CardWrapper.vue'
-export { default as TableComponent } from './TableComponent.vue'
+
+// Table Components (Atomic Design)
+export {
+  // Atoms
+  Table,
+  TableContextKey,
+  type TableContext,
+  Caption,
+  Colgroup,
+  Col,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  type SortDirection,
+  Td,
+  // Molecules
+  TableHeader,
+  TableRow,
+  TableFooter,
+  ExpandableRow,
+  // Organisms
+  DataTable,
+} from './table'
+
+// Backwards compatibility: TableComponent is now an alias for DataTable
+export { DataTable as TableComponent } from './table'
+
 export { default as MobileList } from './MobileList.vue'
 export { default as ResponsiveList } from './ResponsiveList.vue'
 export { default as AutocompleteComponent } from './AutocompleteComponent.vue'

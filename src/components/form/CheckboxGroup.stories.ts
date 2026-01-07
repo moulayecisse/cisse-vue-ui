@@ -2,12 +2,12 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import CheckboxGroup from './CheckboxGroup.vue'
 
 const languageOptions = [
-  { value: 'francais', label: 'Français' },
+  { value: 'francais', label: 'Francais' },
   { value: 'bambara', label: 'Bambara' },
   { value: 'peul', label: 'Peul' },
   { value: 'songhay', label: 'Songhay' },
   { value: 'tamasheq', label: 'Tamasheq' },
-  { value: 'soninke', label: 'Soninké' },
+  { value: 'soninke', label: 'Soninke' },
 ]
 
 const meta: Meta<typeof CheckboxGroup> = {
@@ -39,6 +39,17 @@ export const Default: Story = {
     options: languageOptions,
     modelValue: ['francais'],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="options"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithHint: Story = {
@@ -48,6 +59,18 @@ export const WithHint: Story = {
     hint: 'Select all languages you speak fluently.',
     modelValue: ['francais', 'bambara'],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages spoken"
+  :options="options"
+  hint="Select all languages you speak fluently."
+/>`,
+      },
+    },
+  },
 }
 
 export const WithError: Story = {
@@ -56,6 +79,18 @@ export const WithError: Story = {
     options: languageOptions,
     error: 'Please select at least one language',
     modelValue: [],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="options"
+  error="Please select at least one language"
+/>`,
+      },
+    },
   },
 }
 
@@ -67,6 +102,19 @@ export const Required: Story = {
     hint: 'At least one language is required.',
     modelValue: [],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="options"
+  required
+  hint="At least one language is required."
+/>`,
+      },
+    },
+  },
 }
 
 export const ThreeColumns: Story = {
@@ -75,6 +123,18 @@ export const ThreeColumns: Story = {
     options: languageOptions,
     columns: 3,
     modelValue: ['francais', 'bambara', 'peul'],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="options"
+  :columns="3"
+/>`,
+      },
+    },
   },
 }
 
@@ -85,6 +145,18 @@ export const FourColumns: Story = {
     columns: 4,
     modelValue: ['francais'],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="options"
+  :columns="4"
+/>`,
+      },
+    },
+  },
 }
 
 export const SingleColumn: Story = {
@@ -93,6 +165,18 @@ export const SingleColumn: Story = {
     options: languageOptions,
     columns: 1,
     modelValue: ['francais', 'bambara'],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="options"
+  :columns="1"
+/>`,
+      },
+    },
   },
 }
 
@@ -107,6 +191,18 @@ export const Inline: Story = {
     inline: true,
     modelValue: ['yes'],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Quick selection"
+  :options="options"
+  inline
+/>`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -116,19 +212,46 @@ export const Disabled: Story = {
     disabled: true,
     modelValue: ['francais', 'bambara'],
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="options"
+  disabled
+/>`,
+      },
+    },
+  },
 }
 
 export const WithDisabledOptions: Story = {
   args: {
     label: 'Languages',
     options: [
-      { value: 'francais', label: 'Français' },
+      { value: 'francais', label: 'Francais' },
       { value: 'bambara', label: 'Bambara' },
       { value: 'peul', label: 'Peul', disabled: true },
       { value: 'songhay', label: 'Songhay' },
       { value: 'tamasheq', label: 'Tamasheq', disabled: true },
-      { value: 'soninke', label: 'Soninké' },
+      { value: 'soninke', label: 'Soninke' },
     ],
     modelValue: ['francais'],
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<CheckboxGroup
+  v-model="selected"
+  label="Languages"
+  :options="[
+    { value: 'francais', label: 'Francais' },
+    { value: 'bambara', label: 'Bambara' },
+    { value: 'peul', label: 'Peul', disabled: true },
+  ]"
+/>`,
+      },
+    },
   },
 }

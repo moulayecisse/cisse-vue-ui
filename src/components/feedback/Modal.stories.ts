@@ -48,6 +48,15 @@ export const Default: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Modal v-if="isOpen" title="Modal Title" @close="isOpen = false">
+  <p>This is the modal content. You can put any content here.</p>
+</Modal>`,
+      },
+    },
+  },
 }
 
 export const WithFooter: Story = {
@@ -72,6 +81,19 @@ export const WithFooter: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Modal v-if="isOpen" title="Confirm Action" @close="isOpen = false">
+  <p>Are you sure you want to proceed with this action?</p>
+  <template #footer>
+    <Button variant="outline" @click="isOpen = false">Cancel</Button>
+    <Button @click="isOpen = false">Confirm</Button>
+  </template>
+</Modal>`,
+      },
+    },
+  },
 }
 
 export const Sizes: Story = {
@@ -99,6 +121,16 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<!-- Size options: sm, default, lg, xl, full -->
+<Modal title="Modal Title" size="lg" @close="handleClose">
+  <p>Modal content here.</p>
+</Modal>`,
+      },
+    },
+  },
 }
 
 export const NoCloseOnBackdrop: Story = {
@@ -128,6 +160,23 @@ export const NoCloseOnBackdrop: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Modal
+  v-if="isOpen"
+  title="Persistent Modal"
+  :close-on-backdrop="false"
+  @close="isOpen = false"
+>
+  <p>Clicking the backdrop will not close this modal.</p>
+  <template #footer>
+    <Button @click="isOpen = false">Close</Button>
+  </template>
+</Modal>`,
+      },
+    },
+  },
 }
 
 export const FormModal: Story = {
@@ -171,6 +220,22 @@ export const FormModal: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Modal v-if="isOpen" title="Edit Profile" @close="isOpen = false">
+  <form class="space-y-4" @submit.prevent>
+    <FormInput v-model="name" label="Name" placeholder="Enter your name" />
+    <FormInput v-model="email" label="Email" type="email" placeholder="Enter your email" />
+  </form>
+  <template #footer>
+    <Button variant="outline" @click="isOpen = false">Cancel</Button>
+    <Button @click="handleSave">Save Changes</Button>
+  </template>
+</Modal>`,
+      },
+    },
+  },
 }
 
 export const DeleteConfirmation: Story = {
@@ -195,4 +260,17 @@ export const DeleteConfirmation: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Modal v-if="isOpen" title="Delete Confirmation" size="sm" @close="isOpen = false">
+  <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+  <template #footer>
+    <Button variant="outline" @click="isOpen = false">Cancel</Button>
+    <Button variant="danger" @click="handleDelete">Delete</Button>
+  </template>
+</Modal>`,
+      },
+    },
+  },
 }

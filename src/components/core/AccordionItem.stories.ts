@@ -41,6 +41,17 @@ export const Default: Story = {
       </Accordion>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Accordion>
+  <AccordionItem item-key="1" title="Accordion Item Title">
+    This is the content of the accordion item.
+  </AccordionItem>
+</Accordion>`,
+      },
+    },
+  },
 }
 
 export const WithIcon: Story = {
@@ -61,6 +72,15 @@ export const WithIcon: Story = {
       </Accordion>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AccordionItem item-key="1" title="Item with Icon" icon="heroicons:information-circle">
+  This accordion item has an icon displayed next to the title.
+</AccordionItem>`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -81,6 +101,15 @@ export const Disabled: Story = {
       </Accordion>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AccordionItem item-key="1" title="Disabled Item" disabled>
+  This content cannot be accessed because the item is disabled.
+</AccordionItem>`,
+      },
+    },
+  },
 }
 
 export const OpenByDefault: Story = {
@@ -101,6 +130,17 @@ export const OpenByDefault: Story = {
       </Accordion>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Accordion :default-open="['open-item']">
+        <AccordionItem>
+          This accordion item is open by default.
+        </AccordionItem>
+      </Accordion>`,
+      },
+    },
+  },
 }
 
 export const MultipleItems: Story = {
@@ -120,4 +160,21 @@ export const MultipleItems: Story = {
       </Accordion>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Accordion>
+        <AccordionItem item-key="1" title="First Item" icon="heroicons:home">
+          Content for the first accordion item.
+        </AccordionItem>
+        <AccordionItem item-key="2" title="Second Item" icon="heroicons:user">
+          Content for the second accordion item.
+        </AccordionItem>
+        <AccordionItem item-key="3" title="Third Item (Disabled)" icon="heroicons:cog" disabled>
+          This item is disabled and cannot be opened.
+        </AccordionItem>
+      </Accordion>`,
+      },
+    },
+  },
 }

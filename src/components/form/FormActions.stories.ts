@@ -35,6 +35,13 @@ export const Default: Story = {
     submitLabel: 'Save',
     cancelLabel: 'Cancel',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Save" cancel-label="Cancel" />`,
+      },
+    },
+  },
 }
 
 export const Loading: Story = {
@@ -43,12 +50,26 @@ export const Loading: Story = {
     loading: true,
     loadingLabel: 'Saving...',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Save" :loading="true" loading-label="Saving..." />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
   args: {
     submitLabel: 'Save',
     disabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Save" disabled />`,
+      },
+    },
   },
 }
 
@@ -59,12 +80,31 @@ export const CustomIcons: Story = {
     submitIcon: 'heroicons:paper-airplane',
     cancelIcon: 'heroicons:trash',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions
+  submit-label="Send"
+  cancel-label="Discard"
+  submit-icon="heroicons:paper-airplane"
+  cancel-icon="heroicons:trash"
+/>`,
+      },
+    },
+  },
 }
 
 export const NoCancel: Story = {
   args: {
     submitLabel: 'Continue',
     showCancel: false,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Continue" :show-cancel="false" />`,
+      },
+    },
   },
 }
 
@@ -73,12 +113,26 @@ export const AlignLeft: Story = {
     submitLabel: 'Save',
     align: 'left',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Save" align="left" />`,
+      },
+    },
+  },
 }
 
 export const AlignCenter: Story = {
   args: {
     submitLabel: 'Save',
     align: 'center',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Save" align="center" />`,
+      },
+    },
   },
 }
 
@@ -92,6 +146,13 @@ export const Stretch: Story = {
       template: '<div class="max-w-md"><story /></div>',
     }),
   ],
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Save" align="stretch" />`,
+      },
+    },
+  },
 }
 
 export const StackedOnMobile: Story = {
@@ -105,6 +166,13 @@ export const StackedOnMobile: Story = {
       template: '<div class="max-w-xs"><story /></div>',
     }),
   ],
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions submit-label="Save Changes" cancel-label="Discard" stack-on-mobile />`,
+      },
+    },
+  },
 }
 
 export const SuccessVariant: Story = {
@@ -113,6 +181,17 @@ export const SuccessVariant: Story = {
     submitIcon: 'heroicons:check-circle',
     submitVariant: 'success',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions
+  submit-label="Confirm"
+  submit-icon="heroicons:check-circle"
+  submit-variant="success"
+/>`,
+      },
+    },
+  },
 }
 
 export const DangerVariant: Story = {
@@ -120,6 +199,17 @@ export const DangerVariant: Story = {
     submitLabel: 'Delete',
     submitIcon: 'heroicons:trash',
     submitVariant: 'danger',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions
+  submit-label="Delete"
+  submit-icon="heroicons:trash"
+  submit-variant="danger"
+/>`,
+      },
+    },
   },
 }
 
@@ -155,6 +245,18 @@ export const WithEvents: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions
+  submit-label="Submit"
+  :loading="loading"
+  @submit="handleSubmit"
+  @cancel="handleCancel"
+/>`,
+      },
+    },
+  },
 }
 
 export const FrenchLabels: Story = {
@@ -162,5 +264,16 @@ export const FrenchLabels: Story = {
     submitLabel: 'Enregistrer',
     cancelLabel: 'Annuler',
     loadingLabel: 'Enregistrement...',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormActions
+  submit-label="Enregistrer"
+  cancel-label="Annuler"
+  loading-label="Enregistrement..."
+/>`,
+      },
+    },
   },
 }

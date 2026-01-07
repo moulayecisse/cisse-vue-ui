@@ -22,6 +22,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<EmptyState v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<EmptyState />`,
+      },
+    },
+  },
 }
 
 export const WithTitle: Story = {
@@ -34,6 +41,16 @@ export const WithTitle: Story = {
     setup: () => ({ args }),
     template: '<EmptyState v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<EmptyState
+  title="No items found"
+  message="Try adjusting your search or filter to find what you're looking for."
+/>`,
+      },
+    },
+  },
 }
 
 export const CustomIcon: Story = {
@@ -47,6 +64,17 @@ export const CustomIcon: Story = {
     setup: () => ({ args }),
     template: '<EmptyState v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<EmptyState
+  title="No notifications"
+  message="You're all caught up!"
+  icon="lucide:bell-off"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithAction: Story = {
@@ -66,6 +94,21 @@ export const WithAction: Story = {
       </EmptyState>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<EmptyState
+  title="No projects yet"
+  message="Get started by creating your first project."
+  icon="lucide:folder-plus"
+>
+  <template #action>
+    <Button icon="lucide:plus">Create Project</Button>
+  </template>
+</EmptyState>`,
+      },
+    },
+  },
 }
 
 export const SearchResults: Story = {
@@ -85,6 +128,21 @@ export const SearchResults: Story = {
       </EmptyState>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<EmptyState
+  title="No results found"
+  message="We couldn't find anything matching your search. Try different keywords."
+  icon="lucide:search-x"
+>
+  <template #action>
+    <Button variant="outline">Clear Search</Button>
+  </template>
+</EmptyState>`,
+      },
+    },
+  },
 }
 
 export const ErrorState: Story = {
@@ -104,6 +162,21 @@ export const ErrorState: Story = {
       </EmptyState>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<EmptyState
+  title="Something went wrong"
+  message="We encountered an error while loading the data."
+  icon="lucide:alert-circle"
+>
+  <template #action>
+    <Button variant="outline" icon="lucide:refresh-cw">Try Again</Button>
+  </template>
+</EmptyState>`,
+      },
+    },
+  },
 }
 
 export const InCard: Story = {
@@ -121,6 +194,19 @@ export const InCard: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Card>
+  <EmptyState
+    title="No messages"
+    message="Your inbox is empty."
+    icon="lucide:mail"
+  />
+</Card>`,
+      },
+    },
+  },
 }
 
 export const CustomSlotContent: Story = {
@@ -143,4 +229,19 @@ export const CustomSlotContent: Story = {
       </EmptyState>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<EmptyState title="Welcome!" icon="lucide:rocket">
+  <span>This is custom content passed through the default slot.</span>
+  <template #action>
+    <div class="flex gap-2">
+      <Button variant="outline">Learn More</Button>
+      <Button>Get Started</Button>
+    </div>
+  </template>
+</EmptyState>`,
+      },
+    },
+  },
 }

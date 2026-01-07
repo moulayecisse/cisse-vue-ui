@@ -109,6 +109,41 @@ export const Default: Story = {
       </BaseLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+
+const sidebarOpen = ref(true)
+const dark = ref(false)
+const menuItems = [
+  { label: 'Dashboard', icon: 'lucide:layout-dashboard', link: '/dashboard' },
+  { label: 'Users', icon: 'lucide:users', link: '/users' },
+  { label: 'Settings', icon: 'lucide:settings', link: '/settings' },
+]
+</script>
+
+<template>
+  <BaseLayout
+    app-name="My App"
+    app-icon="lucide:box"
+    :menu-items="menuItems"
+    current-path="/dashboard"
+    :show-dark-toggle="true"
+    v-model:sidebar-open="sidebarOpen"
+    v-model:dark="dark"
+  >
+    <PageLayout title="Dashboard" description="Welcome to your dashboard">
+      <CardComponent title="Overview">
+        <p>Dashboard content goes here.</p>
+      </CardComponent>
+    </PageLayout>
+  </BaseLayout>
+</template>`,
+      },
+    },
+  },
 }
 
 export const WithUser: Story = {
@@ -142,6 +177,28 @@ export const WithUser: Story = {
       </BaseLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BaseLayout
+  app-name="My App"
+  :menu-items="menuItems"
+  current-path="/dashboard"
+  user-name="John Doe"
+  user-avatar="JD"
+  :user-menu-items="userMenuItems"
+  v-model:sidebar-open="sidebarOpen"
+  v-model:dark="dark"
+>
+  <PageLayout title="Dashboard" description="Welcome back, John!">
+    <CardComponent title="Your Activity">
+      <p>Recent activity would be shown here.</p>
+    </CardComponent>
+  </PageLayout>
+</BaseLayout>`,
+      },
+    },
+  },
 }
 
 export const CollapsedSidebar: Story = {
@@ -173,6 +230,29 @@ export const CollapsedSidebar: Story = {
       </BaseLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+const sidebarOpen = ref(false) // Start collapsed
+</script>
+
+<template>
+  <BaseLayout
+    :menu-items="menuItems"
+    current-path="/users"
+    v-model:sidebar-open="sidebarOpen"
+  >
+    <PageLayout title="Users" description="Manage your users">
+      <CardComponent title="User List">
+        <p>User management content.</p>
+      </CardComponent>
+    </PageLayout>
+  </BaseLayout>
+</template>`,
+      },
+    },
+  },
 }
 
 export const CustomBranding: Story = {
@@ -206,6 +286,25 @@ export const CustomBranding: Story = {
       </BaseLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BaseLayout
+  app-name="Acme Inc"
+  app-icon="lucide:rocket"
+  sidebar-class="bg-indigo-900 dark:bg-indigo-950"
+  :menu-items="menuItems"
+  current-path="/dashboard"
+>
+  <PageLayout title="Dashboard">
+    <CardComponent title="Welcome to Acme">
+      <p>Custom branded layout.</p>
+    </CardComponent>
+  </PageLayout>
+</BaseLayout>`,
+      },
+    },
+  },
 }
 
 export const MenuPositionCenter: Story = {
@@ -237,6 +336,21 @@ export const MenuPositionCenter: Story = {
       </BaseLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BaseLayout
+  :menu-items="menuItems"
+  current-path="/dashboard"
+  menu-position="center"
+>
+  <PageLayout title="Dashboard">
+    <p>Content here...</p>
+  </PageLayout>
+</BaseLayout>`,
+      },
+    },
+  },
 }
 
 export const MenuPositionBottom: Story = {
@@ -268,6 +382,21 @@ export const MenuPositionBottom: Story = {
       </BaseLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BaseLayout
+  :menu-items="menuItems"
+  current-path="/dashboard"
+  menu-position="bottom"
+>
+  <PageLayout title="Dashboard">
+    <p>Content here...</p>
+  </PageLayout>
+</BaseLayout>`,
+      },
+    },
+  },
 }
 
 export const WithNestedMenu: Story = {
@@ -304,4 +433,39 @@ export const WithNestedMenu: Story = {
       </BaseLayout>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+const menuItems = [
+  { label: 'Dashboard', icon: 'lucide:layout-dashboard', link: '/dashboard' },
+  {
+    label: 'Users',
+    icon: 'lucide:users',
+    link: '/users',
+    children: [
+      { label: 'All Users', icon: 'lucide:list', link: '/users/all' },
+      { label: 'Add User', icon: 'lucide:user-plus', link: '/users/add' },
+      { label: 'Roles', icon: 'lucide:shield', link: '/users/roles' },
+    ],
+  },
+  { label: 'Settings', icon: 'lucide:settings', link: '/settings' },
+]
+</script>
+
+<template>
+  <BaseLayout
+    :menu-items="menuItems"
+    current-path="/users/all"
+    user-name="John Doe"
+    user-avatar="JD"
+  >
+    <PageLayout title="All Users">
+      <p>Content here...</p>
+    </PageLayout>
+  </BaseLayout>
+</template>`,
+      },
+    },
+  },
 }

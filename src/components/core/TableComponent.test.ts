@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import TableComponent from './TableComponent.vue'
+import { DataTable as TableComponent } from './table'
 import type { Property } from '@/types'
 
 const mockProperties: Property[] = [

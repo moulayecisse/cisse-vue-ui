@@ -34,6 +34,13 @@ export const Default: Story = {
     },
     template: '<DatePicker v-bind="args" v-model="date" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" placeholder="Select date" />`,
+      },
+    },
+  },
 }
 
 export const WithPreselectedDate: Story = {
@@ -45,6 +52,13 @@ export const WithPreselectedDate: Story = {
     },
     template: '<DatePicker v-bind="args" v-model="date" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" />`,
+      },
+    },
+  },
 }
 
 export const MediumFormat: Story = {
@@ -59,6 +73,13 @@ export const MediumFormat: Story = {
     },
     template: '<DatePicker v-bind="args" v-model="date" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" format="medium" />`,
+      },
+    },
+  },
 }
 
 export const LongFormat: Story = {
@@ -73,6 +94,13 @@ export const LongFormat: Story = {
     },
     template: '<DatePicker v-bind="args" v-model="date" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" format="long" />`,
+      },
+    },
+  },
 }
 
 export const FrenchLocale: Story = {
@@ -88,6 +116,13 @@ export const FrenchLocale: Story = {
     },
     template: '<DatePicker v-bind="args" v-model="date" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" locale="fr-FR" format="long" />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -102,6 +137,13 @@ export const Disabled: Story = {
     },
     template: '<DatePicker v-bind="args" v-model="date" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" disabled />`,
+      },
+    },
+  },
 }
 
 export const WithMinMax: Story = {
@@ -121,6 +163,13 @@ export const WithMinMax: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" :min-date="minDate" :max-date="maxDate" />`,
+      },
+    },
+  },
 }
 
 export const FutureDatesOnly: Story = {
@@ -139,6 +188,13 @@ export const FutureDatesOnly: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" :min-date="today" placeholder="Select future date" />`,
+      },
+    },
+  },
 }
 
 export const InForm: Story = {
@@ -162,6 +218,14 @@ export const InForm: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="startDate" placeholder="Select start date" />
+<DatePicker v-model="endDate" placeholder="Select end date" :min-date="startDate" />`,
+      },
+    },
+  },
 }
 
 export const DifferentLocales: Story = {
@@ -192,6 +256,15 @@ export const DifferentLocales: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="date" locale="en-US" format="long" />
+<DatePicker v-model="date" locale="fr-FR" format="long" />
+<DatePicker v-model="date" locale="de-DE" format="long" />`,
+      },
+    },
+  },
 }
 
 export const States: Story = {
@@ -220,6 +293,15 @@ export const States: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="normal" placeholder="Select date..." />
+<DatePicker v-model="withValue" />
+<DatePicker v-model="disabled" disabled />`,
+      },
+    },
+  },
 }
 
 export const Sizes: Story = {
@@ -248,4 +330,13 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DatePicker v-model="small" size="sm" placeholder="Select date..." />
+<DatePicker v-model="medium" size="md" placeholder="Select date..." />
+<DatePicker v-model="large" size="lg" placeholder="Select date..." />`,
+      },
+    },
+  },
 }

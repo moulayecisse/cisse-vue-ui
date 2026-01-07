@@ -44,6 +44,21 @@ export const Default: Story = {
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect
+  v-model="value"
+  :options="[
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+    { value: 'cherry', label: 'Cherry' },
+  ]"
+  placeholder="Select an option..."
+/>`,
+      },
+    },
+  },
 }
 
 export const WithPreselectedValue: Story = {
@@ -58,6 +73,13 @@ export const WithPreselectedValue: Story = {
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect v-model="selectedValue" :options="options" />`,
+      },
+    },
+  },
 }
 
 export const Searchable: Story = {
@@ -73,6 +95,13 @@ export const Searchable: Story = {
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect v-model="value" :options="options" searchable />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -88,6 +117,13 @@ export const Disabled: Story = {
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect v-model="value" :options="options" disabled />`,
+      },
+    },
+  },
 }
 
 export const ManyOptions: Story = {
@@ -107,6 +143,18 @@ export const ManyOptions: Story = {
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect
+  v-model="value"
+  :options="options"
+  searchable
+  placeholder="Select from many options..."
+/>`,
+      },
+    },
+  },
 }
 
 export const CountrySelector: Story = {
@@ -132,6 +180,18 @@ export const CountrySelector: Story = {
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect
+  v-model="country"
+  :options="countries"
+  searchable
+  placeholder="Select a country..."
+/>`,
+      },
+    },
+  },
 }
 
 export const CustomTriggerClass: Story = {
@@ -147,6 +207,17 @@ export const CustomTriggerClass: Story = {
     },
     template: '<FormSelect v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect
+  v-model="value"
+  :options="options"
+  trigger-class="bg-blue-50 border-blue-300"
+/>`,
+      },
+    },
+  },
 }
 
 export const CustomNoResultsText: Story = {
@@ -169,6 +240,19 @@ export const CustomNoResultsText: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect
+  v-model="value"
+  :options="options"
+  searchable
+  no-results-text="Aucun résultat trouvé"
+  placeholder="Rechercher un fruit..."
+/>`,
+      },
+    },
+  },
 }
 
 export const States: Story = {
@@ -202,6 +286,20 @@ export const States: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<!-- Normal -->
+<FormSelect v-model="normal" :options="options" placeholder="Select an option..." />
+
+<!-- With Value -->
+<FormSelect v-model="withValue" :options="options" />
+
+<!-- Disabled -->
+<FormSelect v-model="disabled" :options="options" disabled />`,
+      },
+    },
+  },
 }
 
 export const Sizes: Story = {
@@ -235,4 +333,13 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSelect v-model="small" :options="options" size="sm" placeholder="Select..." />
+<FormSelect v-model="medium" :options="options" size="md" placeholder="Select..." />
+<FormSelect v-model="large" :options="options" size="lg" placeholder="Select..." />`,
+      },
+    },
+  },
 }

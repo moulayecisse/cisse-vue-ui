@@ -42,6 +42,13 @@ export const Primary: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Primary Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="primary">Primary Button</Button>`,
+      },
+    },
+  },
 }
 
 export const Secondary: Story = {
@@ -53,6 +60,13 @@ export const Secondary: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Secondary Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="secondary">Secondary Button</Button>`,
+      },
+    },
+  },
 }
 
 export const Outline: Story = {
@@ -64,6 +78,13 @@ export const Outline: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Outline Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="outline">Outline Button</Button>`,
+      },
+    },
+  },
 }
 
 export const Ghost: Story = {
@@ -75,6 +96,13 @@ export const Ghost: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Ghost Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="ghost">Ghost Button</Button>`,
+      },
+    },
+  },
 }
 
 export const Danger: Story = {
@@ -86,6 +114,13 @@ export const Danger: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Danger Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="danger">Danger Button</Button>`,
+      },
+    },
+  },
 }
 
 export const Success: Story = {
@@ -97,6 +132,13 @@ export const Success: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Success Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="success">Success Button</Button>`,
+      },
+    },
+  },
 }
 
 export const AllVariants: Story = {
@@ -113,6 +155,18 @@ export const AllVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="danger">Danger</Button>
+<Button variant="success">Success</Button>`,
+      },
+    },
+  },
 }
 
 export const AllSizes: Story = {
@@ -128,6 +182,17 @@ export const AllSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button size="xs">Extra Small</Button>
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+<Button size="xl">Extra Large</Button>`,
+      },
+    },
+  },
 }
 
 export const WithIcon: Story = {
@@ -139,6 +204,13 @@ export const WithIcon: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Add Item</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button icon="lucide:plus">Add Item</Button>`,
+      },
+    },
+  },
 }
 
 export const WithIconRight: Story = {
@@ -150,6 +222,13 @@ export const WithIconRight: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Continue</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button icon-right="lucide:arrow-right">Continue</Button>`,
+      },
+    },
+  },
 }
 
 export const Loading: Story = {
@@ -161,6 +240,13 @@ export const Loading: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Loading...</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button loading>Loading...</Button>`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -172,6 +258,13 @@ export const Disabled: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Disabled</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button disabled>Disabled</Button>`,
+      },
+    },
+  },
 }
 
 export const FullWidth: Story = {
@@ -183,4 +276,11 @@ export const FullWidth: Story = {
     setup: () => ({ args }),
     template: '<Button v-bind="args">Full Width Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Button block>Full Width Button</Button>`,
+      },
+    },
+  },
 }

@@ -46,6 +46,23 @@ export const Default: Story = {
       </Tabs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs :tabs="tabs">
+  <TabPanel value="panel1">
+    <p>This is the content of the first tab panel.</p>
+  </TabPanel>
+  <TabPanel value="panel2">
+    <p>Content for panel 2.</p>
+  </TabPanel>
+  <TabPanel value="panel3">
+    <p>Content for panel 3.</p>
+  </TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }
 
 export const WithRichContent: Story = {
@@ -85,6 +102,31 @@ export const WithRichContent: Story = {
       </Tabs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs :tabs="tabs">
+  <TabPanel value="overview">
+    <div class="space-y-4">
+      <h3>Overview</h3>
+      <p>Tab panels can contain any content.</p>
+      <ul class="list-disc pl-5">
+        <li>Item one</li>
+        <li>Item two</li>
+        <li>Item three</li>
+      </ul>
+    </div>
+  </TabPanel>
+  <TabPanel value="details">
+    <div class="space-y-4">
+      <h3>Details</h3>
+      <p>Detailed information here.</p>
+    </div>
+  </TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }
 
 export const WithForm: Story = {
@@ -127,4 +169,36 @@ export const WithForm: Story = {
       </Tabs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tabs :tabs="tabs">
+  <TabPanel value="profile">
+    <form class="space-y-4">
+      <div>
+        <label>Name</label>
+        <input type="text" placeholder="John Doe" />
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" placeholder="john@example.com" />
+      </div>
+    </form>
+  </TabPanel>
+  <TabPanel value="settings">
+    <div class="space-y-4">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" />
+        <span>Enable notifications</span>
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" />
+        <span>Dark mode</span>
+      </label>
+    </div>
+  </TabPanel>
+</Tabs>`,
+      },
+    },
+  },
 }

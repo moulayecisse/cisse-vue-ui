@@ -26,6 +26,13 @@ export const Default: Story = {
     },
     template: '<ColorPicker v-bind="args" v-model="color" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker v-model="color" />`,
+      },
+    },
+  },
 }
 
 export const WithLabel: Story = {
@@ -37,6 +44,13 @@ export const WithLabel: Story = {
     },
     template: '<ColorPicker v-bind="args" v-model="color" label="Brand Color" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker v-model="color" label="Brand Color" />`,
+      },
+    },
+  },
 }
 
 export const CustomSwatches: Story = {
@@ -52,6 +66,13 @@ export const CustomSwatches: Story = {
     },
     template: '<ColorPicker v-bind="args" v-model="color" :swatches="swatches" label="Blue Palette" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker v-model="color" :swatches="swatches" label="Blue Palette" />`,
+      },
+    },
+  },
 }
 
 export const WithoutInput: Story = {
@@ -63,12 +84,26 @@ export const WithoutInput: Story = {
     },
     template: '<ColorPicker v-bind="args" v-model="color" :show-input="false" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker v-model="color" :show-input="false" />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
   args: {
     modelValue: '#6366f1',
     disabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker v-model="color" disabled />`,
+      },
+    },
   },
 }
 
@@ -98,6 +133,15 @@ export const BrandColors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker v-model="primaryColor" label="Primary Color" />
+<ColorPicker v-model="secondaryColor" label="Secondary Color" />
+<ColorPicker v-model="accentColor" label="Accent Color" />`,
+      },
+    },
+  },
 }
 
 export const GrayscalePalette: Story = {
@@ -113,4 +157,11 @@ export const GrayscalePalette: Story = {
     },
     template: '<ColorPicker v-bind="args" v-model="color" :swatches="swatches" label="Gray Color" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker v-model="color" :swatches="swatches" label="Gray Color" />`,
+      },
+    },
+  },
 }

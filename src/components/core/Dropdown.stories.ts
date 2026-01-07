@@ -44,6 +44,19 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<Dropdown v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Dropdown :items="[
+  { key: 'edit', label: 'Edit', icon: 'lucide:edit' },
+  { key: 'duplicate', label: 'Duplicate', icon: 'lucide:copy' },
+  { key: 'divider1', label: '', divider: true },
+  { key: 'archive', label: 'Archive', icon: 'lucide:archive' },
+  { key: 'delete', label: 'Delete', icon: 'lucide:trash', danger: true },
+]" />`,
+      },
+    },
+  },
 }
 
 export const WithCustomTrigger: Story = {
@@ -61,6 +74,17 @@ export const WithCustomTrigger: Story = {
       </Dropdown>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Dropdown :items="items">
+  <template #trigger>
+    <Button icon="lucide:more-vertical" variant="ghost" size="sm" />
+  </template>
+</Dropdown>`,
+      },
+    },
+  },
 }
 
 export const AlignRight: Story = {
@@ -77,6 +101,13 @@ export const AlignRight: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Dropdown :items="items" align="right" />`,
+      },
+    },
+  },
 }
 
 export const WithDisabledItems: Story = {
@@ -92,6 +123,17 @@ export const WithDisabledItems: Story = {
     setup: () => ({ args }),
     template: '<Dropdown v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Dropdown :items="[
+  { key: 'edit', label: 'Edit', icon: 'lucide:edit' },
+  { key: 'share', label: 'Share', icon: 'lucide:share', disabled: true },
+  { key: 'delete', label: 'Delete', icon: 'lucide:trash', danger: true },
+]" />`,
+      },
+    },
+  },
 }
 
 export const DifferentWidths: Story = {
@@ -117,6 +159,21 @@ export const DifferentWidths: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Dropdown :items="items" width="sm">
+  <template #trigger-label>Small</template>
+</Dropdown>
+<Dropdown :items="items" width="md">
+  <template #trigger-label>Medium</template>
+</Dropdown>
+<Dropdown :items="items" width="lg">
+  <template #trigger-label>Large</template>
+</Dropdown>`,
+      },
+    },
+  },
 }
 
 export const CustomContent: Story = {
@@ -142,4 +199,27 @@ export const CustomContent: Story = {
       </Dropdown>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Dropdown>
+  <template #trigger>
+    <Button>User Menu</Button>
+  </template>
+  <template #default="{ close }">
+    <div class="p-4">
+      <div class="mb-3 text-center">
+        <div class="mx-auto mb-2 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">JD</div>
+        <p class="font-medium">John Doe</p>
+        <p class="text-sm text-gray-500">john@example.com</p>
+      </div>
+      <div class="border-t pt-3">
+        <Button variant="outline" size="sm" block @click="close">Sign Out</Button>
+      </div>
+    </div>
+  </template>
+</Dropdown>`,
+      },
+    },
+  },
 }

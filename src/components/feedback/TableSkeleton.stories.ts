@@ -26,6 +26,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<TableSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TableSkeleton />`,
+      },
+    },
+  },
 }
 
 export const NoHeader: Story = {
@@ -37,6 +44,13 @@ export const NoHeader: Story = {
     setup: () => ({ args }),
     template: '<TableSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TableSkeleton :show-header="false" />`,
+      },
+    },
+  },
 }
 
 export const ThreeColumns: Story = {
@@ -48,6 +62,13 @@ export const ThreeColumns: Story = {
     setup: () => ({ args }),
     template: '<TableSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TableSkeleton :columns="3" />`,
+      },
+    },
+  },
 }
 
 export const SixColumns: Story = {
@@ -59,6 +80,13 @@ export const SixColumns: Story = {
     setup: () => ({ args }),
     template: '<TableSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TableSkeleton :columns="6" />`,
+      },
+    },
+  },
 }
 
 export const TenRows: Story = {
@@ -70,6 +98,13 @@ export const TenRows: Story = {
     setup: () => ({ args }),
     template: '<TableSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TableSkeleton :rows="10" />`,
+      },
+    },
+  },
 }
 
 export const Compact: Story = {
@@ -82,6 +117,13 @@ export const Compact: Story = {
     setup: () => ({ args }),
     template: '<TableSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TableSkeleton :rows="3" :columns="3" />`,
+      },
+    },
+  },
 }
 
 export const InCard: Story = {
@@ -98,4 +140,13 @@ export const InCard: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Card>
+  <TableSkeleton :rows="5" :columns="4" />
+</Card>`,
+      },
+    },
+  },
 }

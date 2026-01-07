@@ -42,6 +42,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<Progress v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress :value="60" />`,
+      },
+    },
+  },
 }
 
 export const WithLabel: Story = {
@@ -54,6 +61,13 @@ export const WithLabel: Story = {
     setup: () => ({ args }),
     template: '<Progress v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress :value="75" show-label />`,
+      },
+    },
+  },
 }
 
 export const Sizes: Story = {
@@ -76,6 +90,15 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress :value="60" size="sm" />
+<Progress :value="60" size="md" />
+<Progress :value="60" size="lg" />`,
+      },
+    },
+  },
 }
 
 export const Variants: Story = {
@@ -90,6 +113,16 @@ export const Variants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress :value="80" variant="default" show-label />
+<Progress :value="100" variant="success" show-label />
+<Progress :value="60" variant="warning" show-label />
+<Progress :value="30" variant="error" show-label />`,
+      },
+    },
+  },
 }
 
 export const Striped: Story = {
@@ -103,6 +136,13 @@ export const Striped: Story = {
     setup: () => ({ args }),
     template: '<Progress v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress :value="70" striped size="lg" />`,
+      },
+    },
+  },
 }
 
 export const Animated: Story = {
@@ -117,6 +157,13 @@ export const Animated: Story = {
     setup: () => ({ args }),
     template: '<Progress v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress :value="70" striped animated size="lg" />`,
+      },
+    },
+  },
 }
 
 export const Indeterminate: Story = {
@@ -129,6 +176,13 @@ export const Indeterminate: Story = {
     setup: () => ({ args }),
     template: '<Progress v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress indeterminate />`,
+      },
+    },
+  },
 }
 
 export const AnimatedProgress: Story = {
@@ -152,6 +206,22 @@ export const AnimatedProgress: Story = {
     },
     template: '<Progress :value="value" showLabel />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+
+const value = ref(0)
+// Update value programmatically
+</script>
+
+<template>
+  <Progress :value="value" show-label />
+</template>`,
+      },
+    },
+  },
 }
 
 export const FileUpload: Story = {
@@ -167,4 +237,17 @@ export const FileUpload: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div class="rounded-lg border p-4">
+  <div class="mb-2 flex items-center justify-between">
+    <span>Uploading file.zip</span>
+    <span>2.4 MB / 4.0 MB</span>
+  </div>
+  <Progress :value="uploadProgress" size="sm" />
+</div>`,
+      },
+    },
+  },
 }

@@ -39,6 +39,15 @@ export const Default: Story = {
       </InputWrapper>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<InputWrapper v-slot="{ inputClass }">
+  <input v-model="value" :class="inputClass" placeholder="Enter text..." />
+</InputWrapper>`,
+      },
+    },
+  },
 }
 
 export const WithLeftIcon: Story = {
@@ -57,6 +66,15 @@ export const WithLeftIcon: Story = {
       </InputWrapper>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<InputWrapper icon="lucide:search" v-slot="{ inputClass }">
+  <input v-model="value" :class="inputClass" placeholder="Search..." />
+</InputWrapper>`,
+      },
+    },
+  },
 }
 
 export const WithRightIcon: Story = {
@@ -75,6 +93,15 @@ export const WithRightIcon: Story = {
       </InputWrapper>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<InputWrapper icon-right="lucide:chevron-down" v-slot="{ inputClass }">
+  <input v-model="value" :class="inputClass" placeholder="Select option..." />
+</InputWrapper>`,
+      },
+    },
+  },
 }
 
 export const WithBothIcons: Story = {
@@ -94,49 +121,15 @@ export const WithBothIcons: Story = {
       </InputWrapper>
     `,
   }),
-}
-
-export const WithClearButton: Story = {
-  args: {
-    icon: 'lucide:search',
-    iconRight: 'lucide:x',
-  },
-  render: (args) => ({
-    components: { InputWrapper },
-    setup: () => {
-      const value = ref('Some text to clear')
-      return { args, value }
+  parameters: {
+    docs: {
+      source: {
+        code: `<InputWrapper icon="lucide:mail" icon-right="lucide:check" v-slot="{ inputClass }">
+  <input v-model="value" :class="inputClass" type="email" />
+</InputWrapper>`,
+      },
     },
-    template: `
-      <InputWrapper v-bind="args" v-slot="{ inputClass }">
-        <input v-model="value" :class="inputClass" placeholder="Search..." />
-      </InputWrapper>
-    `,
-  }),
-}
-
-export const PasswordToggle: Story = {
-  args: {
-    icon: 'lucide:lock',
-    iconRight: 'lucide:eye',
   },
-  render: (args) => ({
-    components: { InputWrapper },
-    setup: () => {
-      const password = ref('mysecretpassword')
-      return { args, password }
-    },
-    template: `
-      <InputWrapper v-bind="args" v-slot="{ inputClass }">
-        <input
-          v-model="password"
-          type="password"
-          :class="inputClass"
-          placeholder="Enter password..."
-        />
-      </InputWrapper>
-    `,
-  }),
 }
 
 export const Sizes: Story = {
@@ -171,6 +164,21 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<InputWrapper icon="lucide:search" size="sm" v-slot="{ inputClass }">
+  <input :class="inputClass" placeholder="Small input..." />
+</InputWrapper>
+<InputWrapper icon="lucide:search" size="md" v-slot="{ inputClass }">
+  <input :class="inputClass" placeholder="Medium input..." />
+</InputWrapper>
+<InputWrapper icon="lucide:search" size="lg" v-slot="{ inputClass }">
+  <input :class="inputClass" placeholder="Large input..." />
+</InputWrapper>`,
+      },
+    },
+  },
 }
 
 export const InvalidState: Story = {
@@ -193,88 +201,15 @@ export const InvalidState: Story = {
       </div>
     `,
   }),
-}
-
-export const CustomIconSlot: Story = {
-  render: () => ({
-    components: { InputWrapper },
-    setup: () => {
-      const value = ref('')
-      return { value }
+  parameters: {
+    docs: {
+      source: {
+        code: `<InputWrapper icon="lucide:mail" invalid v-slot="{ inputClass }">
+  <input v-model="value" :class="inputClass" type="email" />
+</InputWrapper>`,
+      },
     },
-    template: `
-      <InputWrapper icon="lucide:dollar-sign" v-slot="{ inputClass }">
-        <input v-model="value" :class="inputClass" placeholder="0.00" type="number" step="0.01" />
-      </InputWrapper>
-    `,
-  }),
-}
-
-export const WithTextarea: Story = {
-  args: {
-    icon: 'lucide:message-square',
   },
-  render: (args) => ({
-    components: { InputWrapper },
-    setup: () => {
-      const value = ref('')
-      return { args, value }
-    },
-    template: `
-      <InputWrapper v-bind="args" v-slot="{ inputClass }">
-        <textarea
-          v-model="value"
-          :class="[inputClass, 'resize-none min-h-24']"
-          placeholder="Enter your message..."
-          rows="4"
-        />
-      </InputWrapper>
-    `,
-  }),
-}
-
-export const AllVariants: Story = {
-  render: () => ({
-    components: { InputWrapper },
-    setup: () => {
-      const search = ref('')
-      const email = ref('user@example.com')
-      const password = ref('secret')
-      const amount = ref('1234.56')
-      return { search, email, password, amount }
-    },
-    template: `
-      <div class="space-y-4 max-w-md">
-        <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Search</label>
-          <InputWrapper icon="lucide:search" v-slot="{ inputClass }">
-            <input v-model="search" :class="inputClass" placeholder="Search..." />
-          </InputWrapper>
-        </div>
-
-        <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Email validated</label>
-          <InputWrapper icon="lucide:mail" iconRight="lucide:check-circle" v-slot="{ inputClass }">
-            <input v-model="email" :class="inputClass" type="email" />
-          </InputWrapper>
-        </div>
-
-        <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-          <InputWrapper icon="lucide:lock" iconRight="lucide:eye" v-slot="{ inputClass }">
-            <input v-model="password" type="password" :class="inputClass" />
-          </InputWrapper>
-        </div>
-
-        <div>
-          <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Currency input</label>
-          <InputWrapper icon="lucide:dollar-sign" v-slot="{ inputClass }">
-            <input v-model="amount" :class="inputClass" type="text" />
-          </InputWrapper>
-        </div>
-      </div>
-    `,
-  }),
 }
 
 export const States: Story = {
@@ -317,4 +252,24 @@ export const States: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<!-- Normal -->
+<InputWrapper icon="lucide:type" v-slot="{ inputClass }">
+  <input :class="inputClass" />
+</InputWrapper>
+
+<!-- Invalid -->
+<InputWrapper icon="lucide:type" invalid v-slot="{ inputClass }">
+  <input :class="inputClass" />
+</InputWrapper>
+
+<!-- Disabled -->
+<InputWrapper icon="lucide:type" disabled v-slot="{ inputClass }">
+  <input :class="inputClass" disabled />
+</InputWrapper>`,
+      },
+    },
+  },
 }

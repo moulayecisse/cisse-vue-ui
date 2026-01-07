@@ -115,3 +115,74 @@ export const OnIcons: Story = {
     `,
   }),
 }
+
+export const AllPositions: Story = {
+  render: () => ({
+    components: { Tooltip, Button },
+    template: `
+      <div class="flex flex-wrap items-center justify-center gap-12 p-20">
+        <Tooltip content="Top position" position="top">
+          <Button variant="outline">Top</Button>
+        </Tooltip>
+        <Tooltip content="Bottom position" position="bottom">
+          <Button variant="outline">Bottom</Button>
+        </Tooltip>
+        <Tooltip content="Left position" position="left">
+          <Button variant="outline">Left</Button>
+        </Tooltip>
+        <Tooltip content="Right position" position="right">
+          <Button variant="outline">Right</Button>
+        </Tooltip>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Tooltip content="Top" position="top">
+  <Button>Top</Button>
+</Tooltip>
+<Tooltip content="Bottom" position="bottom">
+  <Button>Bottom</Button>
+</Tooltip>
+<Tooltip content="Left" position="left">
+  <Button>Left</Button>
+</Tooltip>
+<Tooltip content="Right" position="right">
+  <Button>Right</Button>
+</Tooltip>`,
+      },
+    },
+  },
+}
+
+export const LongContent: Story = {
+  args: {
+    content: 'This is a longer tooltip content that explains something in more detail.',
+  },
+  render: (args) => ({
+    components: { Tooltip, Button },
+    setup: () => ({ args }),
+    template: `
+      <div class="flex items-center justify-center p-20">
+        <Tooltip v-bind="args">
+          <Button>Hover for details</Button>
+        </Tooltip>
+      </div>
+    `,
+  }),
+}
+
+export const OnText: Story = {
+  render: () => ({
+    components: { Tooltip },
+    template: `
+      <div class="flex items-center justify-center p-20">
+        <Tooltip content="Quickly access your settings" position="bottom">
+          <span class="cursor-help text-blue-600 underline">Click here for help</span>
+        </Tooltip>
+      </div>
+    `,
+  }),
+}
+

@@ -32,6 +32,13 @@ export const Default: Story = {
     },
     template: '<Slider v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="value" />`,
+      },
+    },
+  },
 }
 
 export const WithValue: Story = {
@@ -46,6 +53,13 @@ export const WithValue: Story = {
     },
     template: '<Slider v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="value" show-value />`,
+      },
+    },
+  },
 }
 
 export const CustomRange: Story = {
@@ -63,6 +77,13 @@ export const CustomRange: Story = {
     },
     template: '<Slider v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="value" :min="0" :max="1000" :step="50" show-value />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -78,6 +99,13 @@ export const Disabled: Story = {
     },
     template: '<Slider v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="value" disabled show-value />`,
+      },
+    },
+  },
 }
 
 export const WithFormatter: Story = {
@@ -95,6 +123,13 @@ export const WithFormatter: Story = {
     },
     template: '<Slider v-bind="args" v-model="value" :format-value="formatValue" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="value" show-value :format-value="(v) => \`\${v}%\`" />`,
+      },
+    },
+  },
 }
 
 export const PriceRange: Story = {
@@ -118,6 +153,13 @@ export const PriceRange: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="maxPrice" :min="0" :max="500" :step="10" show-value :format-value="(v) => \`$\${v}\`" />`,
+      },
+    },
+  },
 }
 
 export const Volume: Story = {
@@ -145,6 +187,13 @@ export const Volume: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="volume" :min="0" :max="100" show-value :format-value="formatVolume" />`,
+      },
+    },
+  },
 }
 
 export const Temperature: Story = {
@@ -158,7 +207,7 @@ export const Temperature: Story = {
     components: { Slider },
     setup: () => {
       const value = ref(22)
-      const formatValue = (v: number) => `${v}°C`
+      const formatValue = (v: number) => `${v}C`
       return { args, value, formatValue }
     },
     template: `
@@ -168,4 +217,11 @@ export const Temperature: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Slider v-model="temperature" :min="16" :max="30" :step="0.5" show-value :format-value="(v) => \`\${v}C\`" />`,
+      },
+    },
+  },
 }

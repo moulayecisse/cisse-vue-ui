@@ -40,6 +40,17 @@ export const Success: Story = {
     setup: () => ({ args }),
     template: '<Toast v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Toast
+  type="success"
+  title="Success"
+  message="Your changes have been saved successfully."
+/>`,
+      },
+    },
+  },
 }
 
 export const Error: Story = {
@@ -53,6 +64,17 @@ export const Error: Story = {
     setup: () => ({ args }),
     template: '<Toast v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Toast
+  type="error"
+  title="Error"
+  message="An error occurred while processing your request."
+/>`,
+      },
+    },
+  },
 }
 
 export const Warning: Story = {
@@ -66,6 +88,17 @@ export const Warning: Story = {
     setup: () => ({ args }),
     template: '<Toast v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Toast
+  type="warning"
+  title="Warning"
+  message="Please review your information before proceeding."
+/>`,
+      },
+    },
+  },
 }
 
 export const Info: Story = {
@@ -79,6 +112,17 @@ export const Info: Story = {
     setup: () => ({ args }),
     template: '<Toast v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Toast
+  type="info"
+  title="Info"
+  message="A new version is available."
+/>`,
+      },
+    },
+  },
 }
 
 export const AllTypes: Story = {
@@ -93,6 +137,16 @@ export const AllTypes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Toast type="success" title="Success" message="Operation completed successfully." />
+<Toast type="error" title="Error" message="Something went wrong." />
+<Toast type="warning" title="Warning" message="Please be careful." />
+<Toast type="info" title="Info" message="Here's some information." />`,
+      },
+    },
+  },
 }
 
 export const WithContainer: Story = {
@@ -135,6 +189,34 @@ export const WithContainer: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+
+const toasts = ref([])
+
+const addToast = (type) => {
+  toasts.value.push({
+    id: String(Date.now()),
+    type,
+    title: 'Title',
+    message: 'Toast message'
+  })
+}
+
+const removeToast = (id) => {
+  toasts.value = toasts.value.filter(t => t.id !== id)
+}
+</script>
+
+<template>
+  <ToastContainer :toasts="toasts" @close="removeToast" />
+</template>`,
+      },
+    },
+  },
 }
 
 export const WithoutTitle: Story = {
@@ -147,4 +229,11 @@ export const WithoutTitle: Story = {
     setup: () => ({ args }),
     template: '<div class="max-w-sm"><Toast v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Toast type="info" message="This is a simple toast without a title." />`,
+      },
+    },
+  },
 }

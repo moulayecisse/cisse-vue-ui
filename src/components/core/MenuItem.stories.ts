@@ -29,6 +29,20 @@ export const Default: Story = {
     },
     expanded: true,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  :menu-item="{
+    label: 'Dashboard',
+    icon: 'lucide:layout-dashboard',
+    link: '/dashboard',
+  }"
+  expanded
+/>`,
+      },
+    },
+  },
 }
 
 export const Active: Story = {
@@ -40,6 +54,17 @@ export const Active: Story = {
     },
     expanded: true,
     active: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  :menu-item="{ label: 'Dashboard', icon: 'lucide:layout-dashboard', link: '/dashboard' }"
+  expanded
+  active
+/>`,
+      },
+    },
   },
 }
 
@@ -53,6 +78,21 @@ export const WithNotification: Story = {
     },
     expanded: true,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  :menu-item="{
+    label: 'Messages',
+    icon: 'lucide:mail',
+    link: '/messages',
+    notification: true,
+  }"
+  expanded
+/>`,
+      },
+    },
+  },
 }
 
 export const Collapsed: Story = {
@@ -63,6 +103,16 @@ export const Collapsed: Story = {
       link: '/settings',
     },
     expanded: false,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  :menu-item="{ label: 'Settings', icon: 'lucide:settings', link: '/settings' }"
+  :expanded="false"
+/>`,
+      },
+    },
   },
 }
 
@@ -75,6 +125,17 @@ export const CollapsedActive: Story = {
     },
     expanded: false,
     active: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  :menu-item="{ label: 'Users', icon: 'lucide:users', link: '/users' }"
+  :expanded="false"
+  active
+/>`,
+      },
+    },
   },
 }
 
@@ -103,6 +164,19 @@ export const NavigationMenu: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  v-for="item in menuItems"
+  :key="item.link"
+  :menu-item="item"
+  :active="item.link === currentPath"
+  expanded
+/>`,
+      },
+    },
+  },
 }
 
 export const CollapsedMenu: Story = {
@@ -130,6 +204,19 @@ export const CollapsedMenu: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  v-for="item in menuItems"
+  :key="item.link"
+  :menu-item="item"
+  :active="item.link === currentPath"
+  :expanded="false"
+/>`,
+      },
+    },
+  },
 }
 
 export const DifferentIcons: Story = {
@@ -171,6 +258,25 @@ export const WithSubmenu: Story = {
       ],
     },
     expanded: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<MenuItem
+  :menu-item="{
+    label: 'Settings',
+    icon: 'lucide:settings',
+    link: '/settings',
+    children: [
+      { label: 'Profile', icon: 'lucide:user', link: '/settings/profile' },
+      { label: 'Security', icon: 'lucide:shield', link: '/settings/security' },
+      { label: 'Notifications', icon: 'lucide:bell', link: '/settings/notifications' },
+    ],
+  }"
+  expanded
+/>`,
+      },
+    },
   },
 }
 

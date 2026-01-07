@@ -33,6 +33,13 @@ export const True: Story = {
     setup: () => ({ args }),
     template: '<BooleanType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BooleanType :value="true" />`,
+      },
+    },
+  },
 }
 
 export const False: Story = {
@@ -44,6 +51,13 @@ export const False: Story = {
     setup: () => ({ args }),
     template: '<BooleanType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BooleanType :value="false" />`,
+      },
+    },
+  },
 }
 
 export const IconOnly: Story = {
@@ -56,6 +70,13 @@ export const IconOnly: Story = {
     setup: () => ({ args }),
     template: '<BooleanType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BooleanType :value="true" display="icon" />`,
+      },
+    },
+  },
 }
 
 export const IconAndText: Story = {
@@ -68,6 +89,13 @@ export const IconAndText: Story = {
     setup: () => ({ args }),
     template: '<BooleanType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BooleanType :value="true" display="both" />`,
+      },
+    },
+  },
 }
 
 export const CustomLabels: Story = {
@@ -82,6 +110,13 @@ export const CustomLabels: Story = {
     setup: () => ({ args }),
     template: '<BooleanType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BooleanType :value="true" display="both" true-label="Active" false-label="Inactive" />`,
+      },
+    },
+  },
 }
 
 export const AllDisplayModes: Story = {
@@ -126,6 +161,21 @@ export const AllDisplayModes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<!-- True values -->
+<BooleanType :value="true" display="text" />
+<BooleanType :value="true" display="icon" />
+<BooleanType :value="true" display="both" />
+
+<!-- False values -->
+<BooleanType :value="false" display="text" />
+<BooleanType :value="false" display="icon" />
+<BooleanType :value="false" display="both" />`,
+      },
+    },
+  },
 }
 
 export const InTable: Story = {
@@ -155,4 +205,24 @@ export const InTable: Story = {
       </table>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<table>
+  <tbody>
+    <tr>
+      <td>John Doe</td>
+      <td><BooleanType :value="true" display="both" /></td>
+      <td><BooleanType :value="true" display="icon" /></td>
+    </tr>
+    <tr>
+      <td>Jane Smith</td>
+      <td><BooleanType :value="false" display="both" /></td>
+      <td><BooleanType :value="true" display="icon" /></td>
+    </tr>
+  </tbody>
+</table>`,
+      },
+    },
+  },
 }

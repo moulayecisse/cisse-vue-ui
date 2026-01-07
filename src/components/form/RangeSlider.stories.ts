@@ -20,6 +20,13 @@ export const Default: Story = {
     },
     template: '<RangeSlider v-bind="args" v-model="range" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider v-model="range" />`,
+      },
+    },
+  },
 }
 
 export const PriceRange: Story = {
@@ -37,6 +44,13 @@ export const PriceRange: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider v-model="priceRange" :min="0" :max="1000" :step="10" :format-label="(v) => \`$\${v}\`" />`,
+      },
+    },
+  },
 }
 
 export const WithoutLabels: Story = {
@@ -48,12 +62,26 @@ export const WithoutLabels: Story = {
     },
     template: '<RangeSlider v-bind="args" v-model="range" :show-labels="false" :show-min-max="false" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider v-model="range" :show-labels="false" :show-min-max="false" />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
   args: {
     modelValue: [20, 80],
     disabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider :model-value="[20, 80]" disabled />`,
+      },
+    },
   },
 }
 
@@ -71,6 +99,13 @@ export const CustomRange: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider v-model="yearRange" :min="2000" :max="2024" :step="1" />`,
+      },
+    },
+  },
 }
 
 export const PercentageRange: Story = {
@@ -88,6 +123,13 @@ export const PercentageRange: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider v-model="range" :min="0" :max="100" :format-label="(v) => \`\${v}%\`" />`,
+      },
+    },
+  },
 }
 
 export const FilterExample: Story = {
@@ -97,7 +139,7 @@ export const FilterExample: Story = {
       const priceRange = ref<[number, number]>([50, 200])
       const ratingRange = ref<[number, number]>([3, 5])
       const formatPrice = (v: number) => `$${v}`
-      const formatRating = (v: number) => `${v}★`
+      const formatRating = (v: number) => `${v}`
       return { args, priceRange, ratingRange, formatPrice, formatRating }
     },
     template: `
@@ -123,6 +165,14 @@ export const FilterExample: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider v-model="priceRange" :min="0" :max="500" :step="10" :format-label="formatPrice" />
+<RangeSlider v-model="ratingRange" :min="1" :max="5" :step="0.5" :format-label="formatRating" />`,
+      },
+    },
+  },
 }
 
 export const SmallStep: Story = {
@@ -140,4 +190,11 @@ export const SmallStep: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<RangeSlider v-model="opacityRange" :min="0" :max="1" :step="0.1" :format-label="(v) => v.toFixed(1)" />`,
+      },
+    },
+  },
 }

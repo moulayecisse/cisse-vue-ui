@@ -34,6 +34,13 @@ export const DateOnly: Story = {
     setup: () => ({ args }),
     template: '<DateType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DateType value="2024-03-15T14:30:00Z" format="date" />`,
+      },
+    },
+  },
 }
 
 export const DateTime: Story = {
@@ -46,6 +53,13 @@ export const DateTime: Story = {
     setup: () => ({ args }),
     template: '<DateType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DateType value="2024-03-15T14:30:00Z" format="datetime" />`,
+      },
+    },
+  },
 }
 
 export const TimeOnly: Story = {
@@ -58,6 +72,13 @@ export const TimeOnly: Story = {
     setup: () => ({ args }),
     template: '<DateType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DateType value="2024-03-15T14:30:00Z" format="time" />`,
+      },
+    },
+  },
 }
 
 export const FrenchLocale: Story = {
@@ -71,6 +92,13 @@ export const FrenchLocale: Story = {
     setup: () => ({ args }),
     template: '<DateType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DateType value="2024-03-15T14:30:00Z" format="datetime" locale="fr-FR" />`,
+      },
+    },
+  },
 }
 
 export const NullValue: Story = {
@@ -82,6 +110,13 @@ export const NullValue: Story = {
     setup: () => ({ args }),
     template: '<DateType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DateType :value="null" />`,
+      },
+    },
+  },
 }
 
 export const AllFormats: Story = {
@@ -107,6 +142,15 @@ export const AllFormats: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DateType value="2024-03-15T14:30:00Z" format="date" />
+<DateType value="2024-03-15T14:30:00Z" format="datetime" />
+<DateType value="2024-03-15T14:30:00Z" format="time" />`,
+      },
+    },
+  },
 }
 
 export const DifferentLocales: Story = {
@@ -136,4 +180,14 @@ export const DifferentLocales: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<DateType value="2024-03-15T14:30:00Z" format="datetime" locale="en-US" />
+<DateType value="2024-03-15T14:30:00Z" format="datetime" locale="fr-FR" />
+<DateType value="2024-03-15T14:30:00Z" format="datetime" locale="de-DE" />
+<DateType value="2024-03-15T14:30:00Z" format="datetime" locale="ja-JP" />`,
+      },
+    },
+  },
 }

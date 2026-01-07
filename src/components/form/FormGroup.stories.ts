@@ -34,6 +34,18 @@ export const Default: Story = {
     },
     template: '<FormGroup v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormGroup
+  v-model="username"
+  label="Username"
+  placeholder="Enter username..."
+  name="username"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithError: Story = {
@@ -51,6 +63,19 @@ export const WithError: Story = {
     },
     template: '<FormGroup v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormGroup
+  v-model="email"
+  label="Email"
+  type="email"
+  placeholder="Enter email..."
+  error="Please enter a valid email address"
+/>`,
+      },
+    },
+  },
 }
 
 export const AsSelect: Story = {
@@ -72,6 +97,19 @@ export const AsSelect: Story = {
     },
     template: '<FormGroup v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormGroup
+  v-model="country"
+  label="Country"
+  :select="true"
+  :options="countries"
+  placeholder="Select a country..."
+/>`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -87,6 +125,13 @@ export const Disabled: Story = {
     },
     template: '<FormGroup v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormGroup v-model="value" label="Disabled Field" disabled />`,
+      },
+    },
+  },
 }
 
 export const CompleteForm: Story = {
@@ -139,4 +184,42 @@ export const CompleteForm: Story = {
       </form>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<form class="grid grid-cols-12 gap-4" @submit.prevent>
+  <FormGroup
+    v-model="firstName"
+    label="First Name"
+    placeholder="Enter first name..."
+    :cols="6"
+  />
+  <FormGroup
+    v-model="lastName"
+    label="Last Name"
+    placeholder="Enter last name..."
+    :cols="6"
+  />
+  <FormGroup
+    v-model="email"
+    label="Email"
+    type="email"
+    placeholder="Enter email..."
+    :cols="12"
+  />
+  <FormGroup
+    v-model="country"
+    label="Country"
+    :select="true"
+    :options="countries"
+    placeholder="Select a country..."
+    :cols="12"
+  />
+  <div class="col-span-12">
+    <Button type="submit">Submit</Button>
+  </div>
+</form>`,
+      },
+    },
+  },
 }

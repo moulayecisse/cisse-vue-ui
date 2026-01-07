@@ -32,6 +32,13 @@ export const Default: Story = {
     },
     template: '<Switch v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Switch v-model="enabled" />`,
+      },
+    },
+  },
 }
 
 export const WithLabel: Story = {
@@ -46,6 +53,13 @@ export const WithLabel: Story = {
     },
     template: '<Switch v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Switch v-model="enabled" label="Enable notifications" />`,
+      },
+    },
+  },
 }
 
 export const WithDescription: Story = {
@@ -61,6 +75,17 @@ export const WithDescription: Story = {
     },
     template: '<Switch v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Switch
+  v-model="enabled"
+  label="Marketing emails"
+  description="Receive emails about new products and features"
+/>`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -76,6 +101,13 @@ export const Disabled: Story = {
     },
     template: '<Switch v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Switch v-model="enabled" label="Disabled switch" disabled />`,
+      },
+    },
+  },
 }
 
 export const AllSizes: Story = {
@@ -95,6 +127,15 @@ export const AllSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Switch v-model="sm" size="sm" label="Small" />
+<Switch v-model="md" size="md" label="Medium" />
+<Switch v-model="lg" size="lg" label="Large" />`,
+      },
+    },
+  },
 }
 
 export const SettingsExample: Story = {
@@ -129,4 +170,25 @@ export const SettingsExample: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Switch
+  v-model="notifications"
+  label="Push notifications"
+  description="Receive push notifications on your device"
+/>
+<Switch
+  v-model="emails"
+  label="Email updates"
+  description="Receive weekly email updates"
+/>
+<Switch
+  v-model="darkMode"
+  label="Dark mode"
+  description="Use dark theme across the application"
+/>`,
+      },
+    },
+  },
 }

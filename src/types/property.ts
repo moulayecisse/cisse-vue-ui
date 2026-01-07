@@ -38,4 +38,16 @@ export interface Property {
 
   /** Whether the column is the main/primary column (default: false) */
   main?: boolean
+
+  /** Fixed width for the column (e.g., '200px', '20%') */
+  width?: string
+
+  /** Minimum width for the column */
+  minWidth?: string
+
+  /** Maximum width for the column */
+  maxWidth?: string
+
+  /** Truncate cell content with ellipsis (default: false) */
+  truncate?: boolean
 }

@@ -43,6 +43,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<BadgeType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BadgeType value="Status" />`,
+      },
+    },
+  },
 }
 
 export const Success: Story = {
@@ -55,6 +62,13 @@ export const Success: Story = {
     setup: () => ({ args }),
     template: '<BadgeType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BadgeType value="Active" variant="success" />`,
+      },
+    },
+  },
 }
 
 export const Error: Story = {
@@ -67,6 +81,13 @@ export const Error: Story = {
     setup: () => ({ args }),
     template: '<BadgeType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BadgeType value="Failed" variant="error" />`,
+      },
+    },
+  },
 }
 
 export const Warning: Story = {
@@ -79,6 +100,13 @@ export const Warning: Story = {
     setup: () => ({ args }),
     template: '<BadgeType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BadgeType value="Pending" variant="warning" />`,
+      },
+    },
+  },
 }
 
 export const AllVariants: Story = {
@@ -102,6 +130,25 @@ export const AllVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BadgeType value="Default" variant="default" />
+<BadgeType value="Success" variant="success" />
+<BadgeType value="Error" variant="error" />
+<BadgeType value="Warning" variant="warning" />
+<BadgeType value="Info" variant="info" />
+<BadgeType value="Blue" variant="blue" />
+<BadgeType value="Orange" variant="orange" />
+<BadgeType value="Green" variant="green" />
+<BadgeType value="Red" variant="red" />
+<BadgeType value="Yellow" variant="yellow" />
+<BadgeType value="Purple" variant="purple" />
+<BadgeType value="Pink" variant="pink" />
+<BadgeType value="Gray" variant="gray" />`,
+      },
+    },
+  },
 }
 
 export const WithFormatter: Story = {
@@ -112,6 +159,19 @@ export const WithFormatter: Story = {
     }),
     template: '<BadgeType value="active" variant="success" :formatter="formatter" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+const formatter = (value) => String(value).toUpperCase()
+</script>
+
+<template>
+  <BadgeType value="active" variant="success" :formatter="formatter" />
+</template>`,
+      },
+    },
+  },
 }
 
 export const StatusMapping: Story = {
@@ -140,6 +200,17 @@ export const StatusMapping: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<BadgeType value="active" variant="success" />
+<BadgeType value="pending" variant="warning" />
+<BadgeType value="inactive" variant="gray" />
+<BadgeType value="error" variant="error" />
+<BadgeType value="processing" variant="info" />`,
+      },
+    },
+  },
 }
 
 export const InTable: Story = {
@@ -172,4 +243,34 @@ export const InTable: Story = {
       </table>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<table>
+  <tbody>
+    <tr>
+      <td>#1</td>
+      <td>John Doe</td>
+      <td><BadgeType value="delivered" variant="success" /></td>
+    </tr>
+    <tr>
+      <td>#2</td>
+      <td>Jane Smith</td>
+      <td><BadgeType value="processing" variant="info" /></td>
+    </tr>
+    <tr>
+      <td>#3</td>
+      <td>Bob Wilson</td>
+      <td><BadgeType value="pending" variant="warning" /></td>
+    </tr>
+    <tr>
+      <td>#4</td>
+      <td>Alice Brown</td>
+      <td><BadgeType value="cancelled" variant="error" /></td>
+    </tr>
+  </tbody>
+</table>`,
+      },
+    },
+  },
 }

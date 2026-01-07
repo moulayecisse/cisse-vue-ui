@@ -45,6 +45,19 @@ export const Default: Story = {
     title: 'Confirm Action',
     message: 'Are you sure you want to proceed with this action?',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ConfirmDialog
+  :open="isOpen"
+  title="Confirm Action"
+  message="Are you sure you want to proceed with this action?"
+  @confirm="handleConfirm"
+  @cancel="isOpen = false"
+/>`,
+      },
+    },
+  },
 }
 
 export const DangerVariant: Story = {
@@ -71,6 +84,21 @@ export const DangerVariant: Story = {
     message: 'Are you sure you want to delete this item? This action cannot be undone.',
     variant: 'danger',
     confirmText: 'Delete',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ConfirmDialog
+  :open="isOpen"
+  title="Delete Item"
+  message="Are you sure you want to delete this item? This action cannot be undone."
+  variant="danger"
+  confirm-text="Delete"
+  @confirm="handleDelete"
+  @cancel="isOpen = false"
+/>`,
+      },
+    },
   },
 }
 
@@ -99,6 +127,21 @@ export const WarningVariant: Story = {
     variant: 'warning',
     confirmText: 'Reset',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ConfirmDialog
+  :open="isOpen"
+  title="Reset Settings"
+  message="This will reset all settings to their default values."
+  variant="warning"
+  confirm-text="Reset"
+  @confirm="handleReset"
+  @cancel="isOpen = false"
+/>`,
+      },
+    },
+  },
 }
 
 export const SuccessVariant: Story = {
@@ -125,6 +168,21 @@ export const SuccessVariant: Story = {
     message: 'Your article will be visible to the public. Are you ready to publish?',
     variant: 'success',
     confirmText: 'Publish',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ConfirmDialog
+  :open="isOpen"
+  title="Publish Article"
+  message="Your article will be visible to the public. Are you ready to publish?"
+  variant="success"
+  confirm-text="Publish"
+  @confirm="handlePublish"
+  @cancel="isOpen = false"
+/>`,
+      },
+    },
   },
 }
 
@@ -160,6 +218,20 @@ export const WithLoading: Story = {
     title: 'Save Changes',
     message: 'Click confirm to see the loading state.',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ConfirmDialog
+  :open="isOpen"
+  :loading="loading"
+  title="Save Changes"
+  message="Click confirm to see the loading state."
+  @confirm="handleConfirm"
+  @cancel="isOpen = false"
+/>`,
+      },
+    },
+  },
 }
 
 export const CustomIcon: Story = {
@@ -186,6 +258,21 @@ export const CustomIcon: Story = {
     message: 'This will send the email to all selected recipients.',
     icon: 'lucide:mail',
     confirmText: 'Send',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ConfirmDialog
+  :open="isOpen"
+  title="Send Email"
+  message="This will send the email to all selected recipients."
+  icon="lucide:mail"
+  confirm-text="Send"
+  @confirm="handleSend"
+  @cancel="isOpen = false"
+/>`,
+      },
+    },
   },
 }
 
@@ -214,5 +301,21 @@ export const CustomButtonText: Story = {
     confirmText: 'Yes, log out',
     cancelText: 'Stay logged in',
     variant: 'warning',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<ConfirmDialog
+  :open="isOpen"
+  title="Log Out"
+  message="Are you sure you want to log out of your account?"
+  confirm-text="Yes, log out"
+  cancel-text="Stay logged in"
+  variant="warning"
+  @confirm="handleLogout"
+  @cancel="isOpen = false"
+/>`,
+      },
+    },
   },
 }

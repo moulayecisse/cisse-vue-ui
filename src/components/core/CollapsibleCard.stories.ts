@@ -36,6 +36,15 @@ export const Default: Story = {
       </CollapsibleCard>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CollapsibleCard title="Collapsible Section" description="Click the chevron to toggle">
+  <p>This content can be collapsed or expanded.</p>
+</CollapsibleCard>`,
+      },
+    },
+  },
 }
 
 export const InitiallyCollapsed: Story = {
@@ -55,6 +64,15 @@ export const InitiallyCollapsed: Story = {
       </CollapsibleCard>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CollapsibleCard title="Initially Collapsed" :default-expanded="false">
+  <p>This content was hidden initially.</p>
+</CollapsibleCard>`,
+      },
+    },
+  },
 }
 
 export const WithActions: Story = {
@@ -83,6 +101,20 @@ export const WithActions: Story = {
       </CollapsibleCard>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CollapsibleCard title="Settings" description="Application settings">
+  <template #actions>
+    <Button size="sm" variant="outline">Reset</Button>
+  </template>
+  <div class="space-y-4">
+    <!-- Your content here -->
+  </div>
+</CollapsibleCard>`,
+      },
+    },
+  },
 }
 
 export const MultipleCards: Story = {
@@ -102,6 +134,21 @@ export const MultipleCards: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<CollapsibleCard title="Section 1" description="First section">
+  <p>Content for section 1</p>
+</CollapsibleCard>
+<CollapsibleCard title="Section 2" :default-expanded="false">
+  <p>Content for section 2</p>
+</CollapsibleCard>
+<CollapsibleCard title="Section 3" :default-expanded="false">
+  <p>Content for section 3</p>
+</CollapsibleCard>`,
+      },
+    },
+  },
 }
 
 export const LongContent: Story = {

@@ -26,6 +26,13 @@ export const Default: Story = {
     },
     template: '<Rating v-bind="args" v-model="value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" />`,
+      },
+    },
+  },
 }
 
 export const WithValue: Story = {
@@ -37,6 +44,13 @@ export const WithValue: Story = {
     },
     template: '<Rating v-bind="args" v-model="value" show-value />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" show-value />`,
+      },
+    },
+  },
 }
 
 export const HalfStars: Story = {
@@ -48,6 +62,13 @@ export const HalfStars: Story = {
     },
     template: '<Rating v-bind="args" v-model="value" allow-half show-value />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" allow-half show-value />`,
+      },
+    },
+  },
 }
 
 export const ReadOnly: Story = {
@@ -56,12 +77,26 @@ export const ReadOnly: Story = {
     readonly: true,
     showValue: true,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating :model-value="4" readonly show-value />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
   args: {
     modelValue: 3,
     disabled: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating :model-value="3" disabled />`,
+      },
+    },
   },
 }
 
@@ -74,6 +109,13 @@ export const SmallSize: Story = {
     },
     template: '<Rating v-bind="args" v-model="value" size="sm" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" size="sm" />`,
+      },
+    },
+  },
 }
 
 export const LargeSize: Story = {
@@ -85,6 +127,13 @@ export const LargeSize: Story = {
     },
     template: '<Rating v-bind="args" v-model="value" size="lg" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" size="lg" />`,
+      },
+    },
+  },
 }
 
 export const CustomColor: Story = {
@@ -96,6 +145,13 @@ export const CustomColor: Story = {
     },
     template: '<Rating v-bind="args" v-model="value" color="text-red-500" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" color="text-red-500" />`,
+      },
+    },
+  },
 }
 
 export const TenStars: Story = {
@@ -107,6 +163,13 @@ export const TenStars: Story = {
     },
     template: '<Rating v-bind="args" v-model="value" :max="10" show-value />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" :max="10" show-value />`,
+      },
+    },
+  },
 }
 
 export const ProductRating: Story = {
@@ -123,6 +186,14 @@ export const ProductRating: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" allow-half readonly />
+<span>{{ rating }} out of 5 (128 reviews)</span>`,
+      },
+    },
+  },
 }
 
 export const AllSizes: Story = {
@@ -149,4 +220,13 @@ export const AllSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Rating v-model="rating" size="sm" />
+<Rating v-model="rating" size="md" />
+<Rating v-model="rating" size="lg" />`,
+      },
+    },
+  },
 }

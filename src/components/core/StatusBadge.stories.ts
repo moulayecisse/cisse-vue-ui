@@ -42,6 +42,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<StatusBadge v-bind="args">Default</StatusBadge>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="default">Default</StatusBadge>`,
+      },
+    },
+  },
 }
 
 export const Success: Story = {
@@ -53,6 +60,13 @@ export const Success: Story = {
     setup: () => ({ args }),
     template: '<StatusBadge v-bind="args">Active</StatusBadge>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="success">Active</StatusBadge>`,
+      },
+    },
+  },
 }
 
 export const Error: Story = {
@@ -64,6 +78,13 @@ export const Error: Story = {
     setup: () => ({ args }),
     template: '<StatusBadge v-bind="args">Failed</StatusBadge>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="error">Failed</StatusBadge>`,
+      },
+    },
+  },
 }
 
 export const Warning: Story = {
@@ -75,6 +96,13 @@ export const Warning: Story = {
     setup: () => ({ args }),
     template: '<StatusBadge v-bind="args">Pending</StatusBadge>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="warning">Pending</StatusBadge>`,
+      },
+    },
+  },
 }
 
 export const Info: Story = {
@@ -86,6 +114,13 @@ export const Info: Story = {
     setup: () => ({ args }),
     template: '<StatusBadge v-bind="args">Info</StatusBadge>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="info">Info</StatusBadge>`,
+      },
+    },
+  },
 }
 
 export const SemanticVariants: Story = {
@@ -101,6 +136,17 @@ export const SemanticVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="default">Default</StatusBadge>
+<StatusBadge variant="success">Success</StatusBadge>
+<StatusBadge variant="error">Error</StatusBadge>
+<StatusBadge variant="warning">Warning</StatusBadge>
+<StatusBadge variant="info">Info</StatusBadge>`,
+      },
+    },
+  },
 }
 
 export const ColorVariants: Story = {
@@ -119,6 +165,20 @@ export const ColorVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="blue">Blue</StatusBadge>
+<StatusBadge variant="orange">Orange</StatusBadge>
+<StatusBadge variant="green">Green</StatusBadge>
+<StatusBadge variant="red">Red</StatusBadge>
+<StatusBadge variant="yellow">Yellow</StatusBadge>
+<StatusBadge variant="purple">Purple</StatusBadge>
+<StatusBadge variant="pink">Pink</StatusBadge>
+<StatusBadge variant="gray">Gray</StatusBadge>`,
+      },
+    },
+  },
 }
 
 export const UseCases: Story = {
@@ -145,4 +205,14 @@ export const UseCases: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<StatusBadge variant="success">Delivered</StatusBadge>
+<StatusBadge variant="warning">Pending</StatusBadge>
+<StatusBadge variant="error">Suspended</StatusBadge>
+<StatusBadge variant="purple">Premium</StatusBadge>`,
+      },
+    },
+  },
 }

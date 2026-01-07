@@ -26,6 +26,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<LoadingSpinner v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<LoadingSpinner />`,
+      },
+    },
+  },
 }
 
 export const WithText: Story = {
@@ -37,6 +44,13 @@ export const WithText: Story = {
     setup: () => ({ args }),
     template: '<LoadingSpinner v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<LoadingSpinner text="Loading..." />`,
+      },
+    },
+  },
 }
 
 export const Small: Story = {
@@ -49,6 +63,13 @@ export const Small: Story = {
     setup: () => ({ args }),
     template: '<LoadingSpinner v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<LoadingSpinner size="sm" text="Loading..." />`,
+      },
+    },
+  },
 }
 
 export const Large: Story = {
@@ -61,6 +82,13 @@ export const Large: Story = {
     setup: () => ({ args }),
     template: '<LoadingSpinner v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<LoadingSpinner size="lg" text="Please wait..." />`,
+      },
+    },
+  },
 }
 
 export const AllSizes: Story = {
@@ -83,6 +111,15 @@ export const AllSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<LoadingSpinner size="sm" />
+<LoadingSpinner size="md" />
+<LoadingSpinner size="lg" />`,
+      },
+    },
+  },
 }
 
 export const InCard: Story = {
@@ -94,4 +131,13 @@ export const InCard: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div class="rounded-lg border p-8">
+  <LoadingSpinner text="Fetching data..." />
+</div>`,
+      },
+    },
+  },
 }

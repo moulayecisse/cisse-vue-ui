@@ -50,6 +50,26 @@ export const Default: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Personal Information"
+  subtitle="Enter your personal details"
+  icon="heroicons:user"
+>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <FormGroup label="First Name" required>
+      <FormInput placeholder="John" />
+    </FormGroup>
+    <FormGroup label="Last Name" required>
+      <FormInput placeholder="Doe" />
+    </FormGroup>
+  </div>
+</FormSection>`,
+      },
+    },
+  },
 }
 
 export const WithFooter: Story = {
@@ -80,6 +100,29 @@ export const WithFooter: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Account Settings"
+  subtitle="Manage your account preferences"
+  icon="heroicons:cog-6-tooth"
+>
+  <div class="space-y-4">
+    <FormGroup label="Username">
+      <FormInput placeholder="johndoe" />
+    </FormGroup>
+  </div>
+  <template #footer>
+    <div class="flex justify-end gap-3">
+      <Button variant="outline">Cancel</Button>
+      <Button>Save Changes</Button>
+    </div>
+  </template>
+</FormSection>`,
+      },
+    },
+  },
 }
 
 export const Collapsible: Story = {
@@ -105,6 +148,24 @@ export const Collapsible: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Advanced Options"
+  subtitle="Click to expand"
+  icon="heroicons:adjustments-horizontal"
+  collapsible
+>
+  <div class="space-y-4">
+    <FormGroup label="API Key">
+      <FormInput placeholder="sk-..." />
+    </FormGroup>
+  </div>
+</FormSection>`,
+      },
+    },
+  },
 }
 
 export const CollapsedByDefault: Story = {
@@ -123,6 +184,20 @@ export const CollapsedByDefault: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Hidden Section"
+  icon="heroicons:eye-slash"
+  collapsible
+  collapsed
+>
+  <p>This content is hidden by default.</p>
+</FormSection>`,
+      },
+    },
+  },
 }
 
 export const SuccessColor: Story = {
@@ -141,6 +216,20 @@ export const SuccessColor: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Verification Complete"
+  subtitle="Your account has been verified"
+  icon="heroicons:check-circle"
+  icon-color="success"
+>
+  <p>All verification steps have been completed successfully.</p>
+</FormSection>`,
+      },
+    },
+  },
 }
 
 export const WarningColor: Story = {
@@ -159,6 +248,20 @@ export const WarningColor: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Action Required"
+  subtitle="Please complete the following"
+  icon="heroicons:exclamation-triangle"
+  icon-color="warning"
+>
+  <p>Some fields require your attention.</p>
+</FormSection>`,
+      },
+    },
+  },
 }
 
 export const DangerColor: Story = {
@@ -178,6 +281,21 @@ export const DangerColor: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Danger Zone"
+  subtitle="Irreversible actions"
+  icon="heroicons:trash"
+  icon-color="danger"
+>
+  <p>Once you delete your account, there is no going back.</p>
+  <Button variant="danger">Delete Account</Button>
+</FormSection>`,
+      },
+    },
+  },
 }
 
 export const NoBorder: Story = {
@@ -195,4 +313,17 @@ export const NoBorder: Story = {
       </FormSection>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormSection
+  title="Simple Section"
+  icon="heroicons:document"
+  :bordered="false"
+>
+  <p>A section without border styling.</p>
+</FormSection>`,
+      },
+    },
+  },
 }

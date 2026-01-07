@@ -49,6 +49,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<Avatar v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar />`,
+      },
+    },
+  },
 }
 
 export const WithImage: Story = {
@@ -61,6 +68,13 @@ export const WithImage: Story = {
     setup: () => ({ args }),
     template: '<Avatar v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar src="https://i.pravatar.cc/150?img=1" alt="User avatar" />`,
+      },
+    },
+  },
 }
 
 export const WithInitials: Story = {
@@ -72,6 +86,13 @@ export const WithInitials: Story = {
     setup: () => ({ args }),
     template: '<Avatar v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar name="John Doe" />`,
+      },
+    },
+  },
 }
 
 export const AllSizes: Story = {
@@ -88,6 +109,18 @@ export const AllSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar size="xs" name="XS" />
+<Avatar size="sm" name="SM" />
+<Avatar size="md" name="MD" />
+<Avatar size="lg" name="LG" />
+<Avatar size="xl" name="XL" />
+<Avatar size="2xl" name="2X" />`,
+      },
+    },
+  },
 }
 
 export const WithStatus: Story = {
@@ -102,6 +135,16 @@ export const WithStatus: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar name="Online" status="online" />
+<Avatar name="Offline" status="offline" />
+<Avatar name="Away" status="away" />
+<Avatar name="Busy" status="busy" />`,
+      },
+    },
+  },
 }
 
 export const RoundedVariants: Story = {
@@ -115,6 +158,15 @@ export const RoundedVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar name="Full" rounded="full" />
+<Avatar name="Large" rounded="lg" />
+<Avatar name="Medium" rounded="md" />`,
+      },
+    },
+  },
 }
 
 export const ImageWithStatus: Story = {
@@ -128,6 +180,13 @@ export const ImageWithStatus: Story = {
     setup: () => ({ args }),
     template: '<Avatar v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar src="https://i.pravatar.cc/150?img=3" status="online" size="lg" />`,
+      },
+    },
+  },
 }
 
 export const ManualColor: Story = {
@@ -140,6 +199,13 @@ export const ManualColor: Story = {
     setup: () => ({ args }),
     template: '<Avatar v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar name="John Doe" color="blue" />`,
+      },
+    },
+  },
 }
 
 export const AutoColorFromName: Story = {
@@ -159,6 +225,15 @@ export const AutoColorFromName: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar name="Alice Martin" autoColor />
+<Avatar name="Bob Smith" autoColor />
+<Avatar name="Charlie Brown" autoColor />`,
+      },
+    },
+  },
 }
 
 export const AllColors: Story = {
@@ -187,6 +262,18 @@ export const AllColors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Avatar name="G" color="gray" />
+<Avatar name="R" color="red" />
+<Avatar name="B" color="blue" />
+<Avatar name="G" color="green" />
+<Avatar name="P" color="purple" />
+<!-- and more colors... -->`,
+      },
+    },
+  },
 }
 
 export const ColorPriority: Story = {
@@ -210,4 +297,18 @@ export const ColorPriority: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<!-- Auto color from name -->
+<Avatar name="Alice" autoColor />
+
+<!-- Manual color -->
+<Avatar name="Alice" color="pink" />
+
+<!-- Both: manual color takes priority -->
+<Avatar name="Alice" autoColor color="pink" />`,
+      },
+    },
+  },
 }

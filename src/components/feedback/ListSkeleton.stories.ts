@@ -28,6 +28,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<ListSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ListSkeleton />`,
+      },
+    },
+  },
 }
 
 export const WithActions: Story = {
@@ -39,6 +46,13 @@ export const WithActions: Story = {
     setup: () => ({ args }),
     template: '<ListSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ListSkeleton show-action />`,
+      },
+    },
+  },
 }
 
 export const NoAvatar: Story = {
@@ -50,6 +64,13 @@ export const NoAvatar: Story = {
     setup: () => ({ args }),
     template: '<ListSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ListSkeleton :show-avatar="false" />`,
+      },
+    },
+  },
 }
 
 export const SimpleList: Story = {
@@ -62,6 +83,13 @@ export const SimpleList: Story = {
     setup: () => ({ args }),
     template: '<ListSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ListSkeleton :show-avatar="false" :show-secondary="false" />`,
+      },
+    },
+  },
 }
 
 export const ThreeItems: Story = {
@@ -73,6 +101,13 @@ export const ThreeItems: Story = {
     setup: () => ({ args }),
     template: '<ListSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ListSkeleton :items="3" />`,
+      },
+    },
+  },
 }
 
 export const FullFeatured: Story = {
@@ -87,6 +122,18 @@ export const FullFeatured: Story = {
     setup: () => ({ args }),
     template: '<ListSkeleton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ListSkeleton
+  :items="5"
+  show-avatar
+  show-secondary
+  show-action
+/>`,
+      },
+    },
+  },
 }
 
 export const InCard: Story = {
@@ -103,4 +150,13 @@ export const InCard: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Card>
+  <ListSkeleton :items="4" show-avatar />
+</Card>`,
+      },
+    },
+  },
 }

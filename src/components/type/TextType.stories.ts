@@ -22,6 +22,13 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<TextType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextType value="Hello, World!" />`,
+      },
+    },
+  },
 }
 
 export const NullValue: Story = {
@@ -33,6 +40,13 @@ export const NullValue: Story = {
     setup: () => ({ args }),
     template: '<TextType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextType :value="null" />`,
+      },
+    },
+  },
 }
 
 export const UndefinedValue: Story = {
@@ -44,6 +58,13 @@ export const UndefinedValue: Story = {
     setup: () => ({ args }),
     template: '<TextType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextType :value="undefined" />`,
+      },
+    },
+  },
 }
 
 export const NumberAsText: Story = {
@@ -55,6 +76,13 @@ export const NumberAsText: Story = {
     setup: () => ({ args }),
     template: '<TextType v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextType :value="12345" />`,
+      },
+    },
+  },
 }
 
 export const InTable: Story = {
@@ -81,4 +109,22 @@ export const InTable: Story = {
       </table>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<table>
+  <tbody>
+    <tr>
+      <td><TextType value="John Doe" /></td>
+      <td><TextType value="john@example.com" /></td>
+    </tr>
+    <tr>
+      <td><TextType value="Jane Smith" /></td>
+      <td><TextType value="jane@example.com" /></td>
+    </tr>
+  </tbody>
+</table>`,
+      },
+    },
+  },
 }

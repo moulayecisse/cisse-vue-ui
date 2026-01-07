@@ -56,6 +56,17 @@ export const Default: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AutocompleteComponent
+  v-model="value"
+  :options="options"
+  placeholder="Search countries..."
+/>`,
+      },
+    },
+  },
 }
 
 export const WithLabel: Story = {
@@ -76,6 +87,18 @@ export const WithLabel: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AutocompleteComponent
+  v-model="value"
+  :options="options"
+  label="Country"
+  placeholder="Select a country..."
+/>`,
+      },
+    },
+  },
 }
 
 export const WithPreselectedValue: Story = {
@@ -96,6 +119,18 @@ export const WithPreselectedValue: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `AutocompleteComponent
+          v-model="value"
+          :options="options"
+          label="Country"
+          placeholder="Select a country..."
+        />`,
+      },
+    },
+  },
 }
 
 export const WithError: Story = {
@@ -117,6 +152,19 @@ export const WithError: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AutocompleteComponent
+  v-model="value"
+  :options="options"
+  label="Country"
+  placeholder="Select a country..."
+  error="Please select a country"
+/>`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -138,6 +186,19 @@ export const Disabled: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AutocompleteComponent
+  v-model="value"
+  :options="options"
+  label="Country"
+  placeholder="Select a country..."
+  disabled
+/>`,
+      },
+    },
+  },
 }
 
 export const UserSearch: Story = {
@@ -158,6 +219,18 @@ export const UserSearch: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AutocompleteComponent
+          v-model="value"
+          :options="options"
+          label="Assign to"
+          placeholder="Search users..."
+        />`,
+      },
+    },
+  },
 }
 
 export const ManyOptions: Story = {
@@ -183,6 +256,18 @@ export const ManyOptions: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AutocompleteComponent
+          v-model="value"
+          :options="options"
+          label="Select Item"
+          placeholder="Search items..."
+        />`,
+      },
+    },
+  },
 }
 
 export const CustomNoResults: Story = {
@@ -203,6 +288,18 @@ export const CustomNoResults: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<AutocompleteComponent
+          v-model="value"
+          :options="options"
+          placeholder="Search countries..."
+          no-results-text="No countries match your search"
+        />`,
+      },
+    },
+  },
 }
 
 export const InForm: Story = {
@@ -234,4 +331,28 @@ export const InForm: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div class="max-w-md space-y-4">
+        <AutocompleteComponent
+          v-model="country"
+          :options="countryOptions"
+          label="Country"
+          placeholder="Select your country..."
+        />
+        <AutocompleteComponent
+          v-model="user"
+          :options="userOptions"
+          label="Account Manager"
+          placeholder="Select account manager..."
+        />
+        <div class="pt-4 text-sm text-gray-600">
+          <p>Country: {{ country || 'Not selected' }}</p>
+          <p>Manager: {{ user || 'Not selected' }}</p>
+        </div>
+      </div>`,
+      },
+    },
+  },
 }

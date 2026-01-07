@@ -31,6 +31,13 @@ export const Default: Story = {
       </FormLabel>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormLabel html-for="input-id">Label Text</FormLabel>`,
+      },
+    },
+  },
 }
 
 export const ErrorState: Story = {
@@ -48,6 +55,13 @@ export const ErrorState: Story = {
       </FormLabel>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormLabel html-for="input-id" error>Label with Error</FormLabel>`,
+      },
+    },
+  },
 }
 
 export const WithInput: Story = {
@@ -60,6 +74,14 @@ export const WithInput: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormLabel html-for="email">Email Address</FormLabel>
+<FormInput id="email" type="email" placeholder="Enter your email" />`,
+      },
+    },
+  },
 }
 
 export const WithInputAndHelp: Story = {
@@ -73,6 +95,15 @@ export const WithInputAndHelp: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormLabel html-for="password">Password</FormLabel>
+<FormInput id="password" type="password" placeholder="Enter password" />
+<FormHelp text="Must be at least 8 characters." />`,
+      },
+    },
+  },
 }
 
 export const ErrorWithInput: Story = {
@@ -86,6 +117,15 @@ export const ErrorWithInput: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormLabel html-for="username" error>Username</FormLabel>
+<FormInput id="username" placeholder="Enter username" />
+<FormHelp error text="Username is already taken." />`,
+      },
+    },
+  },
 }
 
 export const RequiredField: Story = {
@@ -100,6 +140,16 @@ export const RequiredField: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FormLabel html-for="name">
+  Full Name <span class="text-red-500">*</span>
+</FormLabel>
+<FormInput id="name" placeholder="Enter your full name" />`,
+      },
+    },
+  },
 }
 
 export const MultipleFields: Story = {
@@ -128,4 +178,26 @@ export const MultipleFields: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<div>
+  <FormLabel html-for="first-name">First Name</FormLabel>
+  <FormInput id="first-name" placeholder="John" />
+</div>
+
+<div>
+  <FormLabel html-for="email-field">Email</FormLabel>
+  <FormInput id="email-field" type="email" placeholder="john@example.com" />
+  <FormHelp text="We'll use this for account recovery." />
+</div>
+
+<div>
+  <FormLabel html-for="invalid-email" error>Email (Invalid)</FormLabel>
+  <FormInput id="invalid-email" type="email" placeholder="invalid-email" />
+  <FormHelp error text="Please enter a valid email address." />
+</div>`,
+      },
+    },
+  },
 }

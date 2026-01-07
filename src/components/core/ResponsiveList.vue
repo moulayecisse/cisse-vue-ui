@@ -3,7 +3,7 @@ import { computed, useSlots } from 'vue'
 import { useBreakpoints } from '@vueuse/core'
 import type { Property, SortDirection } from '@/types'
 import MobileList from './MobileList.vue'
-import TableComponent from './TableComponent.vue'
+import { DataTable as TableComponent } from './table'
 import CardComponent from './CardComponent.vue'
 
 export interface ResponsiveListColumn {

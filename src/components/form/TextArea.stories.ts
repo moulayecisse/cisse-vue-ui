@@ -33,6 +33,13 @@ export const Default: Story = {
     label: 'Description',
     placeholder: 'Enter a description...',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="description" label="Description" placeholder="Enter a description..." />`,
+      },
+    },
+  },
 }
 
 export const WithHint: Story = {
@@ -42,6 +49,19 @@ export const WithHint: Story = {
     hint: 'Write a short bio to introduce yourself to others.',
     rows: 4,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea
+  v-model="bio"
+  label="Bio"
+  placeholder="Tell us about yourself..."
+  hint="Write a short bio to introduce yourself to others."
+  :rows="4"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithError: Story = {
@@ -50,6 +70,13 @@ export const WithError: Story = {
     placeholder: 'Enter a description...',
     error: 'Description is required',
     modelValue: '',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="description" label="Description" error="Description is required" />`,
+      },
+    },
   },
 }
 
@@ -61,6 +88,13 @@ export const WithMaxLength: Story = {
     showCount: true,
     modelValue: 'This is a sample tweet with character count.',
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="tweet" label="Tweet" :max-length="280" show-count />`,
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -69,6 +103,13 @@ export const Disabled: Story = {
     placeholder: 'Notes...',
     disabled: true,
     modelValue: 'This field is disabled',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="notes" label="Notes" disabled />`,
+      },
+    },
   },
 }
 
@@ -79,6 +120,13 @@ export const Readonly: Story = {
     modelValue: 'These are the terms and conditions that cannot be edited.',
     rows: 4,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="terms" label="Terms" readonly />`,
+      },
+    },
+  },
 }
 
 export const NoResize: Story = {
@@ -88,6 +136,13 @@ export const NoResize: Story = {
     resize: 'none',
     rows: 4,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="text" label="Fixed Size" resize="none" :rows="4" />`,
+      },
+    },
+  },
 }
 
 export const Required: Story = {
@@ -96,6 +151,13 @@ export const Required: Story = {
     placeholder: 'Please provide your feedback...',
     required: true,
     hint: 'This field is required.',
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="feedback" label="Feedback" required hint="This field is required." />`,
+      },
+    },
   },
 }
 
@@ -128,6 +190,15 @@ export const States: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="normal" label="Normal" />
+<TextArea v-model="invalid" label="Invalid" error="This field has an error" />
+<TextArea v-model="disabled" label="Disabled" disabled />`,
+      },
+    },
+  },
 }
 
 export const Sizes: Story = {
@@ -162,4 +233,13 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<TextArea v-model="small" label="Small" size="sm" />
+<TextArea v-model="medium" label="Medium" size="md" />
+<TextArea v-model="large" label="Large" size="lg" />`,
+      },
+    },
+  },
 }

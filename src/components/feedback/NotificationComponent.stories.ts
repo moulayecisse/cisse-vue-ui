@@ -32,6 +32,21 @@ export const Success: Story = {
     setup: () => ({ args }),
     template: '<NotificationComponent v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="{
+    id: '1',
+    type: 'success',
+    title: 'Success',
+    message: 'Your changes have been saved successfully.'
+  }"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const Info: Story = {
@@ -48,6 +63,21 @@ export const Info: Story = {
     setup: () => ({ args }),
     template: '<NotificationComponent v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="{
+    id: '2',
+    type: 'info',
+    title: 'Information',
+    message: 'A new version is available for download.'
+  }"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const Warning: Story = {
@@ -64,6 +94,21 @@ export const Warning: Story = {
     setup: () => ({ args }),
     template: '<NotificationComponent v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="{
+    id: '3',
+    type: 'warning',
+    title: 'Warning',
+    message: 'Your session will expire in 5 minutes.'
+  }"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const Error: Story = {
@@ -80,6 +125,21 @@ export const Error: Story = {
     setup: () => ({ args }),
     template: '<NotificationComponent v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="{
+    id: '4',
+    type: 'error',
+    title: 'Error',
+    message: 'Failed to save changes. Please try again.'
+  }"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const MessageOnly: Story = {
@@ -95,6 +155,19 @@ export const MessageOnly: Story = {
     setup: () => ({ args }),
     template: '<NotificationComponent v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="{
+    id: '5',
+    type: 'info',
+    message: 'This is a notification without a title.'
+  }"
+/>`,
+      },
+    },
+  },
 }
 
 export const TitleOnly: Story = {
@@ -111,6 +184,19 @@ export const TitleOnly: Story = {
     setup: () => ({ args }),
     template: '<NotificationComponent v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="{
+    id: '6',
+    type: 'success',
+    title: 'Operation completed'
+  }"
+/>`,
+      },
+    },
+  },
 }
 
 export const LongMessage: Story = {
@@ -127,6 +213,20 @@ export const LongMessage: Story = {
     setup: () => ({ args }),
     template: '<NotificationComponent v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="{
+    id: '7',
+    type: 'info',
+    title: 'System Update',
+    message: 'A scheduled maintenance will occur on December 25th...'
+  }"
+/>`,
+      },
+    },
+  },
 }
 
 export const WithDismissHandler: Story = {
@@ -148,6 +248,16 @@ export const WithDismissHandler: Story = {
     },
     template: '<NotificationComponent v-bind="args" @dismiss="handleDismiss" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  :notification="notification"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
 
 export const AllTypes: Story = {
@@ -172,4 +282,16 @@ export const AllTypes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<NotificationComponent
+  v-for="notification in notifications"
+  :key="notification.id"
+  :notification="notification"
+  @dismiss="handleDismiss"
+/>`,
+      },
+    },
+  },
 }
