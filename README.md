@@ -94,6 +94,7 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 |-----------|-------------|
 | `Button` | Button with variants (primary, secondary, outline, ghost, danger, success), sizes, icons, loading state |
 | `CardComponent` | Card container with header, content, and footer slots |
+| `CardWrapper` | Advanced card with shadow/border/padding variants, image positions, clickable/selected states, loading skeleton |
 | `TableComponent` | Data table with sorting, selection, actions, and custom column rendering |
 | `MobileList` | Mobile-optimized card-based list with selection support |
 | `ResponsiveList` | Combines MobileList (mobile) and TableComponent (desktop) with automatic breakpoint switching |
@@ -102,37 +103,58 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 | `Dropdown` | Dropdown menu with items, icons, and dividers |
 | `Avatar` | User avatar with image, initials, or icon fallback |
 | `AutocompleteComponent` | Searchable select with keyboard navigation |
-| `MenuItem` | Navigation menu item with icon, active state detection, and route support |
+| `MenuItem` | Navigation menu item with icon, active state detection, flyout submenus, and route support |
 | `StatusBadge` | Colored status indicator badge |
 | `TableAction` | Icon button for table row actions |
 | `Stepper` | Multi-step progress indicator with horizontal/vertical orientation |
 | `CollapsibleCard` | Card that can expand/collapse its content |
 | `Accordion` | Expandable content sections with single/multiple mode |
+| `AccordionItem` | Individual accordion panel (use with Accordion) |
 | `Breadcrumb` | Navigation breadcrumb trail |
 | `Drawer` | Slide-out panel from any edge (left, right, top, bottom) |
 | `Popover` | Floating content panel triggered by click or hover |
 | `Timeline` | Vertical timeline for events/history display |
 | `Tooltip` | Hover tooltip with customizable position |
+| `DarkModeToggle` | Dark mode toggle button with icon variants |
+| `StatsCard` | Statistics display card with icon, value, and trend |
+| `StatsGrid` | Grid layout for multiple StatsCard components |
+| `FilterTabs` | Tabbed filter buttons with counts |
 
 ### Form
 
 | Component | Description |
 |-----------|-------------|
-| `FormInput` | Text input with validation states and ARIA support |
+| `FormInput` | Text input with validation states, sizes (sm/md/lg), and ARIA support |
 | `FormSelect` | Select dropdown with search, multi-select, and validation |
 | `FormGroup` | Form field wrapper with label, help text, and error states |
 | `FormLabel` | Styled form label with required indicator |
 | `FormHelp` | Help/error text for form fields |
+| `FormSection` | Grouped form section with title and description |
+| `FormActions` | Form button container with alignment options |
+| `InputWrapper` | Wrapper for consistent input styling |
 | `SearchInput` | Search input with icon and clear button |
 | `Switch` | Toggle switch with label and description |
 | `Checkbox` | Checkbox with label, description, and indeterminate state |
+| `CheckboxGroup` | Group of related checkboxes with select all |
 | `Combobox` | Multi-select combobox with search and tags |
+| `TagsInput` | Tag input with add/remove functionality |
+| `TextArea` | Multi-line text input with auto-resize |
 | `DatePicker` | Calendar date picker with min/max dates |
 | `ColorPicker` | Color selection with swatches and custom input |
+| `IconPicker` | Icon selection from Iconify with search |
 | `FileUpload` | Drag-and-drop file upload with preview |
 | `Rating` | Star rating input with half-star support |
 | `Slider` | Single value slider input |
 | `RangeSlider` | Dual-handle range slider |
+| `EmailInput` | Email input with validation |
+| `PasswordInput` | Password input with visibility toggle |
+| `PhoneInput` | Phone number input with formatting |
+| `NumberInput` | Numeric input with increment/decrement |
+| `MoneyInput` | Currency input with formatting |
+| `PercentInput` | Percentage input with formatting |
+| `QuantityInput` | Quantity input with +/- buttons |
+| `URLInput` | URL input with validation |
+| `OTPInput` | One-time password input with multiple digits |
 
 ### Feedback
 
@@ -161,6 +183,7 @@ app.use(VueTailwindUI, { components: ['Button', 'CardComponent'] })
 | `AuthLayout` | Split-panel authentication layout with branding and form sections |
 | `BaseLayout` | App shell with sidebar, header, main content area, and route-aware menu |
 | `PageLayout` | Page wrapper with breadcrumbs |
+| `PageHero` | Hero section with title, description, and action slots |
 
 ### Type Display
 
@@ -183,7 +206,8 @@ import {
   useModal,
   useToast,
   useFocusTrap,
-  useId
+  useId,
+  useInputStyles
 } from 'cisse-vue-ui/composables'
 ```
 
@@ -350,6 +374,36 @@ const { id, related } = useId({ prefix: 'modal' })
 </template>
 ```
 
+### useInputStyles
+
+Centralized input styling for form components with consistent sizing, states, and dark mode:
+
+```typescript
+import { useInputStyles } from 'cisse-vue-ui/composables'
+import { ref, computed } from 'vue'
+
+const size = ref<'sm' | 'md' | 'lg'>('md')
+const disabled = ref(false)
+const invalid = ref(false)
+
+const {
+  inputClasses,      // Classes for input elements
+  triggerClasses,    // Classes for dropdown triggers
+  wrapperClasses,    // Classes for input wrappers
+  iconClasses,       // Classes for input icons
+} = useInputStyles({
+  size,
+  disabled,
+  invalid,
+  focused: computed(() => false)
+})
+```
+
+Size variants:
+- `sm`: Smaller text (text-sm), reduced padding (px-2.5 py-1.5)
+- `md`: Default size (text-sm), standard padding (px-3 py-2)
+- `lg`: Larger text (text-base), increased padding (px-4 py-2.5)
+
 ## Types
 
 ```typescript
@@ -501,6 +555,99 @@ const steps = [
   label="Accept terms"
   description="I agree to the terms and conditions"
 />
+```
+
+### CardWrapper
+
+```vue
+<script setup>
+import { CardWrapper, Button } from 'cisse-vue-ui'
+</script>
+
+<template>
+  <!-- Basic card with title and icon -->
+  <CardWrapper
+    title="Dashboard"
+    description="Overview of your account"
+    icon="lucide:layout-dashboard"
+  >
+    <div class="p-5">
+      <p>Card content goes here.</p>
+    </div>
+  </CardWrapper>
+
+  <!-- Card with image -->
+  <CardWrapper
+    title="Product"
+    image="/product.jpg"
+    image-position="top"
+    image-height="200px"
+  >
+    <div class="p-5">Product description</div>
+  </CardWrapper>
+
+  <!-- Clickable card with accent -->
+  <CardWrapper
+    title="Clickable Card"
+    accent="primary"
+    clickable
+    @click="handleClick"
+  >
+    <div class="p-5">Click me!</div>
+  </CardWrapper>
+
+  <!-- Card with actions -->
+  <CardWrapper title="Settings" icon="lucide:settings">
+    <template #actions>
+      <Button size="sm" variant="outline">Cancel</Button>
+      <Button size="sm">Save</Button>
+    </template>
+    <div class="p-5">Settings content</div>
+    <template #footer>
+      <p class="text-sm text-gray-500">Last updated: Today</p>
+    </template>
+  </CardWrapper>
+</template>
+```
+
+#### CardWrapper Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `string` | - | Card title |
+| `description` | `string` | - | Card description |
+| `icon` | `string` | - | Header icon (Iconify format) |
+| `shadow` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Shadow level |
+| `rounded` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'lg'` | Border radius |
+| `padding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'none'` | Content padding |
+| `border` | `'none' \| 'default' \| 'primary' \| 'secondary'` | `'none'` | Border style |
+| `variant` | `'default' \| 'glass' \| 'outline' \| 'flat'` | `'default'` | Visual variant |
+| `accent` | `'none' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'none'` | Colored accent border |
+| `clickable` | `boolean` | `false` | Make card clickable with hover effects |
+| `selected` | `boolean` | `false` | Selected state with ring indicator |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `image` | `string` | - | Image URL |
+| `imagePosition` | `'top' \| 'bottom' \| 'left' \| 'right' \| 'background'` | `'top'` | Image position |
+| `loading` | `boolean` | `false` | Show loading skeleton |
+
+### IconPicker
+
+```vue
+<script setup>
+import { ref } from 'vue'
+import { IconPicker } from 'cisse-vue-ui'
+
+const selectedIcon = ref('mdi:heart')
+</script>
+
+<template>
+  <IconPicker
+    v-model="selectedIcon"
+    label="Select Icon"
+    help="Choose an icon for your item"
+    :collections="['mdi', 'heroicons', 'lucide']"
+  />
+</template>
 ```
 
 ### TableComponent

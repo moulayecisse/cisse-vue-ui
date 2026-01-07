@@ -1,4 +1,14 @@
 export { default as CardComponent } from './CardComponent.vue'
+export { default as CardWrapper } from './CardWrapper.vue'
+export type {
+  CardShadow,
+  CardRounded,
+  CardPadding,
+  CardBorder,
+  CardVariant,
+  CardAccent,
+  CardImagePosition,
+} from './CardWrapper.vue'
 export { default as TableComponent } from './TableComponent.vue'
 export { default as MobileList } from './MobileList.vue'
 export { default as ResponsiveList } from './ResponsiveList.vue'
