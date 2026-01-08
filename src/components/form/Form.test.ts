@@ -137,7 +137,7 @@ describe('Form', () => {
     const form = wrapper.find('form')
 
     const event = new Event('submit')
-    const preventDefaultSpy = vi.spyOn(event, 'preventDefault')
+    vi.spyOn(event, 'preventDefault')
 
     await form.element.dispatchEvent(event)
 

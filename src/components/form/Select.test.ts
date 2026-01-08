@@ -37,11 +37,15 @@ describe('Select', () => {
   })
 
   it('updates v-model on selection', async () => {
+    let currentValue: string | number | null | undefined = null
     const wrapper = mount(Select, {
       props: {
         options: defaultOptions,
-        modelValue: null,
-        'onUpdate:modelValue': (e: string) => wrapper.setProps({ modelValue: e }),
+        modelValue: currentValue,
+        'onUpdate:modelValue': (value: string | number | null | undefined) => {
+          currentValue = value
+          wrapper.setProps({ modelValue: value })
+        },
       },
     })
 
