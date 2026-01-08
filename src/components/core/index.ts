@@ -41,6 +41,8 @@ export { DataTable as TableComponent } from './table'
 export { default as MobileList } from './MobileList.vue'
 export { default as ResponsiveList } from './ResponsiveList.vue'
 export { default as AutocompleteComponent } from './AutocompleteComponent.vue'
+export { default as Menu } from './Menu.vue'
+export type { MenuVariant } from './Menu.vue'
 export { default as MenuItem } from './MenuItem.vue'
 export { default as TableAction } from './TableAction.vue'
 export { default as StatusBadge } from './StatusBadge.vue'
@@ -54,6 +56,8 @@ export { default as CollapsibleCard } from './CollapsibleCard.vue'
 export { default as Tooltip } from './Tooltip.vue'
 export { default as Popover } from './Popover.vue'
 export { default as Drawer } from './Drawer.vue'
+// SlideOver is an alias for Drawer (same component, different naming convention)
+export { default as SlideOver } from './Drawer.vue'
 export { default as Breadcrumb } from './Breadcrumb.vue'
 export { default as Accordion } from './Accordion.vue'
 export { default as AccordionItem } from './AccordionItem.vue'
@@ -66,6 +70,17 @@ export { default as StatsCard } from './StatItem.vue'
 // Backwards compatibility: StatsGrid is now an alias for Stats
 export { default as StatsGrid } from './Stats.vue'
 export { default as FilterTabs } from './FilterTabs.vue'
+export { default as Divider } from './Divider.vue'
+export type { DividerOrientation } from './Divider.vue'
+
+// DataList Components
+export {
+  DataList,
+  DataListItem,
+  DataListLabel,
+  DataListValue,
+} from './datalist'
+export type { DataListItemData } from './datalist'
 export type { ButtonVariant, ButtonSize } from './Button.vue'
 export type {
   StatItemData,

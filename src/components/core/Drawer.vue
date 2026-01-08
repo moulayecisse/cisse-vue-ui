@@ -15,6 +15,8 @@ const props = withDefaults(
     size?: DrawerSize
     /** Title shown in header */
     title?: string
+    /** Description shown below title */
+    description?: string
     /** Show close button */
     showClose?: boolean
     /** Close on overlay click */
@@ -158,9 +160,14 @@ const transformClasses = computed(() => {
           class="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700"
         >
           <slot name="header">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
-              {{ title }}
-            </h2>
+            <div>
+              <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ title }}
+              </h2>
+              <p v-if="description" class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                {{ description }}
+              </p>
+            </div>
           </slot>
           <button
             v-if="showClose"
