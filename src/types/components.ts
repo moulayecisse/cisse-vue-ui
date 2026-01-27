@@ -26,6 +26,16 @@ export interface MenuItemProps {
   notification?: boolean
   /** Child menu items for nested/submenu support */
   children?: MenuItemProps[]
+  /** Custom class for the label element */
+  labelClass?: string
+  /** Custom class for the icon element */
+  iconClass?: string
+  /** Custom class for the menu item wrapper/link */
+  itemClass?: string
+  /** Custom class applied when item is active */
+  activeClass?: string
+  /** Custom class applied on hover (added to group-hover) */
+  hoverClass?: string
 }
 
 export interface PaginationProps {

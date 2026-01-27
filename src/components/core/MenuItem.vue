@@ -15,14 +15,32 @@ const props = withDefaults(
     currentPath?: string
     /** Nesting depth level (used internally for indentation) */
     depth?: number
+    /** Custom class for the label element (overrides menuItem.labelClass) */
+    labelClass?: string
+    /** Custom class for the icon element (overrides menuItem.iconClass) */
+    iconClass?: string
+    /** Custom class for the menu item wrapper/link (overrides menuItem.itemClass) */
+    itemClass?: string
+    /** Custom class applied when item is active (overrides menuItem.activeClass) */
+    activeClass?: string
   }>(),
   {
     expanded: true,
     active: undefined,
     currentPath: undefined,
     depth: 0,
+    labelClass: undefined,
+    iconClass: undefined,
+    itemClass: undefined,
+    activeClass: undefined,
   },
 )
+
+// Resolved classes (props take precedence over menuItem)
+const resolvedLabelClass = computed(() => props.labelClass ?? props.menuItem.labelClass)
+const resolvedIconClass = computed(() => props.iconClass ?? props.menuItem.iconClass)
+const resolvedItemClass = computed(() => props.itemClass ?? props.menuItem.itemClass)
+const resolvedActiveClass = computed(() => props.activeClass ?? props.menuItem.activeClass)
 
 const slots = useSlots() as { submenu?: () => unknown }
 const submenuOpen = ref(false)
@@ -169,7 +187,10 @@ const isChildRouteActive = (child: MenuItemProps) => {
       :is="linkComponent"
       ref="triggerRef"
       v-bind="linkProps"
-      :class="expanded ? 'flex-row' : 'flex-col'"
+      :class="[
+        expanded ? 'flex-row' : 'flex-col',
+        resolvedItemClass,
+      ]"
       :style="expanded ? { paddingLeft } : undefined"
       class="group relative flex w-full items-center justify-center gap-2 pr-5 py-2"
       @click="toggleSubmenu"
@@ -177,9 +198,11 @@ const isChildRouteActive = (child: MenuItemProps) => {
       <div class="relative">
         <Icon
           :class="[
-            isRouteActive || isChildActive
-              ? 'text-white'
-              : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500',
+            resolvedIconClass
+              ? resolvedIconClass
+              : isRouteActive || isChildActive
+                ? (resolvedActiveClass ?? 'text-white')
+                : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500',
             expanded ? 'size-5' : 'size-8',
           ]"
           class="transition-all duration-300"
@@ -203,9 +226,11 @@ const isChildRouteActive = (child: MenuItemProps) => {
         <span
           v-if="expanded"
           :class="
-            isRouteActive || isChildActive
-              ? 'text-white'
-              : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500'
+            resolvedLabelClass
+              ? resolvedLabelClass
+              : isRouteActive || isChildActive
+                ? (resolvedActiveClass ?? 'text-white')
+                : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500'
           "
           class="flex-1 text-left text-sm font-semibold whitespace-nowrap"
         >{{ menuItem.label }}</span>
@@ -216,9 +241,11 @@ const isChildRouteActive = (child: MenuItemProps) => {
         v-if="hasSubmenu && expanded"
         :class="[
           submenuOpen ? 'rotate-90' : '',
-          isRouteActive || isChildActive
-            ? 'text-white'
-            : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500',
+          resolvedIconClass
+            ? resolvedIconClass
+            : isRouteActive || isChildActive
+              ? (resolvedActiveClass ?? 'text-white')
+              : 'text-white/50 group-hover:text-white/80 dark:text-gray-700 dark:group-hover:text-gray-500',
         ]"
         class="size-4 transition-transform duration-200"
         icon="lucide:chevron-right"
@@ -254,6 +281,10 @@ const isChildRouteActive = (child: MenuItemProps) => {
           :expanded="expanded"
           :current-path="currentPath"
           :depth="depth + 1"
+          :label-class="labelClass"
+          :icon-class="iconClass"
+          :item-class="itemClass"
+          :active-class="activeClass"
         />
       </div>
     </Transition>
@@ -298,17 +329,18 @@ const isChildRouteActive = (child: MenuItemProps) => {
               v-bind="childLinkProps(child)"
               :class="[
                 'flex items-center gap-3 px-4 py-2 text-sm transition-colors',
+                child.itemClass ?? itemClass,
                 isChildRouteActive(child)
-                  ? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400'
+                  ? (child.activeClass ?? activeClass ?? 'bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-400')
                   : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700',
               ]"
               @click="closeFlyout()"
             >
               <Icon
                 :icon="child.icon"
-                class="size-4"
+                :class="child.iconClass ?? iconClass ?? 'size-4'"
               />
-              <span>{{ child.label }}</span>
+              <span :class="child.labelClass ?? labelClass">{{ child.label }}</span>
             </component>
           </template>
         </div>
